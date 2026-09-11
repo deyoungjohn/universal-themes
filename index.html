@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telegram Theme Converter — .attheme ↔ .tgios-theme</title>
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a2e;
+    --surface2: #16213e;
+    --accent: #0ea5e9;
+    --accent2: #6366f1;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --success: #22c55e;
+    --error: #ef4444;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 36px 0 24px;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  header p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+
+  /* Direction Toggle */
+  .direction-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .direction-toggle .format-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    min-width: 130px;
+    text-align: center;
+  }
+  .direction-toggle .format-label.active-source {
+    border-color: var(--accent);
+    background: rgba(14, 165, 233, 0.1);
+  }
+  .direction-toggle .format-label.active-target {
+    border-color: var(--success);
+    background: rgba(34, 197, 94, 0.1);
+  }
+  .swap-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .swap-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: rotate(180deg);
+  }
+
+  /* Input Mode Tabs */
+  .input-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    background: var(--surface2);
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .tab-btn:hover {
+    color: var(--text);
+  }
+  .tab-btn.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  }
+
+  /* Main Layout */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  @media (max-width: 768px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Upload Area */
+  .upload-area {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 40px 24px;
+    text-align: center;
+    background: var(--surface);
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .upload-area:hover, .upload-area.drag-over {
+    border-color: var(--accent);
+    background: rgba(14, 165, 233, 0.05);
+  }
+  .upload-area .icon {
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+  .upload-area h3 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+  .upload-area p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .upload-area.has-file {
+    border-style: solid;
+    border-color: var(--success);
+    background: rgba(34, 197, 94, 0.05);
+    padding: 24px;
+  }
+
+  /* URL Input Section */
+  .url-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+  .url-input-group {
+    display: flex;
+    gap: 10px;
+  }
+  .url-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .url-input:focus {
+    border-color: var(--accent);
+  }
+  .url-fetch-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .url-fetch-btn:hover {
+    background: #0284c7;
+    transform: translateY(-1px);
+  }
+  .url-fetch-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .url-examples {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .example-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .example-pill {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    color: var(--text);
+    transition: all 0.15s;
+  }
+  .example-pill:hover {
+    background: rgba(14, 165, 233, 0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* File Info */
+  .file-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .file-info .filename {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--success);
+    word-break: break-all;
+    text-align: center;
+  }
+  .file-info .theme-badge {
+    display: inline-block;
+    background: rgba(14, 165, 233, 0.15);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+  }
+  .file-info .filesize {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .file-info .remove-btn {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 4px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-top: 4px;
+  }
+  .file-info .remove-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+  }
+
+  /* Preview Panel */
+  .preview-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    min-height: 250px;
+  }
+  .preview-panel h3 {
+    font-size: 1rem;
+    margin-bottom: 16px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .preview-theme-title {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Color Swatches */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+  }
+  .color-swatch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    font-size: 0.78rem;
+  }
+  .color-swatch .swatch-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .color-swatch .swatch-info {
+    overflow: hidden;
+  }
+  .color-swatch .swatch-label {
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    font-size: 0.72rem;
+  }
+  .color-swatch .swatch-hex {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 0.72rem;
+  }
+
+  /* Chat Mockup */
+  .chat-mockup {
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 0.82rem;
+    margin-top: 16px;
+    border: 1px solid var(--border);
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .chat-mockup .mock-header {
+    padding: 10px 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .chat-mockup .mock-header .mock-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .chat-mockup .mock-header .mock-title {
+    flex: 1;
+  }
+  .chat-mockup .mock-header .mock-subtitle {
+    font-weight: 400;
+    font-size: 0.72rem;
+    opacity: 0.7;
+  }
+  .chat-mockup .mock-messages {
+    padding: 12px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: background 0.3s;
+  }
+  .chat-mockup .mock-bubble {
+    max-width: 75%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    line-height: 1.4;
+    position: relative;
+  }
+  .chat-mockup .mock-bubble.incoming {
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .chat-mockup .mock-bubble.outgoing {
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .chat-mockup .mock-bubble .bubble-time {
+    font-size: 0.62rem;
+    opacity: 0.6;
+    text-align: right;
+    margin-top: 2px;
+  }
+  .chat-mockup .mock-bubble .bubble-check {
+    font-size: 0.62rem;
+    margin-left: 3px;
+  }
+  .chat-mockup .mock-input-bar {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chat-mockup .mock-input-bar .mock-input-field {
+    flex: 1;
+    padding: 6px 12px;
+    border-radius: 18px;
+    font-size: 0.78rem;
+    border: none;
+    outline: none;
+  }
+  .chat-mockup .mock-input-bar .mock-send-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  /* Wallpaper Preview */
+  .wallpaper-preview {
+    margin-top: 12px;
+    text-align: center;
+  }
+  .wallpaper-preview img {
+    max-width: 100%;
+    max-height: 180px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .wallpaper-preview .wp-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  /* Loading indicator */
+  .loading-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Status message */
+  .status-msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    margin-top: 12px;
+    display: none;
+    text-align: center;
+  }
+  .status-msg.info {
+    display: block;
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    color: var(--accent);
+  }
+  .status-msg.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: var(--error);
+  }
+
+  /* Convert Button */
+  .convert-section {
+    text-align: center;
+    margin: 32px 0;
+  }
+  .convert-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    padding: 14px 48px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .convert-btn.ready {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .convert-btn.ready:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(14, 165, 233, 0.3);
+  }
+
+  /* Result Area */
+  .result-area {
+    background: var(--surface);
+    border: 1px solid var(--success);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    display: none;
+  }
+  .result-area.visible { display: block; }
+  .result-area h3 {
+    color: var(--success);
+    margin-bottom: 12px;
+  }
+  .result-area .result-stats {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+  .download-btn {
+    background: var(--success);
+    color: #fff;
+    border: none;
+    padding: 12px 36px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .download-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 32px 0 16px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>✈️ Telegram Theme Converter</h1>
+    <p>Convert between Android (.attheme / links) and iOS (.tgios-theme) theme files</p>
+  </header>
+
+  <!-- Direction Toggle -->
+  <div class="direction-toggle">
+    <div class="format-label active-source" id="sourceLabel">.attheme<br><small style="color:var(--text-muted)">Android</small></div>
+    <button class="swap-btn" id="swapBtn" title="Swap direction">⇄</button>
+    <div class="format-label active-target" id="targetLabel">.tgios-theme<br><small style="color:var(--text-muted)">iOS</small></div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="main-grid">
+    <!-- Input Section -->
+    <div>
+      <!-- Tabs -->
+      <div class="input-tabs">
+        <button class="tab-btn active" id="tabUpload"><span style="font-size:1.1rem">📁</span> Upload File</button>
+        <button class="tab-btn" id="tabUrl"><span style="font-size:1.1rem">🔗</span> From Link / URL</button>
+      </div>
+
+      <!-- File Upload Area -->
+      <div class="upload-area" id="uploadArea">
+        <input type="file" id="fileInput" accept=".attheme,.tgios-theme">
+        <div id="uploadPlaceholder">
+          <div class="icon">📁</div>
+          <h3>Drop your theme file here</h3>
+          <p id="acceptHint">Accepts .attheme files</p>
+        </div>
+        <div class="file-info hidden" id="fileInfo">
+          <div class="icon" style="font-size:2.5rem">✅</div>
+          <div class="theme-badge hidden" id="themeBadge"></div>
+          <div class="filename" id="fileName"></div>
+          <div class="filesize" id="fileSize"></div>
+          <button class="remove-btn" id="removeBtn">✕ Remove</button>
+        </div>
+      </div>
+
+      <!-- URL Input Area -->
+      <div class="url-card hidden" id="urlCard">
+        <div>
+          <h3 style="font-size:1rem; margin-bottom:4px;">Enter Telegram Theme Link or URL</h3>
+          <p style="color:var(--text-muted); font-size:0.82rem;">Paste a <code>t.me/addtheme/...</code> link or a direct link to any .attheme file.</p>
+        </div>
+        <div class="url-input-group">
+          <input type="text" class="url-input" id="urlInput" placeholder="https://t.me/addtheme/rAMg7bX2JlPQadda">
+          <button class="url-fetch-btn" id="urlFetchBtn">
+            <span id="fetchBtnText">Load Theme</span>
+          </button>
+        </div>
+        <div class="url-examples">
+          Try an example link:
+          <div class="example-pills">
+            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/rAMg7bX2JlPQadda')">🌿 Сон-трава (@themes_hobby)</span>
+            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/KrcU0SSuGkLNUnAD')">🎨 KrcU0SSuGkLNUnAD</span>
+            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/L7miqKys0D2TZQ0C')">🌌 L7miqKys0D2TZQ0C</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="wallpaper-preview hidden" id="wallpaperPreview">
+        <img id="wallpaperImg" src="" alt="Wallpaper Preview">
+        <div class="wp-label">Embedded wallpaper image extracted</div>
+      </div>
+
+      <div class="status-msg" id="statusMsg"></div>
+    </div>
+
+    <!-- Preview Panel -->
+    <div class="preview-panel" id="previewPanel">
+      <h3>
+        <span>🎨 Theme Preview</span>
+        <span class="preview-theme-title" id="previewThemeTitle"></span>
+      </h3>
+      <div id="previewContent">
+        <p style="color:var(--text-muted); font-size:0.9rem;">Upload a theme file or enter a theme URL to see a preview of its colors and chat appearance.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Convert Button -->
+  <div class="convert-section">
+    <button class="convert-btn" id="convertBtn">Convert Theme</button>
+  </div>
+
+  <!-- Result -->
+  <div class="result-area" id="resultArea">
+    <h3>✅ Conversion Complete!</h3>
+    <div class="result-stats" id="resultStats"></div>
+    <button class="download-btn" id="downloadBtn">⬇ Download Converted Theme</button>
+  </div>
+
+  <footer>
+    <p>Theme conversion runs locally in your browser. Compatible with Telegram on iOS, Android, and Desktop.</p>
+  </footer>
+</div>
+
+<script>
+// ============================================================
+//  TELEGRAM THEME CONVERTER
+//  Bidirectional: .attheme (Android) ↔ .tgios-theme (iOS)
+//  Supports: File uploads & URL / t.me/addtheme links
+// ============================================================
+
+// --- State ---
+let conversionDirection = 'android-to-ios'; // or 'ios-to-android'
+let currentInputTab = 'upload'; // 'upload' or 'url'
+let parsedTheme = null;    // { colors: {key: hexARGB}, wallpaperBlob: Blob|null, sourceFormat: string, meta: {} }
+let convertedData = null;  // { blob: Blob, filename: string, keyCount: number }
+
+// --- DOM refs ---
+const sourceLabel = document.getElementById('sourceLabel');
+const targetLabel = document.getElementById('targetLabel');
+const swapBtn = document.getElementById('swapBtn');
+const tabUpload = document.getElementById('tabUpload');
+const tabUrl = document.getElementById('tabUrl');
+const uploadArea = document.getElementById('uploadArea');
+const urlCard = document.getElementById('urlCard');
+const urlInput = document.getElementById('urlInput');
+const urlFetchBtn = document.getElementById('urlFetchBtn');
+const fetchBtnText = document.getElementById('fetchBtnText');
+const fileInput = document.getElementById('fileInput');
+const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+const fileInfoEl = document.getElementById('fileInfo');
+const fileNameEl = document.getElementById('fileName');
+const fileSizeEl = document.getElementById('fileSize');
+const themeBadge = document.getElementById('themeBadge');
+const removeBtn = document.getElementById('removeBtn');
+const acceptHint = document.getElementById('acceptHint');
+const previewPanel = document.getElementById('previewPanel');
+const previewContent = document.getElementById('previewContent');
+const previewThemeTitle = document.getElementById('previewThemeTitle');
+const convertBtn = document.getElementById('convertBtn');
+const resultArea = document.getElementById('resultArea');
+const resultStats = document.getElementById('resultStats');
+const downloadBtn = document.getElementById('downloadBtn');
+const statusMsg = document.getElementById('statusMsg');
+const wallpaperPreview = document.getElementById('wallpaperPreview');
+const wallpaperImg = document.getElementById('wallpaperImg');
+
+// ============================================================
+//  COLOR CONVERSION UTILITIES
+// ============================================================
+
+function int32ToHex(val) {
+  return (val >>> 0).toString(16).padStart(8, '0');
+}
+
+function hexToInt32(hex) {
+  hex = hex.replace(/^#/, '').padStart(8, 'f');
+  return parseInt(hex, 16) | 0;
+}
+
+function hexToARGB(hex) {
+  hex = hex.replace(/^#/, '');
+  if (hex.length === 6) hex = 'ff' + hex;
+  const val = parseInt(hex, 16) >>> 0;
+  return {
+    a: (val >>> 24) & 0xff,
+    r: (val >>> 16) & 0xff,
+    g: (val >>> 8) & 0xff,
+    b: val & 0xff,
+  };
+}
+
+function argbToCSS(hex) {
+  const c = hexToARGB(hex);
+  return `rgba(${c.r},${c.g},${c.b},${(c.a / 255).toFixed(2)})`;
+}
+
+function hexToCSS(hex) {
+  if (!hex) return '#888888';
+  hex = hex.replace(/^#/, '');
+  if (hex === 'clear') return 'transparent';
+  if (hex.length === 6) return '#' + hex;
+  if (hex.length === 8) return argbToCSS(hex);
+  return '#888888';
+}
+
+function luminance(hex) {
+  const c = hexToARGB(hex);
+  const sRGB = [c.r, c.g, c.b].map(v => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2];
+}
+
+function isDark(hex) {
+  return luminance(hex) < 0.4;
+}
+
+function rgbToArgbHex(hex) {
+  hex = hex.replace(/^#/, '');
+  if (hex.length === 6) return 'ff' + hex;
+  return hex;
+}
+
+function argbToRgbHex(hex) {
+  hex = hex.replace(/^#/, '');
+  if (hex.length === 8) {
+    const alpha = hex.substring(0, 2);
+    if (alpha === 'ff') return hex.substring(2);
+    return hex;
+  }
+  return hex;
+}
+
+// Convert RGB (0-255) to HSV
+function rgbToHsv(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const d = max - min;
+  let h = 0, s = max === 0 ? 0 : d / max, v = max;
+  if (max !== min) {
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return { h, s, v };
+}
+
+// ============================================================
+//  .attheme PARSER (Android)
+// ============================================================
+
+function parseAttheme(arrayBuffer) {
+  const bytes = new Uint8Array(arrayBuffer);
+  let wpsIndex = -1;
+  let markerLen = 0;
+
+  // Search for WPS marker
+  for (let i = 0; i < bytes.length - 4; i++) {
+    if (bytes[i] === 0x0A && bytes[i+1] === 0x57 && bytes[i+2] === 0x50 && bytes[i+3] === 0x53) {
+      if (i + 4 < bytes.length && bytes[i+4] === 0x0A) {
+        wpsIndex = i; markerLen = 5; break;
+      }
+      if (i + 5 < bytes.length && bytes[i+4] === 0x0D && bytes[i+5] === 0x0A) {
+        wpsIndex = i; markerLen = 6; break;
+      }
+    }
+    if (bytes[i] === 0x0D && bytes[i+1] === 0x0A && bytes[i+2] === 0x57 && bytes[i+3] === 0x50 && bytes[i+4] === 0x53) {
+      if (i + 6 < bytes.length && bytes[i+5] === 0x0D && bytes[i+6] === 0x0A) {
+        wpsIndex = i; markerLen = 7; break;
+      }
+      if (i + 5 < bytes.length && bytes[i+5] === 0x0A) {
+        wpsIndex = i; markerLen = 6; break;
+      }
+    }
+  }
+
+  let textBytes, wallpaperBytes = null;
+  if (wpsIndex !== -1) {
+    textBytes = bytes.slice(0, wpsIndex);
+    wallpaperBytes = bytes.slice(wpsIndex + markerLen);
+  } else {
+    textBytes = bytes;
+  }
+
+  const textDecoder = new TextDecoder('utf-8');
+  const text = textDecoder.decode(textBytes);
+  const colors = {};
+
+  for (const line of text.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('//') || trimmed.startsWith('#')) continue;
+    const eqIdx = trimmed.indexOf('=');
+    if (eqIdx === -1) continue;
+    const key = trimmed.substring(0, eqIdx).trim();
+    const val = trimmed.substring(eqIdx + 1).trim();
+    const num = parseInt(val, 10);
+    if (!isNaN(num)) {
+      colors[key] = int32ToHex(num);
+    }
+  }
+
+  let wallpaperBlob = null;
+  if (wallpaperBytes && wallpaperBytes.length > 100) {
+    let mimeType = 'image/jpeg';
+    if (wallpaperBytes[0] === 0x89 && wallpaperBytes[1] === 0x50) mimeType = 'image/png';
+    else if (wallpaperBytes[0] === 0x52 && wallpaperBytes[1] === 0x49) mimeType = 'image/webp';
+    wallpaperBlob = new Blob([wallpaperBytes], { type: mimeType });
+  }
+
+  return { colors, wallpaperBlob, sourceFormat: 'attheme', meta: {} };
+}
+
+// ============================================================
+//  .tgios-theme PARSER (iOS)
+// ============================================================
+
+function parseTgiosTheme(text) {
+  const colors = {};
+  const lines = text.split(/\r?\n/);
+  const keyStack = [];
+  const indentStack = [-1];
+
+  for (const line of lines) {
+    if (!line.trim() || line.trim().startsWith('//') || line.trim().startsWith('#')) continue;
+
+    const indent = line.search(/\S/);
+    if (indent === -1) continue;
+
+    const content = line.trim();
+    const colonIdx = content.indexOf(':');
+    if (colonIdx === -1) continue;
+
+    const key = content.substring(0, colonIdx).trim();
+    const value = content.substring(colonIdx + 1).trim();
+
+    while (indentStack.length > 1 && indentStack[indentStack.length - 1] >= indent) {
+      indentStack.pop();
+      keyStack.pop();
+    }
+
+    if (value === '' || value === undefined) {
+      keyStack.push(key);
+      indentStack.push(indent);
+    } else {
+      const fullKey = [...keyStack, key].join('.');
+      colors[fullKey] = value;
+    }
+  }
+
+  return { colors, wallpaperBlob: null, sourceFormat: 'tgios-theme', meta: {} };
+}
+
+// ============================================================
+//  TELEGRAM CLOUD THEME RESOLVER (from t.me/addtheme/<slug>)
+// ============================================================
+
+function createThemeFromSlugData(meta) {
+  const { title, slug, colors: wpColors, isDark: explicitDark } = meta;
+  const rawWpColors = wpColors && wpColors.length ? wpColors : ['2c3e50', '3498db'];
+
+  // Calculate average luminance of wallpaper
+  const lums = rawWpColors.map(c => luminance(c));
+  const avgLum = lums.reduce((a, b) => a + b, 0) / lums.length;
+  const dark = explicitDark !== undefined ? explicitDark : avgLum < 0.45;
+
+  // Find accent color: choose the color with highest saturation
+  let bestAccent = dark ? '2ea6ff' : '007aff';
+  let maxSat = -1;
+  for (const c of rawWpColors) {
+    const rgb = hexToARGB(c);
+    const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+    if (hsv.s > maxSat && hsv.v > 0.25) {
+      maxSat = hsv.s;
+      bestAccent = c;
+    }
+  }
+
+  // Generate simulated color map for preview swatches
+  const bgHex = dark ? '121214' : 'ffffff';
+  const cardBgHex = dark ? '1c1c1e' : 'f2f2f7';
+  const textPrimary = dark ? 'ffffff' : '000000';
+  const inBubbleHex = dark ? '262628' : 'ffffff';
+
+  // Outgoing bubble: tint of the accent
+  const accRgb = hexToARGB(bestAccent);
+  let outBubbleHex;
+  if (dark) {
+    // darker rich tint
+    outBubbleHex = [
+      Math.round(accRgb.r * 0.4 + 18),
+      Math.round(accRgb.g * 0.4 + 18),
+      Math.round(accRgb.b * 0.4 + 22)
+    ].map(v => v.toString(16).padStart(2, '0')).join('');
+  } else {
+    // soft pastel tint
+    outBubbleHex = [
+      Math.round(255 - (255 - accRgb.r) * 0.18),
+      Math.round(255 - (255 - accRgb.g) * 0.18),
+      Math.round(255 - (255 - accRgb.b) * 0.18)
+    ].map(v => v.toString(16).padStart(2, '0')).join('');
+  }
+
+  const simulatedColors = {
+    'actionBarDefault': 'ff' + cardBgHex,
+    'actionBarDefaultTitle': 'ff' + textPrimary,
+    'windowBackgroundWhite': 'ff' + bgHex,
+    'windowBackgroundWhiteBlackText': 'ff' + textPrimary,
+    'actionBarDefaultIcon': 'ff' + bestAccent,
+    'chat_wallpaper': 'ff' + rawWpColors[0],
+    'chat_inBubble': 'ff' + inBubbleHex,
+    'chat_inText': 'ff' + textPrimary,
+    'chat_outBubble': 'ff' + outBubbleHex,
+    'chat_outText': 'ff' + (dark ? 'ffffff' : '000000'),
+    'chat_messagePanelBackground': 'ff' + cardBgHex,
+    'chat_serviceBackground': '66000000',
+    'chats_unreadCounter': 'ff' + bestAccent,
+    'chats_name': 'ff' + textPrimary,
+    'chats_message': 'ff8e8e93',
+    'dialogBackground': 'ff' + cardBgHex
+  };
+
+  return {
+    colors: simulatedColors,
+    wallpaperBlob: null,
+    sourceFormat: 'telegram-slug',
+    wallpaperColors: rawWpColors,
+    accentColor: bestAccent,
+    isDark: dark,
+    meta: {
+      title: title || `Theme ${slug}`,
+      slug: slug,
+      wallpaperColors: rawWpColors,
+      isDark: dark
+    }
+  };
+}
+
+// Generate valid .tgios-theme text directly from slug data
+function generateTgiosFromSlug(themeObj) {
+  const { meta, wallpaperColors, accentColor, isDark } = themeObj;
+  const accent = accentColor || '2ea6ff';
+  const wpString = wallpaperColors.join(' ');
+  const dark = isDark;
+
+  const bg = dark ? '000000' : 'ffffff';
+  const cardBg = dark ? '1c1c1d' : 'f2f2f7';
+  const textPrimary = dark ? 'ffffff' : '000000';
+  const textSecondary = '8e8e93';
+  const inBubble = dark ? '262628' : 'ffffff';
+  const statusBar = dark ? 'white' : 'black';
+  const keyboard = dark ? 'dark' : 'light';
+
+  // Harmonic outgoing bubble
+  let outBubble = accent;
+  const accRgb = hexToARGB(accent);
+  if (!dark) {
+    outBubble = [
+      Math.round(255 - (255 - accRgb.r) * 0.18),
+      Math.round(255 - (255 - accRgb.g) * 0.18),
+      Math.round(255 - (255 - accRgb.b) * 0.18)
+    ].map(v => v.toString(16).padStart(2, '0')).join('');
+  } else {
+    outBubble = [
+      Math.round(accRgb.r * 0.45 + 20),
+      Math.round(accRgb.g * 0.45 + 20),
+      Math.round(accRgb.b * 0.45 + 25)
+    ].map(v => v.toString(16).padStart(2, '0')).join('');
+  }
+
+  return `intro:
+  statusBarStyle: ${statusBar}
+  primaryTextColor: ${textPrimary}
+  accentTextColor: ${accent}
+  disabledTextColor: ${textSecondary}
+  startButtonColor: ${accent}
+  dotColor: ${accent}
+rootController:
+  statusBarStyle: ${statusBar}
+  keyboardColor: ${keyboard}
+  tabBar:
+    backgroundColor: ${cardBg}
+    separatorColor: 3d3d40
+    iconColor: ${textSecondary}
+    selectedIconColor: ${accent}
+    textColor: ${textSecondary}
+    selectedTextColor: ${accent}
+    badgeBackgroundColor: ${accent}
+    badgeStrokeColor: ${cardBg}
+    badgeTextColor: ffffff
+  navigationBar:
+    buttonColor: ${accent}
+    disabledButtonColor: ${textSecondary}
+    primaryTextColor: ${textPrimary}
+    secondaryTextColor: ${textSecondary}
+    controlColor: ${accent}
+    accentTextColor: ${accent}
+    blurredBackgroundColor: e6${cardBg}
+    opaqueBackgroundColor: ${cardBg}
+    separatorColor: 3d3d40
+    inputPlaceholderTextColor: ${textSecondary}
+chatList:
+  backgroundColor: ${bg}
+  titleColor: ${textPrimary}
+  secretTitleColor: 00c73c
+  dateTextColor: ${textSecondary}
+  messageTextColor: ${textSecondary}
+  messageHighlightedTextColor: ${textPrimary}
+  messageDraftTextColor: dd4b39
+  checkmarkColor: ${accent}
+  pendingIndicatorColor: ${textSecondary}
+  muteIconColor: ${textSecondary}
+  unreadBadgeActiveBackgroundColor: ${accent}
+  unreadBadgeActiveTextColor: ffffff
+  unreadBadgeInactiveBackgroundColor: 666666
+  unreadBadgeInactiveTextColor: ffffff
+  pinnedItemBackgroundColor: ${cardBg}
+list:
+  blocksBackgroundColor: ${cardBg}
+  plainBackgroundColor: ${bg}
+  itemPrimaryTextColor: ${textPrimary}
+  itemSecondaryTextColor: ${textSecondary}
+  itemPlaceholderTextColor: 4d4d4d
+  itemAccentColor: ${accent}
+  itemDestructiveColor: ef5b5b
+  sectionHeaderTextColor: ${textSecondary}
+  freeTextColor: ${textSecondary}
+  itemCheckColor: ${accent}
+  itemSwitchColors:
+    frameColor: 5a5a5e
+    handleColor: ${cardBg}
+    positiveColor: ${accent}
+  itemCheckColors:
+    fillColor: ${accent}
+    foregroundColor: ffffff
+    strokeColor: 5a5a5e
+  itemInputField:
+    strokeColor: 3d3d40
+    color: ${accent}
+chat:
+  defaultWallpaper: ${wpString}
+  inputPanel:
+    panelBackgroundColor: ${cardBg}
+    panelSeparatorColor: 3d3d40
+    panelControlColor: ${textSecondary}
+    panelControlAccentColor: ${accent}
+    inputBackgroundColor: ${cardBg}
+    inputPlaceholderColor: ${textSecondary}
+    primaryTextColor: ${textPrimary}
+    secondaryTextColor: ${textSecondary}
+    actionControlFillColor: ${accent}
+  serviceMessage:
+    fill:
+      withCustomWallpaper: 66000000
+    primaryTextColor: ffffff
+    unreadBarFillColor: ${cardBg}
+    unreadBarStrokeColor: ${textSecondary}
+  message:
+    incoming:
+      bubble:
+        withWallpaper:
+          fill: ${inBubble}
+          highlightedFill: ${inBubble}
+          stroke: ${inBubble}
+        withoutWallpaper:
+          fill: ${inBubble}
+          highlightedFill: ${inBubble}
+          stroke: ${inBubble}
+      primaryTextColor: ${textPrimary}
+      secondaryTextColor: ${textSecondary}
+      linkTextColor: ${accent}
+      accentTextColor: ${accent}
+      accentControlColor: ${accent}
+      mediaActiveControlColor: ${accent}
+      mediaInactiveControlColor: ${textSecondary}
+      mediaOverlayControlColors:
+        foregroundColor: ffffff
+      pendingActivityColor: ${textSecondary}
+    outgoing:
+      bubble:
+        withWallpaper:
+          fill: ${outBubble}
+          highlightedFill: ${outBubble}
+          stroke: ${outBubble}
+        withoutWallpaper:
+          fill: ${outBubble}
+          highlightedFill: ${outBubble}
+          stroke: ${outBubble}
+      primaryTextColor: ${textPrimary}
+      secondaryTextColor: ${textSecondary}
+      linkTextColor: ${accent}
+      accentTextColor: ${accent}
+      accentControlColor: ${accent}
+      mediaActiveControlColor: ${accent}
+      mediaInactiveControlColor: ${textSecondary}
+      mediaOverlayControlColors:
+        foregroundColor: ffffff
+      pendingActivityColor: ${textSecondary}
+    mediaDateAndStatusTextColor: ffffff
+    mediaDateAndStatusFillColor: 66000000
+actionSheet:
+  opaqueItemBackgroundColor: ${cardBg}
+  primaryTextColor: ${textPrimary}
+  secondaryTextColor: ${textSecondary}
+  controlAccentColor: ${accent}
+  destructiveActionTextColor: ef5b5b
+inAppNotification:
+  fill: ${cardBg}
+  primaryTextColor: ${textPrimary}
+`;
+}
+
+// ============================================================
+//  BIDIRECTIONAL KEY MAPPING TABLE
+//  Android .attheme ↔ iOS .tgios-theme
+// ============================================================
+
+const ANDROID_TO_IOS_MAP = {
+  'actionBarDefault':                          'rootController.navigationBar.opaqueBackgroundColor',
+  'actionBarDefaultIcon':                      'rootController.navigationBar.controlColor',
+  'actionBarDefaultTitle':                     'rootController.navigationBar.primaryTextColor',
+  'actionBarDefaultSubtitle':                  'rootController.navigationBar.secondaryTextColor',
+  'actionBarDefaultSelector':                  'rootController.navigationBar.controlColor',
+  'actionBarDefaultSearch':                    'rootController.navigationBar.primaryTextColor',
+  'actionBarDefaultSearchPlaceholder':         'rootController.navigationBar.inputPlaceholderTextColor',
+  'actionBarDefaultSubmenuBackground':         'rootController.navigationBar.opaqueBackgroundColor',
+  'actionBarDefaultSubmenuItem':               'rootController.navigationBar.primaryTextColor',
+  'actionBarActionModeDefault':                'rootController.navigationBar.opaqueBackgroundColor',
+  'actionBarActionModeDefaultIcon':            'rootController.navigationBar.controlColor',
+  'actionBarActionModeDefaultTop':             'rootController.statusBarStyle',
+
+  'actionBarTabActiveText':                    'rootController.tabBar.selectedTextColor',
+  'actionBarTabUnactiveText':                  'rootController.tabBar.textColor',
+  'actionBarTabLine':                          'rootController.tabBar.selectedIconColor',
+
+  'windowBackgroundWhite':                     'list.plainBackgroundColor',
+  'windowBackgroundGray':                      'list.blocksBackgroundColor',
+  'windowBackgroundWhiteBlackText':            'list.itemPrimaryTextColor',
+  'windowBackgroundWhiteGrayText':             'list.itemSecondaryTextColor',
+  'windowBackgroundWhiteGrayText2':            'list.itemSecondaryTextColor',
+  'windowBackgroundWhiteGrayText3':            'list.itemSecondaryTextColor',
+  'windowBackgroundWhiteGrayText4':            'list.itemPlaceholderTextColor',
+  'windowBackgroundWhiteGrayText5':            'list.itemSecondaryTextColor',
+  'windowBackgroundWhiteGrayText6':            'list.freeTextColor',
+  'windowBackgroundWhiteLinkText':             'list.itemAccentColor',
+  'windowBackgroundWhiteBlueHeader':           'list.sectionHeaderTextColor',
+  'windowBackgroundWhiteBlueText':             'list.itemAccentColor',
+  'windowBackgroundWhiteBlueText4':            'list.itemAccentColor',
+  'windowBackgroundWhiteGreenText':            'list.itemCheckColor',
+  'windowBackgroundWhiteGreenText2':           'list.itemCheckColor',
+  'windowBackgroundWhiteRedText':              'list.itemDestructiveColor',
+  'windowBackgroundWhiteRedText5':             'list.itemDestructiveColor',
+  'windowBackgroundWhiteValueText':            'list.itemAccentColor',
+  'windowBackgroundWhiteInputField':           'list.itemInputField.strokeColor',
+  'windowBackgroundWhiteInputFieldActivated':  'list.itemInputField.color',
+
+  'chats_name':                                'chatList.titleColor',
+  'chats_message':                             'chatList.messageTextColor',
+  'chats_date':                                'chatList.dateTextColor',
+  'chats_unreadCounter':                       'chatList.unreadBadgeActiveBackgroundColor',
+  'chats_unreadCounterMuted':                  'chatList.unreadBadgeInactiveBackgroundColor',
+  'chats_unreadCounterText':                   'chatList.unreadBadgeActiveTextColor',
+  'chats_actionMessage':                       'chatList.messageHighlightedTextColor',
+  'chats_draft':                               'chatList.messageDraftTextColor',
+  'chats_sentCheck':                           'chatList.checkmarkColor',
+  'chats_sentReadCheck':                       'chatList.checkmarkColor',
+  'chats_pinnedOverlay':                       'chatList.pinnedItemBackgroundColor',
+  'chats_muteIcon':                            'chatList.muteIconColor',
+  'chats_secretName':                          'chatList.secretTitleColor',
+  'chats_attachMessage':                       'chatList.messageHighlightedTextColor',
+  'chats_nameArchived':                        'chatList.titleColor',
+
+  'chat_wallpaper':                            'chat.defaultWallpaper',
+  'chat_messagePanelBackground':               'chat.inputPanel.panelBackgroundColor',
+  'chat_messagePanelText':                     'chat.inputPanel.primaryTextColor',
+  'chat_messagePanelHint':                     'chat.inputPanel.inputPlaceholderColor',
+  'chat_messagePanelShadow':                   'chat.inputPanel.panelSeparatorColor',
+  'chat_messagePanelIcons':                    'chat.inputPanel.panelControlColor',
+  'chat_messagePanelSend':                     'chat.inputPanel.panelControlAccentColor',
+  'chat_messagePanelVoicePressed':             'chat.inputPanel.actionControlFillColor',
+
+  'chat_serviceBackground':                    'chat.serviceMessage.fill.withCustomWallpaper',
+  'chat_serviceText':                          'chat.serviceMessage.primaryTextColor',
+
+  'chat_inBubble':                             'chat.message.incoming.bubble.withWallpaper.fill',
+  'chat_inBubbleSelected':                     'chat.message.incoming.bubble.withWallpaper.highlightedFill',
+  'chat_inText':                               'chat.message.incoming.primaryTextColor',
+  'chat_inTimeText':                           'chat.message.incoming.secondaryTextColor',
+  'chat_messageLinkIn':                        'chat.message.incoming.linkTextColor',
+  'chat_inReplyLine':                          'chat.message.incoming.accentTextColor',
+  'chat_inReplyNameText':                      'chat.message.incoming.accentTextColor',
+  'chat_inReplyMessageText':                   'chat.message.incoming.secondaryTextColor',
+  'chat_inSiteNameText':                       'chat.message.incoming.accentTextColor',
+  'chat_inForwardedNameText':                  'chat.message.incoming.accentTextColor',
+  'chat_inViaBotNameText':                     'chat.message.incoming.accentTextColor',
+  'chat_inPreviewInstantText':                 'chat.message.incoming.accentTextColor',
+  'chat_inViews':                              'chat.message.incoming.secondaryTextColor',
+  'chat_inContactNameText':                    'chat.message.incoming.accentTextColor',
+  'chat_inContactPhoneText':                   'chat.message.incoming.secondaryTextColor',
+  'chat_inAudioTitleText':                     'chat.message.incoming.accentTextColor',
+  'chat_inAudioDurationText':                  'chat.message.incoming.secondaryTextColor',
+  'chat_inFileNameText':                       'chat.message.incoming.accentTextColor',
+  'chat_inFileInfoText':                       'chat.message.incoming.secondaryTextColor',
+  'chat_inVenueInfoText':                      'chat.message.incoming.secondaryTextColor',
+  'chat_inLoader':                             'chat.message.incoming.accentTextColor',
+  'chat_inMediaIcon':                          'chat.message.incoming.mediaOverlayControlColors.foregroundColor',
+  'chat_inAudioProgress':                      'chat.message.incoming.accentControlColor',
+  'chat_inAudioSeekbar':                       'chat.message.incoming.mediaInactiveControlColor',
+  'chat_inAudioSeekbarFill':                   'chat.message.incoming.mediaActiveControlColor',
+  'chat_inVoiceSeekbar':                       'chat.message.incoming.mediaInactiveControlColor',
+  'chat_inVoiceSeekbarFill':                   'chat.message.incoming.mediaActiveControlColor',
+  'chat_inMenu':                               'chat.message.incoming.secondaryTextColor',
+  'chat_inBubbleShadow':                       'chat.message.incoming.bubble.withWallpaper.stroke',
+
+  'chat_outBubble':                            'chat.message.outgoing.bubble.withWallpaper.fill',
+  'chat_outBubbleSelected':                    'chat.message.outgoing.bubble.withWallpaper.highlightedFill',
+  'chat_outBubbleGradient1':                   'chat.message.outgoing.bubble.withWallpaper.gradientFill',
+  'chat_outText':                              'chat.message.outgoing.primaryTextColor',
+  'chat_outTimeText':                          'chat.message.outgoing.secondaryTextColor',
+  'chat_messageLinkOut':                       'chat.message.outgoing.linkTextColor',
+  'chat_outReplyLine':                         'chat.message.outgoing.accentTextColor',
+  'chat_outReplyNameText':                     'chat.message.outgoing.accentTextColor',
+  'chat_outReplyMessageText':                  'chat.message.outgoing.secondaryTextColor',
+  'chat_outSiteNameText':                      'chat.message.outgoing.accentTextColor',
+  'chat_outForwardedNameText':                 'chat.message.outgoing.accentTextColor',
+  'chat_outViaBotNameText':                    'chat.message.outgoing.accentTextColor',
+  'chat_outPreviewInstantText':                'chat.message.outgoing.accentTextColor',
+  'chat_outViews':                             'chat.message.outgoing.secondaryTextColor',
+  'chat_outSentCheck':                         'chat.message.outgoing.secondaryTextColor',
+  'chat_outSentCheckRead':                     'chat.message.outgoing.secondaryTextColor',
+  'chat_outSentClock':                         'chat.message.outgoing.pendingActivityColor',
+  'chat_outContactNameText':                   'chat.message.outgoing.accentTextColor',
+  'chat_outContactPhoneText':                  'chat.message.outgoing.secondaryTextColor',
+  'chat_outAudioTitleText':                    'chat.message.outgoing.accentTextColor',
+  'chat_outAudioDurationText':                 'chat.message.outgoing.secondaryTextColor',
+  'chat_outFileNameText':                      'chat.message.outgoing.accentTextColor',
+  'chat_outFileInfoText':                      'chat.message.outgoing.secondaryTextColor',
+  'chat_outVenueInfoText':                     'chat.message.outgoing.secondaryTextColor',
+  'chat_outLoader':                            'chat.message.outgoing.accentTextColor',
+  'chat_outMediaIcon':                         'chat.message.outgoing.mediaOverlayControlColors.foregroundColor',
+  'chat_outAudioProgress':                     'chat.message.outgoing.accentControlColor',
+  'chat_outAudioSeekbar':                      'chat.message.outgoing.mediaInactiveControlColor',
+  'chat_outAudioSeekbarFill':                  'chat.message.outgoing.mediaActiveControlColor',
+  'chat_outVoiceSeekbar':                      'chat.message.outgoing.mediaInactiveControlColor',
+  'chat_outVoiceSeekbarFill':                  'chat.message.outgoing.mediaActiveControlColor',
+  'chat_outMenu':                              'chat.message.outgoing.secondaryTextColor',
+  'chat_outBubbleShadow':                      'chat.message.outgoing.bubble.withWallpaper.stroke',
+
+  'chat_mediaTimeText':                        'chat.message.mediaDateAndStatusTextColor',
+  'chat_mediaTimeBackground':                  'chat.message.mediaDateAndStatusFillColor',
+  'chat_emojiPanelBackground':                 'chat.inputPanel.panelBackgroundColor',
+  'chat_emojiPanelIcon':                       'chat.inputPanel.panelControlColor',
+  'chat_emojiPanelIconSelected':               'chat.inputPanel.panelControlAccentColor',
+  'chat_emojiPanelShadowLine':                 'chat.inputPanel.panelSeparatorColor',
+  'chat_topPanelBackground':                   'chat.inputPanel.panelBackgroundColor',
+  'chat_topPanelTitle':                        'chat.inputPanel.panelControlAccentColor',
+  'chat_topPanelMessage':                      'chat.inputPanel.secondaryTextColor',
+  'chat_topPanelLine':                         'chat.inputPanel.panelControlAccentColor',
+  'chat_topPanelClose':                        'chat.inputPanel.panelControlColor',
+  'chat_unreadMessagesStartBackground':        'chat.serviceMessage.unreadBarFillColor',
+  'chat_unreadMessagesStartText':              'chat.serviceMessage.unreadBarStrokeColor',
+
+  'dialogBackground':                          'actionSheet.opaqueItemBackgroundColor',
+  'dialogTextBlack':                           'actionSheet.primaryTextColor',
+  'dialogTextGray':                            'actionSheet.secondaryTextColor',
+  'dialogTextBlue':                            'actionSheet.controlAccentColor',
+  'dialogTextRed':                             'actionSheet.destructiveActionTextColor',
+
+  'switchTrack':                               'list.itemSwitchColors.frameColor',
+  'switchTrackChecked':                        'list.itemSwitchColors.positiveColor',
+  'switchThumb':                               'list.itemSwitchColors.handleColor',
+  'switchThumbChecked':                        'list.itemSwitchColors.handleColor',
+
+  'checkboxSquareBackground':                  'list.itemCheckColors.fillColor',
+  'checkboxSquareCheck':                       'list.itemCheckColors.foregroundColor',
+  'checkboxSquareUnchecked':                   'list.itemCheckColors.strokeColor',
+
+  'avatar_text':                               'chatList.titleColor',
+  'avatar_backgroundBlue':                     'chatList.unreadBadgeActiveBackgroundColor',
+  'avatar_backgroundRed':                      'chatList.unreadBadgeActiveBackgroundColor',
+
+  'profile_title':                             'rootController.navigationBar.primaryTextColor',
+  'profile_status':                            'rootController.navigationBar.accentTextColor',
+
+  'chat_botKeyboardButtonBackground':          'chat.inputPanel.panelBackgroundColor',
+  'chat_botKeyboardButtonText':                'chat.inputPanel.panelControlAccentColor',
+  'inappPlayerBackground':                     'inAppNotification.fill',
+  'inappPlayerTitle':                          'inAppNotification.primaryTextColor',
+};
+
+const IOS_TO_ANDROID_MAP = {};
+for (const [aKey, iKey] of Object.entries(ANDROID_TO_IOS_MAP)) {
+  if (!(iKey in IOS_TO_ANDROID_MAP)) {
+    IOS_TO_ANDROID_MAP[iKey] = aKey;
+  }
+}
+
+// ============================================================
+//  CONVERSION LOGIC
+// ============================================================
+
+function convertAndroidToIOS(theme) {
+  if (theme.sourceFormat === 'telegram-slug') {
+    return generateTgiosFromSlug(theme);
+  }
+
+  const iosColors = {};
+  const androidColors = theme.colors;
+
+  for (const [aKey, iKey] of Object.entries(ANDROID_TO_IOS_MAP)) {
+    if (aKey in androidColors) {
+      let hex = androidColors[aKey];
+      iosColors[iKey] = argbToRgbHex(hex);
+    }
+  }
+
+  if (androidColors['chat_wallpaper']) {
+    iosColors['chat.defaultWallpaper'] = argbToRgbHex(androidColors['chat_wallpaper']);
+  }
+
+  const inFill = iosColors['chat.message.incoming.bubble.withWallpaper.fill'];
+  if (inFill) {
+    iosColors['chat.message.incoming.bubble.withoutWallpaper.fill'] = inFill;
+    iosColors['chat.message.incoming.bubble.withoutWallpaper.highlightedFill'] =
+      iosColors['chat.message.incoming.bubble.withWallpaper.highlightedFill'] || inFill;
+  }
+  const outFill = iosColors['chat.message.outgoing.bubble.withWallpaper.fill'];
+  if (outFill) {
+    iosColors['chat.message.outgoing.bubble.withoutWallpaper.fill'] = outFill;
+    iosColors['chat.message.outgoing.bubble.withoutWallpaper.highlightedFill'] =
+      iosColors['chat.message.outgoing.bubble.withWallpaper.highlightedFill'] || outFill;
+  }
+
+  const bgColor = androidColors['windowBackgroundWhite'] || androidColors['actionBarDefault'] || 'ffffffff';
+  const themeIsDark = isDark(bgColor);
+  iosColors['intro.statusBarStyle'] = themeIsDark ? 'white' : 'black';
+  iosColors['rootController.statusBarStyle'] = themeIsDark ? 'white' : 'black';
+  iosColors['rootController.keyboardColor'] = themeIsDark ? 'dark' : 'light';
+
+  return generateTgiosTheme(iosColors);
+}
+
+function convertIOSToAndroid(theme) {
+  const androidColors = {};
+  const iosColors = theme.colors;
+
+  for (const [iKey, aKey] of Object.entries(IOS_TO_ANDROID_MAP)) {
+    if (iKey in iosColors) {
+      let hex = iosColors[iKey];
+      if (['black','white','dark','light','clear','builtin'].includes(hex.toLowerCase())) {
+        if (hex.toLowerCase() === 'clear') hex = '00000000';
+        else continue;
+      }
+      androidColors[aKey] = rgbToArgbHex(hex);
+    }
+  }
+
+  if (iosColors['chat.defaultWallpaper']) {
+    const wpVal = iosColors['chat.defaultWallpaper'].split(' ')[0];
+    if (wpVal.length === 6 || wpVal.length === 8) {
+      androidColors['chat_wallpaper'] = rgbToArgbHex(wpVal);
+    }
+  }
+
+  return generateAttheme(androidColors, null);
+}
+
+function generateTgiosTheme(flatColors) {
+  const tree = {};
+  for (const [dotKey, value] of Object.entries(flatColors)) {
+    const parts = dotKey.split('.');
+    let node = tree;
+    for (let i = 0; i < parts.length - 1; i++) {
+      if (!(parts[i] in node)) node[parts[i]] = {};
+      node = node[parts[i]];
+    }
+    node[parts[parts.length - 1]] = value;
+  }
+
+  function renderNode(obj, indent) {
+    let result = '';
+    for (const [key, value] of Object.entries(obj)) {
+      const prefix = '  '.repeat(indent);
+      if (typeof value === 'string') {
+        result += `${prefix}${key}: ${value}\n`;
+      } else {
+        result += `${prefix}${key}:\n`;
+        result += renderNode(value, indent + 1);
+      }
+    }
+    return result;
+  }
+
+  return renderNode(tree, 0);
+}
+
+function generateAttheme(hexColors, wallpaperBlob) {
+  const lines = [];
+  for (const [key, hex] of Object.entries(hexColors)) {
+    const int32 = hexToInt32(hex);
+    lines.push(`${key}=${int32}`);
+  }
+  lines.sort();
+  const textContent = lines.join('\n') + '\n';
+  const textBytes = new TextEncoder().encode(textContent);
+  return new Blob([textBytes], { type: 'application/octet-stream' });
+}
+
+// ============================================================
+//  PREVIEW RENDERING
+// ============================================================
+
+function renderPreview(theme) {
+  const colors = theme.colors;
+  const isAndroid = theme.sourceFormat === 'attheme' || theme.sourceFormat === 'telegram-slug';
+
+  if (theme.meta && theme.meta.title) {
+    previewThemeTitle.textContent = theme.meta.title;
+  } else {
+    previewThemeTitle.textContent = '';
+  }
+
+  let previewColors;
+  if (isAndroid) {
+    previewColors = {
+      'Action Bar':       colors['actionBarDefault'],
+      'Action Bar Title': colors['actionBarDefaultTitle'],
+      'Background':       colors['windowBackgroundWhite'],
+      'Text':             colors['windowBackgroundWhiteBlackText'],
+      'Accent':           colors['actionBarDefaultIcon'] || colors['windowBackgroundWhiteBlueText4'],
+      'Wallpaper':        colors['chat_wallpaper'],
+      'In Bubble':        colors['chat_inBubble'],
+      'In Text':          colors['chat_inText'] || colors['windowBackgroundWhiteBlackText'],
+      'Out Bubble':       colors['chat_outBubble'],
+      'Out Text':         colors['chat_outText'] || colors['chat_messageTextOut'],
+      'Input Panel':      colors['chat_messagePanelBackground'],
+      'Service BG':       colors['chat_serviceBackground'],
+      'Unread Badge':     colors['chats_unreadCounter'],
+      'Chat List Name':   colors['chats_name'],
+      'Chat List Msg':    colors['chats_message'],
+    };
+  } else {
+    previewColors = {
+      'Nav Bar':          colors['rootController.navigationBar.opaqueBackgroundColor'],
+      'Nav Title':        colors['rootController.navigationBar.primaryTextColor'],
+      'List BG':          colors['list.plainBackgroundColor'],
+      'Primary Text':     colors['list.itemPrimaryTextColor'],
+      'Accent':           colors['list.itemAccentColor'],
+      'Wallpaper':        colors['chat.defaultWallpaper'],
+      'In Bubble':        colors['chat.message.incoming.bubble.withWallpaper.fill'] ||
+                          colors['chat.message.incoming.bubble.withoutWallpaper.fill'],
+      'In Text':          colors['chat.message.incoming.primaryTextColor'],
+      'Out Bubble':       colors['chat.message.outgoing.bubble.withWallpaper.fill'] ||
+                          colors['chat.message.outgoing.bubble.withoutWallpaper.fill'],
+      'Out Text':         colors['chat.message.outgoing.primaryTextColor'],
+      'Input Panel':      colors['chat.inputPanel.panelBackgroundColor'],
+      'Input Accent':     colors['chat.inputPanel.panelControlAccentColor'],
+      'Unread Badge':     colors['chatList.unreadBadgeActiveBackgroundColor'],
+    };
+  }
+
+  let swatchesHTML = '<div class="color-grid">';
+  for (const [label, hex] of Object.entries(previewColors)) {
+    if (!hex) continue;
+    const cssColor = hexToCSS(hex);
+    const displayHex = '#' + argbToRgbHex(hex);
+    swatchesHTML += `
+      <div class="color-swatch">
+        <div class="swatch-circle" style="background:${cssColor}"></div>
+        <div class="swatch-info">
+          <span class="swatch-label">${label}</span>
+          <span class="swatch-hex">${displayHex}</span>
+        </div>
+      </div>`;
+  }
+  swatchesHTML += '</div>';
+
+  const actionBar   = previewColors['Action Bar'] || previewColors['Nav Bar'] || 'ff2ca5e0';
+  const actionTitle = previewColors['Action Bar Title'] || previewColors['Nav Title'] || 'ffffffff';
+  const inBubble    = previewColors['In Bubble'] || 'ffffffff';
+  const inText      = previewColors['In Text'] || 'ff000000';
+  const outBubble   = previewColors['Out Bubble'] || 'ffeeffde';
+  const outText     = previewColors['Out Text'] || 'ff000000';
+  const inputPanel  = previewColors['Input Panel'] || 'ffffffff';
+  const accent      = previewColors['Accent'] || previewColors['Input Accent'] || 'ff2ca5e0';
+  const serviceBg   = previewColors['Service BG'] || '66000000';
+
+  const actionBarCSS = hexToCSS(actionBar);
+  const actionTitleCSS = hexToCSS(actionTitle);
+  const inBubbleCSS = hexToCSS(inBubble);
+  const inTextCSS = hexToCSS(inText);
+  const outBubbleCSS = hexToCSS(outBubble);
+  const outTextCSS = hexToCSS(outText);
+  const inputPanelCSS = hexToCSS(inputPanel);
+  const accentCSS = hexToCSS(accent);
+  const serviceBgCSS = hexToCSS(serviceBg);
+  const serviceTextCSS = isDark(serviceBg) ? '#fff' : '#000';
+
+  // Determine wallpaper style
+  let wallpaperCSS;
+  if (theme.wallpaperColors && theme.wallpaperColors.length > 1) {
+    const stops = theme.wallpaperColors.map(c => '#' + c).join(', ');
+    wallpaperCSS = `linear-gradient(135deg, ${stops})`;
+  } else {
+    const wpVal = previewColors['Wallpaper'] || previewColors['Chat Wallpaper'] || 'ffd3e8f0';
+    wallpaperCSS = hexToCSS(wpVal.split(' ')[0]);
+  }
+
+  const inputTextCSS = isDark(inputPanel) ? '#ccc' : '#999';
+  const inputFieldBg = isDark(inputPanel) ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
+
+  const mockupHTML = `
+    <div class="chat-mockup">
+      <div class="mock-header" style="background:${actionBarCSS}; color:${actionTitleCSS}">
+        <div class="mock-avatar" style="background:${accentCSS}; color:#fff;">A</div>
+        <div>
+          <div class="mock-title">${theme.meta && theme.meta.title ? escapeHtml(theme.meta.title) : 'Telegram'}</div>
+          <div class="mock-subtitle">last seen recently</div>
+        </div>
+      </div>
+      <div class="mock-messages" style="background:${wallpaperCSS}">
+        <div style="text-align:center; margin-bottom:4px;">
+          <span style="background:${serviceBgCSS}; color:${serviceTextCSS}; padding:3px 10px; border-radius:10px; font-size:0.72rem;">Today</span>
+        </div>
+        <div class="mock-bubble incoming" style="background:${inBubbleCSS}; color:${inTextCSS}">
+          Hey! How's it going? 😊
+          <div class="bubble-time" style="color:${inTextCSS}">10:30</div>
+        </div>
+        <div class="mock-bubble outgoing" style="background:${outBubbleCSS}; color:${outTextCSS}">
+          Pretty good! Check out this new theme 🎨
+          <div class="bubble-time" style="color:${outTextCSS}">10:31 <span class="bubble-check" style="color:${accentCSS}">✓✓</span></div>
+        </div>
+        <div class="mock-bubble incoming" style="background:${inBubbleCSS}; color:${inTextCSS}">
+          Looks great! Love the colors 💜
+          <div class="bubble-time" style="color:${inTextCSS}">10:32</div>
+        </div>
+      </div>
+      <div class="mock-input-bar" style="background:${inputPanelCSS}">
+        <span style="font-size:1.2rem; opacity:0.5">😀</span>
+        <div class="mock-input-field" style="background:${inputFieldBg}; color:${inputTextCSS}">Message</div>
+        <div class="mock-send-btn" style="background:${accentCSS}; color:#fff">↑</div>
+      </div>
+    </div>`;
+
+  previewContent.innerHTML = swatchesHTML + mockupHTML;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ============================================================
+//  URL FETCHER & RESOLVER
+// ============================================================
+
+async function fetchThemeFromUrl(inputUrl) {
+  inputUrl = inputUrl.trim();
+  if (!inputUrl) {
+    showStatus('Please enter a valid URL or theme slug', 'error');
+    return;
+  }
+
+  showStatus('Fetching theme details...', 'info');
+  setFetching(true);
+
+  // 1. Check if it's a Telegram theme slug link (t.me/addtheme/... or tg://addtheme?slug=...)
+  const slugMatch = inputUrl.match(/addtheme[/:=]([a-zA-Z0-9_-]+)/);
+  if (slugMatch) {
+    const slug = slugMatch[1];
+    await resolveTelegramSlug(slug, inputUrl);
+    setFetching(false);
+    return;
+  }
+
+  // 2. Direct URL to .attheme or .tgios-theme file
+  await fetchDirectThemeFile(inputUrl);
+  setFetching(false);
+}
+
+// Resolve Telegram slug via local server or CORS proxies
+async function resolveTelegramSlug(slug, originalUrl) {
+  showStatus(`Resolving Telegram theme: ${slug}...`, 'info');
+
+  // Try Local server API first
+  try {
+    const localRes = await fetch(`/api/theme-info?slug=${encodeURIComponent(slug)}`);
+    if (localRes.ok) {
+      const data = await localRes.json();
+      if (data.success) {
+        applySlugTheme(data);
+        return;
+      }
+    }
+  } catch (e) {
+    // Local server not running or file:// protocol, fall back to proxies
+  }
+
+  // Proxies to try
+  const targetUrl = `https://t.me/addtheme/${slug}`;
+  const proxies = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
+  ];
+
+  let html = null;
+  for (const proxy of proxies) {
+    try {
+      showStatus(`Connecting via gateway...`, 'info');
+      const res = await fetch(proxy);
+      if (res.ok) {
+        html = await res.text();
+        if (html && html.includes('tgme_page')) {
+          break;
+        }
+      }
+    } catch (err) {
+      console.warn('Proxy attempt failed:', proxy, err);
+    }
+  }
+
+  if (!html) {
+    showStatus(`Could not reach Telegram servers directly due to CORS restrictions. Tip: Run 'python server.py' or 'start_server.bat' for direct local access.`, 'error');
+    return;
+  }
+
+  // Parse HTML
+  const titleMatch = html.match(/<meta property="og:title" content="([^"]+)"/);
+  let title = titleMatch ? titleMatch[1].replace(/^Telegram Theme:\s*/i, '').trim() : `Theme ${slug}`;
+
+  const colorsMatch = html.match(/data-colors="([0-9a-fA-F,]+)"/);
+  const colors = colorsMatch ? colorsMatch[1].split(',') : [];
+
+  const isDark = html.includes('theme_dark') || html.toLowerCase().includes('dark') || html.toLowerCase().includes('night');
+
+  applySlugTheme({
+    slug,
+    title,
+    colors,
+    isDark,
+    url: targetUrl
+  });
+}
+
+function applySlugTheme(data) {
+  resetState();
+
+  parsedTheme = createThemeFromSlugData(data);
+
+  // Show active theme badge and info
+  uploadPlaceholder.classList.add('hidden');
+  fileInfoEl.classList.remove('hidden');
+  uploadArea.classList.add('has-file');
+
+  themeBadge.classList.remove('hidden');
+  themeBadge.textContent = '🌐 Telegram Link';
+
+  fileNameEl.textContent = data.title;
+  const colCount = data.colors && data.colors.length ? `${data.colors.length}-color gradient` : 'solid';
+  fileSizeEl.textContent = `Slug: ${data.slug} • ${colCount}`;
+
+  renderPreview(parsedTheme);
+  convertBtn.classList.add('ready');
+
+  showStatus(`Theme '${data.title}' loaded successfully! Click 'Convert Theme' to generate your iOS file.`, 'info');
+}
+
+// Fetch direct file (.attheme or .tgios-theme)
+async function fetchDirectThemeFile(fileUrl) {
+  showStatus(`Downloading theme file from URL...`, 'info');
+
+  let arrayBuffer = null;
+  let filename = fileUrl.split('/').pop().split('?')[0] || 'theme';
+
+  // Try direct fetch or local proxy
+  try {
+    const localRes = await fetch(`/api/fetch?url=${encodeURIComponent(fileUrl)}`);
+    if (localRes.ok) {
+      arrayBuffer = await localRes.arrayBuffer();
+    }
+  } catch (e) {}
+
+  if (!arrayBuffer) {
+    try {
+      const res = await fetch(fileUrl);
+      if (res.ok) arrayBuffer = await res.arrayBuffer();
+    } catch (e) {
+      // Try CORS proxy
+      try {
+        const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(fileUrl)}`);
+        if (proxyRes.ok) arrayBuffer = await proxyRes.arrayBuffer();
+      } catch (err) {
+        showStatus('Failed to download file from URL. Please check the link or upload the file directly.', 'error');
+        return;
+      }
+    }
+  }
+
+  if (!arrayBuffer) {
+    showStatus('Failed to fetch the file from the provided URL.', 'error');
+    return;
+  }
+
+  // Parse based on extension or detected format
+  if (filename.endsWith('.tgios-theme') || conversionDirection === 'ios-to-android') {
+    const text = new TextDecoder('utf-8').decode(arrayBuffer);
+    parsedTheme = parseTgiosTheme(text);
+  } else {
+    parsedTheme = parseAttheme(arrayBuffer);
+  }
+
+  uploadPlaceholder.classList.add('hidden');
+  fileInfoEl.classList.remove('hidden');
+  uploadArea.classList.add('has-file');
+  themeBadge.classList.remove('hidden');
+  themeBadge.textContent = '🌐 URL Import';
+  fileNameEl.textContent = filename;
+  fileSizeEl.textContent = `${formatBytes(arrayBuffer.byteLength)} • ${Object.keys(parsedTheme.colors).length} colors found`;
+
+  if (parsedTheme.wallpaperBlob) {
+    const url = URL.createObjectURL(parsedTheme.wallpaperBlob);
+    wallpaperImg.src = url;
+    wallpaperPreview.classList.remove('hidden');
+  }
+
+  renderPreview(parsedTheme);
+  convertBtn.classList.add('ready');
+  showStatus('Theme file loaded! Click "Convert Theme" below.', 'info');
+}
+
+function setFetching(loading) {
+  urlFetchBtn.disabled = loading;
+  if (loading) {
+    fetchBtnText.innerHTML = '<span class="loading-spinner"></span> Loading...';
+  } else {
+    fetchBtnText.textContent = 'Load Theme';
+  }
+}
+
+function setExampleUrl(url) {
+  urlInput.value = url;
+  fetchThemeFromUrl(url);
+}
+
+// ============================================================
+//  FILE HANDLING & CONVERSION
+// ============================================================
+
+function resetState() {
+  parsedTheme = null;
+  convertedData = null;
+  uploadPlaceholder.classList.remove('hidden');
+  fileInfoEl.classList.add('hidden');
+  themeBadge.classList.add('hidden');
+  uploadArea.classList.remove('has-file');
+  convertBtn.classList.remove('ready');
+  resultArea.classList.remove('visible');
+  statusMsg.className = 'status-msg';
+  statusMsg.style.display = 'none';
+  wallpaperPreview.classList.add('hidden');
+  previewThemeTitle.textContent = '';
+  previewContent.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">Upload a theme file or enter a theme URL to see a preview of its colors and chat appearance.</p>';
+  fileInput.value = '';
+}
+
+function showStatus(msg, type) {
+  statusMsg.textContent = msg;
+  statusMsg.className = `status-msg ${type}`;
+}
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+async function handleFile(file) {
+  resetState();
+
+  const fileName = file.name.toLowerCase();
+  if (conversionDirection === 'android-to-ios' && !fileName.endsWith('.attheme')) {
+    showStatus('Please upload an .attheme file (Android theme). Switch direction for .tgios-theme files.', 'error');
+    return;
+  }
+  if (conversionDirection === 'ios-to-android' && !fileName.endsWith('.tgios-theme')) {
+    showStatus('Please upload a .tgios-theme file (iOS theme). Switch direction for .attheme files.', 'error');
+    return;
+  }
+
+  try {
+    if (conversionDirection === 'android-to-ios') {
+      const arrayBuffer = await file.arrayBuffer();
+      parsedTheme = parseAttheme(arrayBuffer);
+    } else {
+      const text = await file.text();
+      parsedTheme = parseTgiosTheme(text);
+    }
+
+    const colorCount = Object.keys(parsedTheme.colors).length;
+    if (colorCount === 0) {
+      showStatus('No colors found in the theme file. The file might be corrupted or in an unexpected format.', 'error');
+      return;
+    }
+
+    uploadPlaceholder.classList.add('hidden');
+    fileInfoEl.classList.remove('hidden');
+    uploadArea.classList.add('has-file');
+    themeBadge.classList.add('hidden');
+    fileNameEl.textContent = file.name;
+    fileSizeEl.textContent = `${formatBytes(file.size)} • ${colorCount} colors found`;
+
+    if (parsedTheme.wallpaperBlob) {
+      const url = URL.createObjectURL(parsedTheme.wallpaperBlob);
+      wallpaperImg.src = url;
+      wallpaperPreview.classList.remove('hidden');
+    }
+
+    renderPreview(parsedTheme);
+    convertBtn.classList.add('ready');
+
+  } catch (err) {
+    showStatus('Failed to parse theme file: ' + err.message, 'error');
+    console.error(err);
+  }
+}
+
+function performConversion() {
+  if (!parsedTheme) return;
+
+  try {
+    let resultBlob, resultFilename, keyCount;
+
+    if (conversionDirection === 'android-to-ios') {
+      const tgiosContent = convertAndroidToIOS(parsedTheme);
+      keyCount = tgiosContent.split('\n').filter(l => l.includes(':')).length;
+      resultBlob = new Blob([tgiosContent], { type: 'text/plain' });
+
+      let baseName = 'theme';
+      if (parsedTheme.meta && parsedTheme.meta.title) {
+        baseName = parsedTheme.meta.title.replace(/[^\w\sа-яА-ЯёЁ-]/g, '').trim().replace(/\s+/g, '_');
+        if (parsedTheme.meta.slug) baseName += `_${parsedTheme.meta.slug}`;
+      } else if (fileNameEl.textContent) {
+        baseName = fileNameEl.textContent.replace(/\.attheme$/i, '');
+      }
+
+      resultFilename = `${baseName}.tgios-theme`;
+    } else {
+      resultBlob = convertIOSToAndroid(parsedTheme);
+      const text = new TextDecoder().decode(resultBlob);
+      keyCount = text.split('\n').filter(l => l.includes('=')).length;
+      resultFilename = (fileNameEl.textContent || 'theme').replace(/\.tgios-theme$/i, '') + '.attheme';
+    }
+
+    convertedData = { blob: resultBlob, filename: resultFilename, keyCount };
+
+    resultStats.textContent = `${keyCount} color attributes converted into valid iOS theme format!`;
+    resultArea.classList.add('visible');
+    resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  } catch (err) {
+    showStatus('Conversion failed: ' + err.message, 'error');
+    console.error(err);
+  }
+}
+
+function downloadResult() {
+  if (!convertedData) return;
+  const url = URL.createObjectURL(convertedData.blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = convertedData.filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+//  EVENT LISTENERS & TAB SWITCHING
+// ============================================================
+
+// Tabs
+tabUpload.addEventListener('click', () => {
+  tabUpload.classList.add('active');
+  tabUrl.classList.remove('active');
+  uploadArea.classList.remove('hidden');
+  urlCard.classList.add('hidden');
+  currentInputTab = 'upload';
+});
+
+tabUrl.addEventListener('click', () => {
+  tabUrl.classList.add('active');
+  tabUpload.classList.remove('active');
+  urlCard.classList.remove('hidden');
+  uploadArea.classList.add('hidden');
+  currentInputTab = 'url';
+});
+
+// URL input submit on Enter
+urlInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    fetchThemeFromUrl(urlInput.value);
+  }
+});
+urlFetchBtn.addEventListener('click', () => {
+  fetchThemeFromUrl(urlInput.value);
+});
+
+// Direction swap
+swapBtn.addEventListener('click', () => {
+  if (conversionDirection === 'android-to-ios') {
+    conversionDirection = 'ios-to-android';
+    sourceLabel.innerHTML = '.tgios-theme<br><small style="color:var(--text-muted)">iOS</small>';
+    targetLabel.innerHTML = '.attheme<br><small style="color:var(--text-muted)">Android</small>';
+    acceptHint.textContent = 'Accepts .tgios-theme files';
+    fileInput.accept = '.tgios-theme';
+    urlInput.placeholder = 'Enter direct .tgios-theme URL';
+  } else {
+    conversionDirection = 'android-to-ios';
+    sourceLabel.innerHTML = '.attheme<br><small style="color:var(--text-muted)">Android</small>';
+    targetLabel.innerHTML = '.tgios-theme<br><small style="color:var(--text-muted)">iOS</small>';
+    acceptHint.textContent = 'Accepts .attheme files';
+    fileInput.accept = '.attheme';
+    urlInput.placeholder = 'https://t.me/addtheme/rAMg7bX2JlPQadda';
+  }
+  resetState();
+});
+
+// File input
+fileInput.addEventListener('change', (e) => {
+  if (e.target.files.length > 0) handleFile(e.target.files[0]);
+});
+
+// Drag and drop
+uploadArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  uploadArea.classList.add('drag-over');
+});
+uploadArea.addEventListener('dragleave', () => {
+  uploadArea.classList.remove('drag-over');
+});
+uploadArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadArea.classList.remove('drag-over');
+  if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+});
+
+// Remove button
+removeBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  e.preventDefault();
+  resetState();
+});
+
+// Convert
+convertBtn.addEventListener('click', performConversion);
+
+// Download
+downloadBtn.addEventListener('click', downloadResult);
+
+uploadArea.addEventListener('click', (e) => {
+  if (parsedTheme) {
+    e.preventDefault();
+  }
+});
+</script>
+</body>
+</html>

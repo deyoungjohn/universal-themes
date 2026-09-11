@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.session
+*.session-journal
+
+# Logs & temp
+*.log
+*.tmp
+tmp/
+.vercel/
+
+# Scratch & research dumps
+*scratch*
+check_*
+parse_*
+search_*
+test_*.py
+test_generated.*
+themes_hobby.html
+tme_page.html
+msg_4685.html
+appThemesManager.ts
+
+# OS files
+.DS_Store
+Thumbs.db
