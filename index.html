@@ -553,36 +553,266 @@
   /* Result Area */
   .result-area {
     background: var(--surface);
-    border: 1px solid var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.4);
     border-radius: var(--radius);
-    padding: 24px;
-    text-align: center;
+    padding: 30px 24px;
     display: none;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   }
   .result-area.visible { display: block; }
+  .result-area .result-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
   .result-area h3 {
     color: var(--success);
-    margin-bottom: 12px;
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .result-area .result-stats {
     color: var(--text-muted);
-    font-size: 0.88rem;
-    margin-bottom: 16px;
+    font-size: 0.95rem;
+  }
+
+  /* Download Action Buttons */
+  .download-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 22px 0;
   }
   .download-btn {
-    background: var(--success);
+    background: linear-gradient(135deg, #10b981, #059669);
     color: #fff;
     border: none;
-    padding: 12px 36px;
-    border-radius: 8px;
+    padding: 13px 28px;
+    border-radius: 9px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
   .download-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.35);
+  }
+  .download-wp-btn {
+    background: linear-gradient(135deg, #0ea5e9, #6366f1);
+    color: #fff;
+    border: none;
+    padding: 13px 28px;
+    border-radius: 9px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .download-wp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(14, 165, 233, 0.35);
+  }
+  .download-wp-btn-secondary {
+    background: rgba(14, 165, 233, 0.15);
+    border: 1px solid var(--accent);
+    color: #38bdf8;
+    padding: 8px 18px;
+    border-radius: 7px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .download-wp-btn-secondary:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* Extracted Wallpaper Card */
+  .result-wp-card {
+    background: var(--surface2);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    border-radius: 12px;
+    padding: 18px;
+    margin: 20px 0;
+    text-align: left;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .result-wp-card .wp-thumb-box {
+    width: 90px;
+    height: 130px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+    background: #000;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+  }
+  .result-wp-card .wp-thumb-box:hover {
+    transform: scale(1.03);
+  }
+  .result-wp-card .wp-thumb-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .result-wp-card .wp-card-details {
+    flex: 1;
+    min-width: 220px;
+  }
+  .result-wp-card .wp-badge-tag {
+    display: inline-block;
+    background: rgba(14, 165, 233, 0.15);
+    border: 1px solid var(--accent);
+    color: #38bdf8;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .result-wp-card h4 {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .result-wp-card p {
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+
+  /* iOS Step-by-Step Instructions Guide */
+  .ios-guide-card {
+    background: #0f172a;
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: left;
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ios-guide-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--success));
+  }
+  .ios-guide-card .guide-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .ios-guide-card .guide-title-row h4 {
+    font-size: 1.15rem;
+    color: #fff;
+    font-weight: 700;
+    margin: 0;
+  }
+  .ios-guide-card .guide-intro {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .ios-guide-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .guide-step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .step-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent2);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  }
+  .step-circle.done {
+    background: var(--success);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+  }
+  .step-text {
+    flex: 1;
+  }
+  .step-text strong {
+    color: #f1f5f9;
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .step-text p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    margin: 0;
+  }
+  .guide-path-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(14, 165, 233, 0.12);
+    border: 1px solid rgba(14, 165, 233, 0.35);
+    color: #38bdf8;
+    padding: 5px 12px;
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 6px 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+  .guide-tip {
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: rgba(234, 179, 8, 0.1);
+    border: 1px solid rgba(234, 179, 8, 0.3);
+    border-radius: 8px;
+    color: #fde047;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   /* Footer */
@@ -689,9 +919,91 @@
 
   <!-- Result -->
   <div class="result-area" id="resultArea">
-    <h3>✅ Conversion Complete!</h3>
-    <div class="result-stats" id="resultStats"></div>
-    <button class="download-btn" id="downloadBtn">⬇ Download Converted Theme</button>
+    <div class="result-header">
+      <h3><span>✅</span> Conversion Complete!</h3>
+      <div class="result-stats" id="resultStats"></div>
+    </div>
+
+    <!-- Download Buttons -->
+    <div class="download-actions">
+      <button class="download-btn" id="downloadBtn">
+        <span>⬇</span>
+        <span id="downloadBtnText">Download Converted Theme</span>
+      </button>
+      <button class="download-wp-btn hidden" id="downloadWpBtn">
+        <span>🖼</span>
+        <span>Download Wallpaper Image</span>
+      </button>
+    </div>
+
+    <!-- Extracted Wallpaper Box (for iOS) -->
+    <div class="result-wp-card hidden" id="resultWpCard">
+      <div class="wp-thumb-box" id="resultWpThumbBox" title="Click to open full resolution image in new tab">
+        <img id="resultWpThumb" src="" alt="Extracted Theme Wallpaper">
+      </div>
+      <div class="wp-card-details">
+        <span class="wp-badge-tag" id="resultWpBadge">Extracted Wallpaper</span>
+        <h4 id="resultWpFilename">wallpaper.jpg</h4>
+        <p>iOS Telegram themes do not bundle custom background images. Download this image and set it manually in Telegram settings to complete the look!</p>
+        <button class="download-wp-btn-secondary" id="downloadWpBtnSecondary">
+          <span>🖼 Download Image</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- iOS Setup Guide -->
+    <div class="ios-guide-card hidden" id="iosGuideCard">
+      <div class="guide-title-row">
+        <span style="font-size:1.35rem">📱</span>
+        <h4>How to Apply This Theme & Wallpaper on Telegram iOS</h4>
+      </div>
+      <p class="guide-intro">
+        Unlike Android, Telegram on iOS does not embed custom background photos into <code>.tgios-theme</code> files. Follow these simple steps on your iPhone or iPad:
+      </p>
+      <div class="ios-guide-steps">
+        <div class="guide-step-item">
+          <div class="step-circle">1</div>
+          <div class="step-text">
+            <strong>Download Both Files</strong>
+            <p>Tap <strong>⬇ Download Converted Theme</strong> to get the <code>.tgios-theme</code> file, and tap <strong>🖼 Download Wallpaper Image</strong> to save the background image.</p>
+          </div>
+        </div>
+        <div class="guide-step-item">
+          <div class="step-circle">2</div>
+          <div class="step-text">
+            <strong>Save the Wallpaper to Photos</strong>
+            <p>Save the downloaded image to your iPhone's <strong>Photos</strong> app (in Safari, tap the downloaded image, tap the Share icon ⎋, and select <em>Save Image</em>).</p>
+          </div>
+        </div>
+        <div class="guide-step-item">
+          <div class="step-circle">3</div>
+          <div class="step-text">
+            <strong>Apply the .tgios-theme File in Telegram</strong>
+            <p>Send the <code>.tgios-theme</code> file to your Telegram (for example, to your <strong>Saved Messages</strong> chat or via AirDrop). Tap the file in chat, then tap <strong>Apply Theme</strong>.</p>
+          </div>
+        </div>
+        <div class="guide-step-item">
+          <div class="step-circle">4</div>
+          <div class="step-text">
+            <strong>Set Chat Wallpaper in Telegram Settings</strong>
+            <p>In Telegram on your iPhone, navigate to:</p>
+            <div class="guide-path-badge">Settings ⚙️ ➔ Appearance ➔ Chat Wallpaper</div>
+            <p>At the top, tap <strong>Choose from Photos</strong>, select your saved wallpaper image, adjust zoom or blur if desired, and tap <strong>Set</strong>.</p>
+          </div>
+        </div>
+        <div class="guide-step-item">
+          <div class="step-circle done">✓</div>
+          <div class="step-text">
+            <strong>All Done! 🎉</strong>
+            <p>Your chat list, header bar, text box, bubbles, and custom chat background now match the original theme 100%!</p>
+          </div>
+        </div>
+      </div>
+      <div class="guide-tip">
+        <span>💡</span>
+        <span>Tip: You can change or re-align the wallpaper anytime under <strong>Settings > Appearance > Chat Wallpaper</strong> in Telegram.</span>
+      </div>
+    </div>
   </div>
 
   <footer>
@@ -738,6 +1050,17 @@ const convertBtn = document.getElementById('convertBtn');
 const resultArea = document.getElementById('resultArea');
 const resultStats = document.getElementById('resultStats');
 const downloadBtn = document.getElementById('downloadBtn');
+const downloadBtnText = document.getElementById('downloadBtnText');
+const downloadWpBtn = document.getElementById('downloadWpBtn');
+const resultWpCard = document.getElementById('resultWpCard');
+const resultWpThumb = document.getElementById('resultWpThumb');
+const resultWpThumbBox = document.getElementById('resultWpThumbBox');
+const resultWpFilename = document.getElementById('resultWpFilename');
+const resultWpBadge = document.getElementById('resultWpBadge');
+const downloadWpBtnSecondary = document.getElementById('downloadWpBtnSecondary');
+const iosGuideCard = document.getElementById('iosGuideCard');
+
+let convertedWallpaperData = null; // { blob: Blob, filename: string }
 const statusMsg = document.getElementById('statusMsg');
 const wallpaperPreview = document.getElementById('wallpaperPreview');
 const wallpaperImg = document.getElementById('wallpaperImg');
@@ -938,67 +1261,60 @@ function parseTgiosTheme(text) {
 
 function createThemeFromSlugData(meta) {
   const { title, slug, colors: wpColors, isDark: explicitDark } = meta;
-  const rawWpColors = wpColors && wpColors.length ? wpColors : ['2c3e50', '3498db'];
+  const rawWpColors = wpColors && wpColors.length ? wpColors : ['dbddbb', '6ba587', 'd5d88d', '88b884'];
 
-  // Calculate average luminance of wallpaper
-  const lums = rawWpColors.map(c => luminance(c));
-  const avgLum = lums.reduce((a, b) => a + b, 0) / lums.length;
-  const dark = explicitDark !== undefined ? explicitDark : avgLum < 0.45;
+  const rgbs = rawWpColors.map(c => hexToARGB(c));
+  const b0 = rgbs[0];
 
-  // Find accent color: choose the color with highest saturation
-  let bestAccent = dark ? '2ea6ff' : '007aff';
-  let maxSat = -1;
-  for (const c of rawWpColors) {
-    const rgb = hexToARGB(c);
-    const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
-    if (hsv.s > maxSat && hsv.v > 0.25) {
-      maxSat = hsv.s;
-      bestAccent = c;
-    }
-  }
+  // Calculate background by scaling luminance of primary soft tone
+  const bgRgb = [
+    Math.round(b0.r * 0.56),
+    Math.round(b0.g * 0.57),
+    Math.round(b0.b * 0.55)
+  ];
+  const bgHex = bgRgb.map(v => v.toString(16).padStart(2, '0')).join('');
 
-  // Generate simulated color map for preview swatches
-  const bgHex = dark ? '121214' : 'ffffff';
-  const cardBgHex = dark ? '1c1c1e' : 'f2f2f7';
-  const textPrimary = dark ? 'ffffff' : '000000';
-  const inBubbleHex = dark ? '262628' : 'ffffff';
+  // Input box inside chat UI (darkened by 15%)
+  const fieldRgb = [
+    Math.round(bgRgb[0] * 0.85),
+    Math.round(bgRgb[1] * 0.86),
+    Math.round(bgRgb[2] * 0.82)
+  ];
+  const fieldHex = fieldRgb.map(v => v.toString(16).padStart(2, '0')).join('');
 
-  // Outgoing bubble: tint of the accent
-  const accRgb = hexToARGB(bestAccent);
-  let outBubbleHex;
-  if (dark) {
-    // darker rich tint
-    outBubbleHex = [
-      Math.round(accRgb.r * 0.4 + 18),
-      Math.round(accRgb.g * 0.4 + 18),
-      Math.round(accRgb.b * 0.4 + 22)
-    ].map(v => v.toString(16).padStart(2, '0')).join('');
-  } else {
-    // soft pastel tint
-    outBubbleHex = [
-      Math.round(255 - (255 - accRgb.r) * 0.18),
-      Math.round(255 - (255 - accRgb.g) * 0.18),
-      Math.round(255 - (255 - accRgb.b) * 0.18)
-    ].map(v => v.toString(16).padStart(2, '0')).join('');
-  }
+  // Incoming bubble: soft sage/beige derived from color 0
+  const inBubbleRgb = [
+    Math.round(b0.r * 0.88),
+    Math.round(b0.g * 0.86),
+    Math.round(b0.b * 0.94)
+  ];
+  const inBubbleHex = inBubbleRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+  const inBubbleLum = luminance(inBubbleHex);
+
+  const accentHex = rawWpColors[1] || '6ba587';
+  const outBubbleHex = rawWpColors[3] || rawWpColors[1] || '88b884';
+  const badgeHex = rawWpColors[2] || 'd5d88d';
+
+  const dark = explicitDark !== undefined ? explicitDark : (luminance(bgHex) < 0.5);
 
   const simulatedColors = {
-    'actionBarDefault': 'ff' + cardBgHex,
-    'actionBarDefaultTitle': 'ff' + textPrimary,
+    'actionBarDefault': 'ff' + bgHex,
+    'actionBarDefaultTitle': 'ffffffff',
     'windowBackgroundWhite': 'ff' + bgHex,
-    'windowBackgroundWhiteBlackText': 'ff' + textPrimary,
-    'actionBarDefaultIcon': 'ff' + bestAccent,
+    'windowBackgroundWhiteBlackText': 'ffffffff',
+    'actionBarDefaultIcon': 'ff' + accentHex,
     'chat_wallpaper': 'ff' + rawWpColors[0],
     'chat_inBubble': 'ff' + inBubbleHex,
-    'chat_inText': 'ff' + textPrimary,
+    'chat_inText': 'ff' + (inBubbleLum > 0.4 ? '1a1f16' : 'ffffff'),
     'chat_outBubble': 'ff' + outBubbleHex,
-    'chat_outText': 'ff' + (dark ? 'ffffff' : '000000'),
-    'chat_messagePanelBackground': 'ff' + cardBgHex,
+    'chat_outText': 'ffffffff',
+    'chat_messagePanelBackground': 'ff' + bgHex,
+    'chat_messagePanelText': 'ffffffff',
     'chat_serviceBackground': '66000000',
-    'chats_unreadCounter': 'ff' + bestAccent,
-    'chats_name': 'ff' + textPrimary,
-    'chats_message': 'ff8e8e93',
-    'dialogBackground': 'ff' + cardBgHex
+    'chats_unreadCounter': 'ff' + badgeHex,
+    'chats_name': 'ffffffff',
+    'chats_message': 'ff9ca08b',
+    'dialogBackground': 'ff' + bgHex
   };
 
   return {
@@ -1006,7 +1322,7 @@ function createThemeFromSlugData(meta) {
     wallpaperBlob: null,
     sourceFormat: 'telegram-slug',
     wallpaperColors: rawWpColors,
-    accentColor: bestAccent,
+    accentColor: accentHex,
     isDark: dark,
     meta: {
       title: title || `Theme ${slug}`,
@@ -1591,55 +1907,121 @@ function generateTgiosTheme385(name, palette, isDark) {
     return hex.padEnd(6, '0').substring(0, 6);
   }
 
-  const bg = c6(palette.bg, isDark ? '0f0e0d' : 'ffffff');
-  const accent = c6(palette.accent, isDark ? '2ea6ff' : '007aff');
-  const primaryText = c6(palette.primaryText, isDark ? 'ffffff' : '000000');
-  const secondaryText = c6(palette.secondaryText, '8e8e93');
-  const inBubble = c6(palette.inBubbleBg, isDark ? '201f1d' : 'ffffff');
-  const outBubble = c6(palette.outBubbleBg, accent);
+  const bg = c6(palette.bg, isDark ? '7a7d66' : 'ffffff');
   const navBg = c6(palette.navBg, bg);
+  const chatListBg = c6(palette.chatListBg, bg);
+  const panelBg = c6(palette.inputPanelBg, navBg);
+  const inputField = c6(palette.inputFieldBg, isDark ? '686c54' : 'e5e5ea');
+  const inputText = c6(palette.inputText, isDark ? 'ffffff' : '000000');
+
+  const inBubble = c6(palette.inBubbleBg, isDark ? 'c0beaf' : 'ffffff');
+  const inBubbleText = c6(palette.inBubbleText, isDark ? '1a1f16' : '000000');
+  const inBubbleSec = c6(palette.inBubbleSec, isDark ? '6b6e58' : '8e8e93');
+
+  const outBubble = c6(palette.outBubbleBg, isDark ? '88b884' : '6ba587');
+  const outBubbleText = c6(palette.outBubbleText, 'ffffff');
+  const outBubbleSec = c6(palette.outBubbleSec, 'a5ffffff');
+
+  const accent = c6(palette.accent, '6ba587');
+  const primaryText = c6(palette.primaryText, isDark ? 'ffffff' : '000000');
+  const secondaryText = c6(palette.secondaryText, isDark ? '9ca08b' : '8e8e93');
+
+  const badgeBg = c6(palette.unreadBadgeBg, isDark ? 'd5d88d' : accent);
+  const badgeText = c6(palette.unreadBadgeText, isDark ? '221f17' : 'ffffff');
+
   const wallpaper = palette.wallpaper || bg;
 
-  const basedOn = isDark ? 'night' : 'day';
-  const darkVal = isDark ? 'true' : 'false';
-  const statusBar = 'black';
+  const pathOverrides = {
+    'name': name || 'Custom Theme',
+    'basedOn': isDark ? 'night' : 'day',
+    'dark': isDark ? 'true' : 'false',
+    'intro.statusBar': 'black',
+    'root.tabBar.background': navBg,
+    'root.tabBar.selectedIcon': accent,
+    'root.tabBar.selectedText': accent,
+    'root.navBar.background': navBg,
+    'root.navBar.primaryText': primaryText,
+    'root.navBar.button': accent,
+    'root.navBar.control': accent,
+    'root.searchBar.background': navBg,
+    'root.searchBar.inputFill': inputField,
+    'root.searchBar.inputText': primaryText,
+    'list.blocksBg': bg,
+    'list.plainBg': bg,
+    'list.itemBlocksBg': bg,
+    'chatList.bg': chatListBg,
+    'chatList.itemBg': chatListBg,
+    'chatList.pinnedItemBg': chatListBg,
+    'chatList.unreadBadgeActiveBg': badgeBg,
+    'chatList.unreadBadgeActiveText': badgeText,
+    'chatList.title': primaryText,
+    'chatList.dateText': secondaryText,
+    'chatList.authorName': secondaryText,
+    'chatList.messageText': secondaryText,
+    'chatList.messageDraftText': secondaryText,
+    'chatList.checkmark': accent,
+    'chat.defaultWallpaper': wallpaper,
+    'chat.message.incoming.bubble.withWp.bg': inBubble,
+    'chat.message.incoming.bubble.withWp.stroke': inBubble,
+    'chat.message.incoming.bubble.withoutWp.bg': inBubble,
+    'chat.message.incoming.bubble.withoutWp.stroke': inBubble,
+    'chat.message.incoming.primaryText': inBubbleText,
+    'chat.message.incoming.secondaryText': inBubbleSec,
+    'chat.message.outgoing.bubble.withWp.bg': outBubble,
+    'chat.message.outgoing.bubble.withWp.stroke': outBubble,
+    'chat.message.outgoing.bubble.withoutWp.bg': outBubble,
+    'chat.message.outgoing.bubble.withoutWp.stroke': outBubble,
+    'chat.message.outgoing.primaryText': outBubbleText,
+    'chat.message.outgoing.secondaryText': outBubbleSec,
+    'chat.inputPanel.panelBg': panelBg,
+    'chat.inputPanel.inputBg': inputField,
+    'chat.inputPanel.inputStroke': panelBg,
+    'chat.inputPanel.inputText': inputText,
+    'chat.inputPanel.primaryText': inputText,
+    'chat.historyNav.bg': panelBg,
+  };
 
   const templateLines = TGIOS_WORKING_TEMPLATE.split('\n');
   const result = [];
+  let stack = [];
 
   for (let i = 0; i < templateLines.length; i++) {
     const line = templateLines[i];
     const trimmed = line.trim();
+    if (!trimmed) {
+      result.push(line);
+      continue;
+    }
     const indent = line.length - line.trimStart().length;
     const spaces = ' '.repeat(indent);
+    const level = Math.floor(indent / 2);
+    stack = stack.slice(0, level);
 
-    if (line.startsWith('name:')) {
-      result.push(`name: ${name || 'Custom Theme'}`);
-    } else if (line.startsWith('basedOn:')) {
-      result.push(`basedOn: ${basedOn}`);
-    } else if (line.startsWith('dark:')) {
-      result.push(`dark: ${darkVal}`);
-    } else if (line.startsWith('statusBar:')) {
-      result.push(`${spaces}statusBar: ${statusBar}`);
-    } else if (trimmed.startsWith('primaryText:') && indent <= 2) {
-      result.push(`${spaces}primaryText: ${primaryText}`);
-    } else if (trimmed.startsWith('accentText:') && indent <= 2) {
-      result.push(`${spaces}accentText: ${accent}`);
-    } else if (trimmed.startsWith('disabledText:') && indent <= 2) {
-      result.push(`${spaces}disabledText: 33${secondaryText}`);
-    } else if (trimmed.startsWith('startButton:') && indent <= 2) {
-      result.push(`${spaces}startButton: ${accent}`);
-    } else if (trimmed.startsWith('defaultWallpaper:')) {
-      result.push(`${spaces}defaultWallpaper: ${wallpaper}`);
+    if (trimmed.includes(':')) {
+      const colonIdx = trimmed.indexOf(':');
+      const k = trimmed.substring(0, colonIdx).trim();
+      const v = trimmed.substring(colonIdx + 1).trim();
+
+      if (!v) {
+        stack.push(k);
+        result.push(line);
+      } else {
+        const path = stack.length > 0 ? stack.join('.') + '.' + k : k;
+        if (Object.prototype.hasOwnProperty.call(pathOverrides, path)) {
+          result.push(`${spaces}${k}: ${pathOverrides[path]}`);
+        } else {
+          let l = line;
+          l = l.replace(/0F0E0D|0f0e0d/g, bg);
+          l = l.replace(/a4997b|A4997B/g, accent);
+          l = l.replace(/beb4a3|BEB4A3/g, primaryText);
+          l = l.replace(/5F5B53|5f5b53/g, secondaryText);
+          l = l.replace(/201f1d|201F1D/g, inBubble);
+          l = l.replace(/181716/g, outBubble);
+          result.push(l);
+        }
+      }
     } else {
-      let l = line;
-      l = l.replace(/0F0E0D|0f0e0d/g, bg);
-      l = l.replace(/a4997b|A4997B/g, accent);
-      l = l.replace(/beb4a3|BEB4A3/g, primaryText);
-      l = l.replace(/5F5B53|5f5b53/g, secondaryText);
-      l = l.replace(/201f1d|201F1D/g, inBubble);
-      l = l.replace(/181716/g, outBubble);
-      result.push(l);
+      result.push(line);
     }
   }
 
@@ -1650,30 +2032,90 @@ function convertAndroidToIOS(theme) {
   let themeName = 'Custom Theme';
   if (theme.meta && theme.meta.title) {
     themeName = theme.meta.title;
-  } else if (fileNameEl.textContent) {
+  } else if (typeof fileNameEl !== 'undefined' && fileNameEl && fileNameEl.textContent) {
     themeName = fileNameEl.textContent.replace(/\.attheme$/i, '');
   }
 
+  // 1. From Telegram Cloud Link (URL)
   if (theme.sourceFormat === 'telegram-slug') {
+    const rawWpColors = theme.wallpaperColors && theme.wallpaperColors.length
+      ? theme.wallpaperColors
+      : ['dbddbb', '6ba587', 'd5d88d', '88b884'];
+
+    const rgbs = rawWpColors.map(c => hexToARGB(c));
+
+    // Calculate background by scaling luminance of primary soft tone
+    const b0 = rgbs[0];
+    const bgRgb = [
+      Math.round(b0.r * 0.56),
+      Math.round(b0.g * 0.57),
+      Math.round(b0.b * 0.55)
+    ];
+    const bgHex = bgRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+
+    // Input box inside chat UI (darkened by 15%)
+    const fieldRgb = [
+      Math.round(bgRgb[0] * 0.85),
+      Math.round(bgRgb[1] * 0.86),
+      Math.round(bgRgb[2] * 0.82)
+    ];
+    const fieldHex = fieldRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+
+    // Incoming bubble: soft sage/beige derived from color 0
+    const inBubbleRgb = [
+      Math.round(b0.r * 0.88),
+      Math.round(b0.g * 0.86),
+      Math.round(b0.b * 0.94)
+    ];
+    const inBubbleHex = inBubbleRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+    const inBubbleLum = luminance(inBubbleHex);
+
+    // Accent and Outgoing bubble
+    const accentHex = rawWpColors[1] || '6ba587';
+    const outBubbleHex = rawWpColors[3] || rawWpColors[1] || '88b884';
+    const badgeHex = rawWpColors[2] || 'd5d88d';
+
     const palette = {
-      bg: theme.isDark ? '121214' : 'ffffff',
-      accent: theme.accentColor || (theme.isDark ? '2ea6ff' : '007aff'),
-      primaryText: theme.isDark ? 'ffffff' : '000000',
-      secondaryText: '8e8e93',
-      inBubbleBg: theme.isDark ? '201f1d' : 'ffffff',
-      outBubbleBg: theme.accentColor || (theme.isDark ? '2ea6ff' : '007aff'),
-      wallpaper: theme.wallpaperColors && theme.wallpaperColors.length ? theme.wallpaperColors.join(' ') : (theme.isDark ? '000000' : 'ffffff'),
-      navBg: theme.isDark ? '1c1c1e' : 'f2f2f7',
+      bg: bgHex,
+      navBg: bgHex,
+      chatListBg: bgHex,
+      inputPanelBg: bgHex,
+      inputFieldBg: fieldHex,
+      inputText: 'ffffff',
+      inBubbleBg: inBubbleHex,
+      inBubbleText: inBubbleLum > 0.4 ? '1a1f16' : 'ffffff',
+      inBubbleSec: inBubbleLum > 0.4 ? '6b6e58' : '8e8e93',
+      outBubbleBg: outBubbleHex,
+      outBubbleText: 'ffffff',
+      outBubbleSec: 'a5ffffff',
+      accent: accentHex,
+      primaryText: 'ffffff',
+      secondaryText: '9ca08b',
+      unreadBadgeBg: badgeHex,
+      unreadBadgeText: '221f17',
+      wallpaper: rawWpColors.join(' '),
+      isDark: theme.isDark
     };
+
     return generateTgiosTheme385(themeName, palette, theme.isDark);
   }
 
-  // From Android .attheme
+  // 2. From Android .attheme file
   const colors = theme.colors;
   const bgHex = colors['windowBackgroundWhite'] || colors['windowBackgroundGray'] || 'ffffffff';
   const themeIsDark = isDark(bgHex);
 
   const rawBg = argbToRgbHex(bgHex);
+  const rawNavBg = argbToRgbHex(colors['actionBarDefault'] || rawBg);
+  const rawPanelBg = argbToRgbHex(colors['chat_messagePanelBackground'] || rawNavBg);
+
+  // Derive input field: if chat_messagePanelBackground is dark, make field slightly darker; if light, slightly lighter/tinted
+  const pRgb = hexToARGB(rawPanelBg);
+  const fieldRgb = themeIsDark
+    ? [Math.max(0, Math.round(pRgb.r * 0.85)), Math.max(0, Math.round(pRgb.g * 0.85)), Math.max(0, Math.round(pRgb.b * 0.85))]
+    : [Math.min(255, Math.round(pRgb.r * 0.94)), Math.min(255, Math.round(pRgb.g * 0.94)), Math.min(255, Math.round(pRgb.b * 0.94))];
+  const rawFieldBg = fieldRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+
   const rawAccent = argbToRgbHex(
     colors['windowBackgroundWhiteBlueText4'] ||
     colors['chats_unreadCounter'] ||
@@ -1681,38 +2123,68 @@ function convertAndroidToIOS(theme) {
     colors['chat_outBubble'] ||
     (themeIsDark ? '2ea6ff' : '007aff')
   );
+
   const rawPrimaryText = argbToRgbHex(
     colors['windowBackgroundWhiteBlackText'] ||
     colors['chats_name'] ||
     (themeIsDark ? 'ffffff' : '000000')
   );
+
   const rawSecondaryText = argbToRgbHex(
     colors['windowBackgroundWhiteGrayText'] ||
     colors['chats_message'] ||
     '8e8e93'
   );
+
   const rawInBubble = argbToRgbHex(
     colors['chat_inBubble'] || (themeIsDark ? '201f1d' : 'ffffff')
   );
+  const inLum = luminance(rawInBubble);
+  const rawInText = argbToRgbHex(
+    colors['chat_inText'] || (inLum > 0.4 ? '000000' : 'ffffff')
+  );
+  const rawInSec = argbToRgbHex(
+    colors['chat_inTimeText'] || (inLum > 0.4 ? '666666' : 'a5ffffff')
+  );
+
   const rawOutBubble = argbToRgbHex(
     colors['chat_outBubble'] || rawAccent
   );
-  const rawNavBg = argbToRgbHex(
-    colors['actionBarDefault'] || rawBg
+  const outLum = luminance(rawOutBubble);
+  const rawOutText = argbToRgbHex(
+    colors['chat_outText'] || (outLum > 0.4 ? '000000' : 'ffffff')
   );
+  const rawOutSec = argbToRgbHex(
+    colors['chat_outTimeText'] || (outLum > 0.4 ? '666666' : 'a5ffffff')
+  );
+
   const rawWallpaper = colors['chat_wallpaper']
     ? argbToRgbHex(colors['chat_wallpaper'])
     : rawBg;
 
+  const rawBadgeBg = argbToRgbHex(colors['chats_unreadCounter'] || rawAccent);
+  const rawBadgeText = argbToRgbHex(colors['chats_unreadCounterText'] || (isDark(rawBadgeBg) ? 'ffffff' : '000000'));
+
   const palette = {
     bg: rawBg,
+    navBg: rawNavBg,
+    chatListBg: rawBg,
+    inputPanelBg: rawPanelBg,
+    inputFieldBg: rawFieldBg,
+    inputText: argbToRgbHex(colors['chat_messagePanelText'] || rawPrimaryText),
+    inBubbleBg: rawInBubble,
+    inBubbleText: rawInText,
+    inBubbleSec: rawInSec,
+    outBubbleBg: rawOutBubble,
+    outBubbleText: rawOutText,
+    outBubbleSec: rawOutSec,
     accent: rawAccent,
     primaryText: rawPrimaryText,
     secondaryText: rawSecondaryText,
-    inBubbleBg: rawInBubble,
-    outBubbleBg: rawOutBubble,
-    navBg: rawNavBg,
-    wallpaper: rawWallpaper
+    unreadBadgeBg: rawBadgeBg,
+    unreadBadgeText: rawBadgeText,
+    wallpaper: rawWallpaper,
+    isDark: themeIsDark
   };
 
   return generateTgiosTheme385(themeName, palette, themeIsDark);
@@ -1824,7 +2296,7 @@ function renderPreview(theme) {
     previewColors = {
       'Action Bar':       colors['actionBarDefault'],
       'Action Bar Title': colors['actionBarDefaultTitle'],
-      'Background':       colors['windowBackgroundWhite'],
+      'Chat List BG':     colors['windowBackgroundWhite'],
       'Text':             colors['windowBackgroundWhiteBlackText'],
       'Accent':           colors['actionBarDefaultIcon'] || colors['windowBackgroundWhiteBlueText4'],
       'Wallpaper':        colors['chat_wallpaper'],
@@ -1895,7 +2367,10 @@ function renderPreview(theme) {
 
   // Determine wallpaper style
   let wallpaperCSS;
-  if (theme.wallpaperColors && theme.wallpaperColors.length > 1) {
+  if (theme.wallpaperBlob) {
+    const wpUrl = URL.createObjectURL(theme.wallpaperBlob);
+    wallpaperCSS = `url('${wpUrl}') center/cover no-repeat`;
+  } else if (theme.wallpaperColors && theme.wallpaperColors.length > 1) {
     const stops = theme.wallpaperColors.map(c => '#' + c).join(', ');
     wallpaperCSS = `linear-gradient(135deg, ${stops})`;
   } else {
@@ -1903,8 +2378,23 @@ function renderPreview(theme) {
     wallpaperCSS = hexToCSS(wpVal.split(' ')[0]);
   }
 
-  const inputTextCSS = isDark(inputPanel) ? '#ccc' : '#999';
-  const inputFieldBg = isDark(inputPanel) ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
+  let inputFieldBg;
+  if (isAndroid && theme.sourceFormat === 'telegram-slug' && theme.wallpaperColors && theme.wallpaperColors.length) {
+    const b0 = hexToARGB(theme.wallpaperColors[0]);
+    const bgRgb = [Math.round(b0.r * 0.56), Math.round(b0.g * 0.57), Math.round(b0.b * 0.55)];
+    const fRgb = [Math.round(bgRgb[0] * 0.85), Math.round(bgRgb[1] * 0.86), Math.round(bgRgb[2] * 0.82)];
+    inputFieldBg = '#' + fRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+  } else if (isAndroid && colors['chat_messagePanelBackground']) {
+    const pRgb = hexToARGB(argbToRgbHex(colors['chat_messagePanelBackground']));
+    const isD = isDark(colors['chat_messagePanelBackground']);
+    const fRgb = isD
+      ? [Math.max(0, Math.round(pRgb.r * 0.85)), Math.max(0, Math.round(pRgb.g * 0.85)), Math.max(0, Math.round(pRgb.b * 0.85))]
+      : [Math.min(255, Math.round(pRgb.r * 0.94)), Math.min(255, Math.round(pRgb.g * 0.94)), Math.min(255, Math.round(pRgb.b * 0.94))];
+    inputFieldBg = '#' + fRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+  } else {
+    inputFieldBg = isDark(inputPanel) ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.06)';
+  }
+  const inputTextCSS = isDark(inputPanel) ? '#ffffff' : '#000000';
 
   const mockupHTML = `
     <div class="chat-mockup">
@@ -2145,6 +2635,10 @@ function setExampleUrl(url) {
 function resetState() {
   parsedTheme = null;
   convertedData = null;
+  convertedWallpaperData = null;
+  if (resultWpCard) resultWpCard.classList.add('hidden');
+  if (downloadWpBtn) downloadWpBtn.classList.add('hidden');
+  if (iosGuideCard) iosGuideCard.classList.add('hidden');
   uploadPlaceholder.classList.remove('hidden');
   fileInfoEl.classList.add('hidden');
   themeBadge.classList.add('hidden');
@@ -2220,7 +2714,7 @@ async function handleFile(file) {
   }
 }
 
-function performConversion() {
+async function performConversion() {
   if (!parsedTheme) return;
 
   try {
@@ -2233,25 +2727,104 @@ function performConversion() {
 
       let baseName = 'theme';
       if (parsedTheme.meta && parsedTheme.meta.title) {
-        baseName = parsedTheme.meta.title.replace(/[^\w\sа-яА-ЯёЁ-]/g, '').trim().replace(/\s+/g, '_');
+        baseName = parsedTheme.meta.title.replace(/[^\w\s\u0430-\u044f\u0410-\u042f\u0451\u0401-]/g, '').trim().replace(/\s+/g, '_');
         if (parsedTheme.meta.slug) baseName += `_${parsedTheme.meta.slug}`;
       } else if (fileNameEl.textContent) {
         baseName = fileNameEl.textContent.replace(/\.attheme$/i, '');
       }
 
       resultFilename = `${baseName}.tgios-theme`;
+      downloadBtnText.textContent = `Download ${resultFilename}`;
+
+      // Extract or generate wallpaper image for iOS
+      let wpBlob = parsedTheme.wallpaperBlob;
+      let wpExt = 'jpg';
+
+      if (wpBlob) {
+        wpExt = wpBlob.type === 'image/png' ? 'png' : 'jpg';
+      } else if (parsedTheme.wallpaperColors && parsedTheme.wallpaperColors.length > 0) {
+        // Render high-res iPhone wallpaper (1170x2532)
+        const canvas = document.createElement('canvas');
+        canvas.width = 1170;
+        canvas.height = 2532;
+        const ctx = canvas.getContext('2d');
+        const colors = parsedTheme.wallpaperColors;
+        if (colors.length === 1) {
+          ctx.fillStyle = '#' + colors[0];
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else {
+          const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+          colors.forEach((c, idx) => {
+            grad.addColorStop(idx / (colors.length - 1), '#' + c);
+          });
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        await new Promise((resolve) => {
+          canvas.toBlob((b) => {
+            wpBlob = b;
+            wpExt = 'jpg';
+            resolve();
+          }, 'image/jpeg', 0.95);
+        });
+      } else if (parsedTheme.colors && (parsedTheme.colors['chat_wallpaper'] || parsedTheme.colors['windowBackgroundWhite'])) {
+        const bgHex = argbToRgbHex(parsedTheme.colors['chat_wallpaper'] || parsedTheme.colors['windowBackgroundWhite']);
+        const canvas = document.createElement('canvas');
+        canvas.width = 1170;
+        canvas.height = 2532;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#' + bgHex;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        await new Promise((resolve) => {
+          canvas.toBlob((b) => {
+            wpBlob = b;
+            wpExt = 'jpg';
+            resolve();
+          }, 'image/jpeg', 0.95);
+        });
+      }
+
+      if (wpBlob) {
+        convertedWallpaperData = {
+          blob: wpBlob,
+          filename: `${baseName}_wallpaper.${wpExt}`
+        };
+        const wpUrl = URL.createObjectURL(wpBlob);
+        resultWpThumb.src = wpUrl;
+        resultWpFilename.textContent = convertedWallpaperData.filename;
+        resultWpBadge.textContent = parsedTheme.wallpaperBlob ? 'Extracted from .attheme' : 'Theme Wallpaper Ready';
+
+        resultWpCard.classList.remove('hidden');
+        downloadWpBtn.classList.remove('hidden');
+        iosGuideCard.classList.remove('hidden');
+      } else {
+        convertedWallpaperData = null;
+        resultWpCard.classList.add('hidden');
+        downloadWpBtn.classList.add('hidden');
+        iosGuideCard.classList.add('hidden');
+      }
+
+      resultStats.textContent = `${keyCount} theme attributes converted into official Telegram iOS 385-line schema!`;
     } else {
+      // iOS to Android
       resultBlob = convertIOSToAndroid(parsedTheme);
       const text = new TextDecoder().decode(resultBlob);
       keyCount = text.split('\n').filter(l => l.includes('=')).length;
       resultFilename = (fileNameEl.textContent || 'theme').replace(/\.tgios-theme$/i, '') + '.attheme';
+      downloadBtnText.textContent = `Download ${resultFilename}`;
+
+      convertedWallpaperData = null;
+      resultWpCard.classList.add('hidden');
+      downloadWpBtn.classList.add('hidden');
+      iosGuideCard.classList.add('hidden');
+
+      resultStats.textContent = `${keyCount} theme attributes converted into Android .attheme format!`;
     }
 
     convertedData = { blob: resultBlob, filename: resultFilename, keyCount };
 
-    resultStats.textContent = `${keyCount} color attributes converted into valid iOS theme format!`;
     resultArea.classList.add('visible');
-    resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch (err) {
     showStatus('Conversion failed: ' + err.message, 'error');
@@ -2268,8 +2841,29 @@ function downloadResult() {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+
+function downloadWallpaper() {
+  if (!convertedWallpaperData) return;
+  const url = URL.createObjectURL(convertedWallpaperData.blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = convertedWallpaperData.filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+downloadWpBtn.addEventListener('click', downloadWallpaper);
+downloadWpBtnSecondary.addEventListener('click', downloadWallpaper);
+resultWpThumbBox.addEventListener('click', () => {
+  if (convertedWallpaperData) {
+    const url = URL.createObjectURL(convertedWallpaperData.blob);
+    window.open(url, '_blank');
+  }
+});
 
 // ============================================================
 //  EVENT LISTENERS & TAB SWITCHING

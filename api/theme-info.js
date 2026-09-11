@@ -54,8 +54,26 @@ export default async function handler(req, res) {
     const colorsMatch = html.match(/data-colors="([0-9a-fA-F,]+)"/);
     const colors = colorsMatch ? colorsMatch[1].split(',') : [];
 
-    // Detect dark theme
-    const isDark = html.includes('theme_dark') || html.toLowerCase().includes('dark') || html.toLowerCase().includes('night');
+    // Detect dark theme from colors luminance
+    function calcLum(c) {
+      c = c.replace(/^#/, '');
+      if (c.length === 8) c = c.substring(2);
+      if (c.length === 6) {
+        const r = parseInt(c.substring(0, 2), 16);
+        const g = parseInt(c.substring(2, 4), 16);
+        const b = parseInt(c.substring(4, 6), 16);
+        return (0.299 * r + 0.587 * g + 0.114 * b) / 255.0;
+      }
+      return 0.5;
+    }
+
+    let isDark = false;
+    if (colors && colors.length > 0) {
+      const avgLum = colors.reduce((sum, c) => sum + calcLum(c), 0) / colors.length;
+      isDark = (avgLum * 0.6) < 0.45 || title.toLowerCase().includes('dark') || title.toLowerCase().includes('night');
+    } else {
+      isDark = title.toLowerCase().includes('dark') || title.toLowerCase().includes('night');
+    }
 
     // Extract description
     const descMatch = html.match(/class="tgme_page_description">([^<]*<strong>.*?<\/strong>[^<]*)/);

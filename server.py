@@ -81,8 +81,20 @@ class ThemeHandler(http.server.SimpleHTTPRequestHandler):
             colors_m = re.search(r'data-colors="([0-9a-fA-F,]+)"', html)
             colors = colors_m.group(1).split(',') if colors_m else []
 
-            # Check if dark or light
-            is_dark = 'theme_dark' in html or any(k in html.lower() for k in ['night', 'dark'])
+            # Check if dark or light based on color luminance
+            def calc_lum(c):
+                c = c.strip('#')
+                if len(c) == 8: c = c[2:]
+                if len(c) == 6:
+                    r, g, b = int(c[0:2], 16), int(c[2:4], 16), int(c[4:6], 16)
+                    return (0.299 * r + 0.587 * g + 0.114 * b) / 255.0
+                return 0.5
+
+            if colors:
+                avg_lum = sum(calc_lum(c) for c in colors) / len(colors)
+                is_dark = (avg_lum * 0.6) < 0.45 or any(k in title.lower() for k in ['night', 'dark', 'black'])
+            else:
+                is_dark = any(k in title.lower() for k in ['night', 'dark', 'black'])
 
             # Description
             desc_m = re.search(r'class="tgme_page_description">([^<]*<strong>.*?</strong>[^<]*)', html, re.DOTALL)
