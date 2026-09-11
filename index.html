@@ -1192,234 +1192,580 @@ inAppNotification:
 }
 
 // ============================================================
-//  BIDIRECTIONAL KEY MAPPING TABLE
-//  Android .attheme ↔ iOS .tgios-theme
+//  OFFICIAL 385-LINE TGIOS-THEME TEMPLATE & GENERATOR
 // ============================================================
 
-const ANDROID_TO_IOS_MAP = {
-  'actionBarDefault':                          'rootController.navigationBar.opaqueBackgroundColor',
-  'actionBarDefaultIcon':                      'rootController.navigationBar.controlColor',
-  'actionBarDefaultTitle':                     'rootController.navigationBar.primaryTextColor',
-  'actionBarDefaultSubtitle':                  'rootController.navigationBar.secondaryTextColor',
-  'actionBarDefaultSelector':                  'rootController.navigationBar.controlColor',
-  'actionBarDefaultSearch':                    'rootController.navigationBar.primaryTextColor',
-  'actionBarDefaultSearchPlaceholder':         'rootController.navigationBar.inputPlaceholderTextColor',
-  'actionBarDefaultSubmenuBackground':         'rootController.navigationBar.opaqueBackgroundColor',
-  'actionBarDefaultSubmenuItem':               'rootController.navigationBar.primaryTextColor',
-  'actionBarActionModeDefault':                'rootController.navigationBar.opaqueBackgroundColor',
-  'actionBarActionModeDefaultIcon':            'rootController.navigationBar.controlColor',
-  'actionBarActionModeDefaultTop':             'rootController.statusBarStyle',
+// Official 385-line generator and conversion logic
+const TGIOS_WORKING_TEMPLATE = `name: Mabel on Black
+basedOn: day
+dark: true
+intro:
+statusBar: black
+primaryText: beb4a3
+accentText: a4997b
+disabledText: 335F5B53
+startButton: a4997b
+dot: 5e5e5e
+passcode:
+  bg:
+    top: 0F0E0D
+    bottom: 0F0E0D
+  button: clear
+root:
+  statusBar: black
+  tabBar:
+    background: 0F0E0D
+    separator: 33a4997b
+    icon: a1a4997b
+    selectedIcon: a4997b
+    text: a1a4997b
+    selectedText: a4997b
+    badgeBackground: beb4a3
+    badgeStroke: 0F0E0D
+    badgeText: 0F0E0D
+  navBar:
+    button: a4997b
+    disabledButton: 33a4997b
+    primaryText: beb4a3
+    secondaryText: 5F5B53
+    control: a4997b
+    accentText: a4997b
+    background: 0F0E0D
+    separator: 33a4997b
+    badgeFill: beb4a3
+    badgeStroke: 0F0E0D
+    badgeText: ffffff
+  searchBar:
+    background: 0F0E0D
+    accent: a4997b
+    inputFill: 33d6d6d6
+    inputText: 000000
+    inputPlaceholderText: a1a4997b
+    inputIcon: 33000000
+    inputClearButton: 7b7b81
+    separator: 33a4997b
+  keyboard: light
+list:
+  blocksBg: 0F0E0D
+  plainBg: 0F0E0D
+  primaryText: beb4a3
+  secondaryText: 5F5B53
+  disabledText: 1ea4997b
+  accent: a4997b
+  highlighted: 1ea4997b
+  destructive: ff3b30
+  placeholderText: c8c8ce
+  itemBlocksBg: 0F0E0D
+  itemHighlightedBg: 1ea4997b
+  blocksSeparator: 33a4997b
+  plainSeparator: 33a4997b
+  disclosureArrow: bab9be
+  sectionHeaderText: 6d6d72
+  freeText: 6d6d72
+  freeTextError: cf3030
+  freeTextSuccess: 26972c
+  freeMonoIcon: 7e7e87
+  switch:
+    frame: e0e0e0
+    handle: ffffff
+    content: 77d572
+    positive: 00c900
+    negative: ff3b30
+  disclosureActions:
+    neutral1:
+      bg: 4892f2
+      fg: ffffff
+    neutral2:
+      bg: f09a37
+      fg: ffffff
+    destructive:
+      bg: ff3824
+      fg: ffffff
+    constructive:
+      bg: 00c900
+      fg: ffffff
+    accent:
+      bg: a4997b
+      fg: ffffff
+    warning:
+      bg: ff9500
+      fg: ffffff
+    inactive:
+      bg: bcbcc3
+      fg: ffffff
+  check:
+    bg: a4997b
+    stroke: c7c7cc
+    fg: ffffff
+  controlSecondary: dedede
+  freeInputField:
+    bg: 0F0E0D
+    stroke: 0F0E0D
+    placeholder: 96979d
+    primary: beb4a3
+    control: a4997b
+  mediaPlaceholder: e4e4e4
+  scrollIndicator: 4c000000
+  pageIndicatorInactive: e3e3e7
+  inputClearButton: cccccc
+chatList:
+  bg: 0F0E0D
+  itemSeparator: 33a4997b
+  itemBg: 1ed6d6d6
+  pinnedItemBg: 0F0E0D
+  itemHighlightedBg: 1ea4997b
+  itemSelectedBg: 1ea4997b
+  title: beb4a3
+  secretTitle: 00b12c
+  dateText: 5F5B53
+  authorName: 5F5B53
+  messageText: 5F5B53
+  messageDraftText: 5F5B53
+  checkmark: a4997b
+  pendingIndicator: 5F5B53
+  failedFill: ff3b30
+  failedFg: ffffff
+  muteIcon: 5F5B53
+  unreadBadgeActiveBg: a4997b
+  unreadBadgeActiveText: 221F17
+  unreadBadgeInactiveBg: b6b6bb
+  unreadBadgeInactiveText: ffffff
+  pinnedBadge: a4997b
+  pinnedSearchBar: e5e5e5
+  regularSearchBar: e9e9e9
+  sectionHeaderBg: 33d6d6d6
+  sectionHeaderText: 8e8e93
+  verifiedIconBg: a4997b
+  verifiedIconFg: ffffff
+  secretIcon: 00b12c
+  pinnedArchiveAvatar:
+    background:
+      top: 1ea4997b
+      bottom: a4997b
+    foreground: ffffff
+  unpinnedArchiveAvatar:
+    background:
+      top: 1e5F5B53
+      bottom: 5F5B53
+    foreground: ffffff
+  onlineDot: 4cc91f
+chat:
+  defaultWallpaper: 0F0E0D
+  message:
+    incoming:
+      bubble:
+        withWp:
+          bg: 201f1d
+          highlightedBg: ccdadade
+          stroke: 201f1d
+        withoutWp:
+          bg: 201f1d
+          highlightedBg: ccdadade
+          stroke: 201f1d
+      primaryText: beb4a3
+      secondaryText: 5F5B53
+      linkText: a4997b
+      linkHighlight: 1ea4997b
+      scam: ff3b30
+      textHighlight: 1ea4997b
+      accentText: a4997b
+      accentControl: a4997b
+      mediaActiveControl: a4997b
+      mediaInactiveControl: cacaca
+      pendingActivity: 99525252
+      fileTitle: a4997b
+      fileDescription: 999999
+      fileDuration: 99525252
+      mediaPlaceholder: f2f2f2
+      polls:
+        radioButton: c8c7cc
+        radioProgress: a4997b
+        highlight: 1ea4997b
+        separator: c8c7cc
+        bar: a4997b
+      actionButtonsBg:
+        withWp: 66a5a5a5
+        withoutWp: ccffffff
+      actionButtonsStroke:
+        withWp: clear
+        withoutWp: a4997b
+      actionButtonsText:
+        withWp: ffffff
+        withoutWp: a4997b
+      textSelection: 4ca4997b
+      textSelectionKnob: a4997b
+    outgoing:
+      bubble:
+        withWp:
+          bg: 181716
+          highlightedBg: ccdadade
+          stroke: 181716
+        withoutWp:
+          bg: 181716
+          highlightedBg: ccdadade
+          stroke: 181716
+      primaryText: ffffff
+      secondaryText: a5ffffff
+      linkText: ffffff
+      linkHighlight: 4cffffff
+      scam: ffffff
+      textHighlight: 4cffffff
+      accentText: ffffff
+      accentControl: ffffff
+      mediaActiveControl: ffffff
+      mediaInactiveControl: a5ffffff
+      pendingActivity: a5ffffff
+      fileTitle: ffffff
+      fileDescription: a5ffffff
+      fileDuration: a5ffffff
+      mediaPlaceholder: 0000f2
+      polls:
+        radioButton: a5ffffff
+        radioProgress: ffffff
+        highlight: 1effffff
+        separator: a5ffffff
+        bar: ffffff
+      actionButtonsBg:
+        withWp: 66a5a5a5
+        withoutWp: ccffffff
+      actionButtonsStroke:
+        withWp: clear
+        withoutWp: a4997b
+      actionButtonsText:
+        withWp: ffffff
+        withoutWp: a4997b
+      textSelection: 33ffffff
+      textSelectionKnob: ffffff
+    freeform:
+      withWp:
+        bg: e5e5ea
+        highlightedBg: dadade
+        stroke: e5e5ea
+      withoutWp:
+        bg: e5e5ea
+        highlightedBg: dadade
+        stroke: e5e5ea
+    infoPrimaryText: 000000
+    infoLinkText: 004bad
+    outgoingCheck: ffffff
+    mediaDateAndStatusBg: 7f000000
+    mediaDateAndStatusText: ffffff
+    shareButtonBg:
+      withWp: 66a5a5a5
+      withoutWp: ccffffff
+    shareButtonStroke:
+      withWp: clear
+      withoutWp: e5e5ea
+    shareButtonFg:
+      withWp: ffffff
+      withoutWp: a4997b
+    mediaOverlayControl:
+      bg: 99000000
+      fg: ffffff
+    selectionControl:
+      bg: a4997b
+      stroke: c7c7cc
+      fg: ffffff
+    deliveryFailed:
+      bg: ff3b30
+      fg: ffffff
+    mediaHighlightOverlay: 99ffffff
+  serviceMessage:
+    components:
+      withDefaultWp:
+        bg: ccffffff
+        primaryText: 8d8e93
+        linkHighlight: 3f748391
+        scam: ff3b30
+        dateFillStatic: ccffffff
+        dateFillFloat: ccffffff
+      withCustomWp:
+        bg: 66a5a5a5
+        primaryText: ffffff
+        linkHighlight: 3f748391
+        scam: ff3b30
+        dateFillStatic: 66a5a5a5
+        dateFillFloat: 44a5a5a5
+    unreadBarBg: ffffff
+    unreadBarStroke: ffffff
+    unreadBarText: 8d8e93
+    dateText:
+      withWp: ffffff
+      withoutWp: 8d8e93
+  inputPanel:
+    panelBg: 0F0E0D
+    panelSeparator: 33a4997b
+    panelControlAccent: a4997b
+    panelControl: 5F5B53
+    panelControlDisabled: 1e5F5B53
+    panelControlDestructive: ff3b30
+    inputBg: 1ed6d6d6
+    inputStroke: 0F0E0D
+    inputPlaceholder: 335F5B53
+    inputText: beb4a3
+    inputControl: a4997b
+    actionControlBg: a4997b
+    actionControlFg: ffffff
+    primaryText: beb4a3
+    secondaryText: 5F5B53
+    mediaRecordDot: a4997b
+    mediaRecordControl:
+      button: a4997b
+      micLevel: 1ea4997b
+      activeIcon: ffffff
+  inputMediaPanel:
+    panelSeparator: bec2c6
+    panelIcon: 858e99
+    panelHighlightedIconBg: 33858e99
+    stickersBg: e8ebf0
+    stickersSectionText: 9099a2
+    stickersSearchBg: d9dbe1
+    stickersSearchPlaceholder: 8e8e93
+    stickersSearchPrimary: 000000
+    stickersSearchControl: 8e8e93
+    gifsBg: ffffff
+  inputButtonPanel:
+    panelBg: dee2e6
+    panelSeparator: bec2c6
+    buttonBg: ffffff
+    buttonStroke: c3c7c9
+    buttonHighlightedBg: a8b3c0
+    buttonHighlightedStroke: c3c7c9
+    buttonText: 000000
+  historyNav:
+    bg: 0F0E0D
+    stroke: 0F0E0D
+    fg: beb4a3
+    badgeBg: a4997b
+    badgeStroke: a4997b
+    badgeText: ffffff
+actionSheet:
+  dim: 66000000
+  bgType: light
+  opaqueItemBg: ffffff
+  itemBg: ddffffff
+  opaqueItemHighlightedBg: e5e5e5
+  itemHighlightedBg: b2e5e5e5
+  opaqueItemSeparator: e5e5e5
+  standardActionText: a4997b
+  destructiveActionText: ff3b30
+  disabledActionText: b3b3b3
+  primaryText: 000000
+  secondaryText: 5e5e5e
+  controlAccent: a4997b
+  inputBg: e9e9e9
+  inputHollowBg: ffffff
+  inputBorder: e4e4e6
+  inputPlaceholder: 818086
+  inputText: 000000
+  inputClearButton: 7b7b81
+  checkContent: ffffff
+contextMenu:
+  dim: 99000000
+  background: c6252525
+  itemSeparator: 26ffffff
+  sectionSeparator: 33000000
+  itemBg: 00000000
+  itemHighlightedBg: 26ffffff
+  primary: ffffff
+  secondary: ccffffff
+  destructive: eb5545
+notification:
+  bg: ffffff
+  primaryText: 000000
+  expanded:
+    bgType: light
+    navBar:
+      background: ffffff
+      primaryText: 000000
+      control: 7e8791
+      separator: b1b1b1`;
 
-  'actionBarTabActiveText':                    'rootController.tabBar.selectedTextColor',
-  'actionBarTabUnactiveText':                  'rootController.tabBar.textColor',
-  'actionBarTabLine':                          'rootController.tabBar.selectedIconColor',
+function generateTgiosTheme385(name, palette, isDark) {
+  if (isDark === undefined) isDark = true;
 
-  'windowBackgroundWhite':                     'list.plainBackgroundColor',
-  'windowBackgroundGray':                      'list.blocksBackgroundColor',
-  'windowBackgroundWhiteBlackText':            'list.itemPrimaryTextColor',
-  'windowBackgroundWhiteGrayText':             'list.itemSecondaryTextColor',
-  'windowBackgroundWhiteGrayText2':            'list.itemSecondaryTextColor',
-  'windowBackgroundWhiteGrayText3':            'list.itemSecondaryTextColor',
-  'windowBackgroundWhiteGrayText4':            'list.itemPlaceholderTextColor',
-  'windowBackgroundWhiteGrayText5':            'list.itemSecondaryTextColor',
-  'windowBackgroundWhiteGrayText6':            'list.freeTextColor',
-  'windowBackgroundWhiteLinkText':             'list.itemAccentColor',
-  'windowBackgroundWhiteBlueHeader':           'list.sectionHeaderTextColor',
-  'windowBackgroundWhiteBlueText':             'list.itemAccentColor',
-  'windowBackgroundWhiteBlueText4':            'list.itemAccentColor',
-  'windowBackgroundWhiteGreenText':            'list.itemCheckColor',
-  'windowBackgroundWhiteGreenText2':           'list.itemCheckColor',
-  'windowBackgroundWhiteRedText':              'list.itemDestructiveColor',
-  'windowBackgroundWhiteRedText5':             'list.itemDestructiveColor',
-  'windowBackgroundWhiteValueText':            'list.itemAccentColor',
-  'windowBackgroundWhiteInputField':           'list.itemInputField.strokeColor',
-  'windowBackgroundWhiteInputFieldActivated':  'list.itemInputField.color',
-
-  'chats_name':                                'chatList.titleColor',
-  'chats_message':                             'chatList.messageTextColor',
-  'chats_date':                                'chatList.dateTextColor',
-  'chats_unreadCounter':                       'chatList.unreadBadgeActiveBackgroundColor',
-  'chats_unreadCounterMuted':                  'chatList.unreadBadgeInactiveBackgroundColor',
-  'chats_unreadCounterText':                   'chatList.unreadBadgeActiveTextColor',
-  'chats_actionMessage':                       'chatList.messageHighlightedTextColor',
-  'chats_draft':                               'chatList.messageDraftTextColor',
-  'chats_sentCheck':                           'chatList.checkmarkColor',
-  'chats_sentReadCheck':                       'chatList.checkmarkColor',
-  'chats_pinnedOverlay':                       'chatList.pinnedItemBackgroundColor',
-  'chats_muteIcon':                            'chatList.muteIconColor',
-  'chats_secretName':                          'chatList.secretTitleColor',
-  'chats_attachMessage':                       'chatList.messageHighlightedTextColor',
-  'chats_nameArchived':                        'chatList.titleColor',
-
-  'chat_wallpaper':                            'chat.defaultWallpaper',
-  'chat_messagePanelBackground':               'chat.inputPanel.panelBackgroundColor',
-  'chat_messagePanelText':                     'chat.inputPanel.primaryTextColor',
-  'chat_messagePanelHint':                     'chat.inputPanel.inputPlaceholderColor',
-  'chat_messagePanelShadow':                   'chat.inputPanel.panelSeparatorColor',
-  'chat_messagePanelIcons':                    'chat.inputPanel.panelControlColor',
-  'chat_messagePanelSend':                     'chat.inputPanel.panelControlAccentColor',
-  'chat_messagePanelVoicePressed':             'chat.inputPanel.actionControlFillColor',
-
-  'chat_serviceBackground':                    'chat.serviceMessage.fill.withCustomWallpaper',
-  'chat_serviceText':                          'chat.serviceMessage.primaryTextColor',
-
-  'chat_inBubble':                             'chat.message.incoming.bubble.withWallpaper.fill',
-  'chat_inBubbleSelected':                     'chat.message.incoming.bubble.withWallpaper.highlightedFill',
-  'chat_inText':                               'chat.message.incoming.primaryTextColor',
-  'chat_inTimeText':                           'chat.message.incoming.secondaryTextColor',
-  'chat_messageLinkIn':                        'chat.message.incoming.linkTextColor',
-  'chat_inReplyLine':                          'chat.message.incoming.accentTextColor',
-  'chat_inReplyNameText':                      'chat.message.incoming.accentTextColor',
-  'chat_inReplyMessageText':                   'chat.message.incoming.secondaryTextColor',
-  'chat_inSiteNameText':                       'chat.message.incoming.accentTextColor',
-  'chat_inForwardedNameText':                  'chat.message.incoming.accentTextColor',
-  'chat_inViaBotNameText':                     'chat.message.incoming.accentTextColor',
-  'chat_inPreviewInstantText':                 'chat.message.incoming.accentTextColor',
-  'chat_inViews':                              'chat.message.incoming.secondaryTextColor',
-  'chat_inContactNameText':                    'chat.message.incoming.accentTextColor',
-  'chat_inContactPhoneText':                   'chat.message.incoming.secondaryTextColor',
-  'chat_inAudioTitleText':                     'chat.message.incoming.accentTextColor',
-  'chat_inAudioDurationText':                  'chat.message.incoming.secondaryTextColor',
-  'chat_inFileNameText':                       'chat.message.incoming.accentTextColor',
-  'chat_inFileInfoText':                       'chat.message.incoming.secondaryTextColor',
-  'chat_inVenueInfoText':                      'chat.message.incoming.secondaryTextColor',
-  'chat_inLoader':                             'chat.message.incoming.accentTextColor',
-  'chat_inMediaIcon':                          'chat.message.incoming.mediaOverlayControlColors.foregroundColor',
-  'chat_inAudioProgress':                      'chat.message.incoming.accentControlColor',
-  'chat_inAudioSeekbar':                       'chat.message.incoming.mediaInactiveControlColor',
-  'chat_inAudioSeekbarFill':                   'chat.message.incoming.mediaActiveControlColor',
-  'chat_inVoiceSeekbar':                       'chat.message.incoming.mediaInactiveControlColor',
-  'chat_inVoiceSeekbarFill':                   'chat.message.incoming.mediaActiveControlColor',
-  'chat_inMenu':                               'chat.message.incoming.secondaryTextColor',
-  'chat_inBubbleShadow':                       'chat.message.incoming.bubble.withWallpaper.stroke',
-
-  'chat_outBubble':                            'chat.message.outgoing.bubble.withWallpaper.fill',
-  'chat_outBubbleSelected':                    'chat.message.outgoing.bubble.withWallpaper.highlightedFill',
-  'chat_outBubbleGradient1':                   'chat.message.outgoing.bubble.withWallpaper.gradientFill',
-  'chat_outText':                              'chat.message.outgoing.primaryTextColor',
-  'chat_outTimeText':                          'chat.message.outgoing.secondaryTextColor',
-  'chat_messageLinkOut':                       'chat.message.outgoing.linkTextColor',
-  'chat_outReplyLine':                         'chat.message.outgoing.accentTextColor',
-  'chat_outReplyNameText':                     'chat.message.outgoing.accentTextColor',
-  'chat_outReplyMessageText':                  'chat.message.outgoing.secondaryTextColor',
-  'chat_outSiteNameText':                      'chat.message.outgoing.accentTextColor',
-  'chat_outForwardedNameText':                 'chat.message.outgoing.accentTextColor',
-  'chat_outViaBotNameText':                    'chat.message.outgoing.accentTextColor',
-  'chat_outPreviewInstantText':                'chat.message.outgoing.accentTextColor',
-  'chat_outViews':                             'chat.message.outgoing.secondaryTextColor',
-  'chat_outSentCheck':                         'chat.message.outgoing.secondaryTextColor',
-  'chat_outSentCheckRead':                     'chat.message.outgoing.secondaryTextColor',
-  'chat_outSentClock':                         'chat.message.outgoing.pendingActivityColor',
-  'chat_outContactNameText':                   'chat.message.outgoing.accentTextColor',
-  'chat_outContactPhoneText':                  'chat.message.outgoing.secondaryTextColor',
-  'chat_outAudioTitleText':                    'chat.message.outgoing.accentTextColor',
-  'chat_outAudioDurationText':                 'chat.message.outgoing.secondaryTextColor',
-  'chat_outFileNameText':                      'chat.message.outgoing.accentTextColor',
-  'chat_outFileInfoText':                      'chat.message.outgoing.secondaryTextColor',
-  'chat_outVenueInfoText':                     'chat.message.outgoing.secondaryTextColor',
-  'chat_outLoader':                            'chat.message.outgoing.accentTextColor',
-  'chat_outMediaIcon':                         'chat.message.outgoing.mediaOverlayControlColors.foregroundColor',
-  'chat_outAudioProgress':                     'chat.message.outgoing.accentControlColor',
-  'chat_outAudioSeekbar':                      'chat.message.outgoing.mediaInactiveControlColor',
-  'chat_outAudioSeekbarFill':                  'chat.message.outgoing.mediaActiveControlColor',
-  'chat_outVoiceSeekbar':                      'chat.message.outgoing.mediaInactiveControlColor',
-  'chat_outVoiceSeekbarFill':                  'chat.message.outgoing.mediaActiveControlColor',
-  'chat_outMenu':                              'chat.message.outgoing.secondaryTextColor',
-  'chat_outBubbleShadow':                      'chat.message.outgoing.bubble.withWallpaper.stroke',
-
-  'chat_mediaTimeText':                        'chat.message.mediaDateAndStatusTextColor',
-  'chat_mediaTimeBackground':                  'chat.message.mediaDateAndStatusFillColor',
-  'chat_emojiPanelBackground':                 'chat.inputPanel.panelBackgroundColor',
-  'chat_emojiPanelIcon':                       'chat.inputPanel.panelControlColor',
-  'chat_emojiPanelIconSelected':               'chat.inputPanel.panelControlAccentColor',
-  'chat_emojiPanelShadowLine':                 'chat.inputPanel.panelSeparatorColor',
-  'chat_topPanelBackground':                   'chat.inputPanel.panelBackgroundColor',
-  'chat_topPanelTitle':                        'chat.inputPanel.panelControlAccentColor',
-  'chat_topPanelMessage':                      'chat.inputPanel.secondaryTextColor',
-  'chat_topPanelLine':                         'chat.inputPanel.panelControlAccentColor',
-  'chat_topPanelClose':                        'chat.inputPanel.panelControlColor',
-  'chat_unreadMessagesStartBackground':        'chat.serviceMessage.unreadBarFillColor',
-  'chat_unreadMessagesStartText':              'chat.serviceMessage.unreadBarStrokeColor',
-
-  'dialogBackground':                          'actionSheet.opaqueItemBackgroundColor',
-  'dialogTextBlack':                           'actionSheet.primaryTextColor',
-  'dialogTextGray':                            'actionSheet.secondaryTextColor',
-  'dialogTextBlue':                            'actionSheet.controlAccentColor',
-  'dialogTextRed':                             'actionSheet.destructiveActionTextColor',
-
-  'switchTrack':                               'list.itemSwitchColors.frameColor',
-  'switchTrackChecked':                        'list.itemSwitchColors.positiveColor',
-  'switchThumb':                               'list.itemSwitchColors.handleColor',
-  'switchThumbChecked':                        'list.itemSwitchColors.handleColor',
-
-  'checkboxSquareBackground':                  'list.itemCheckColors.fillColor',
-  'checkboxSquareCheck':                       'list.itemCheckColors.foregroundColor',
-  'checkboxSquareUnchecked':                   'list.itemCheckColors.strokeColor',
-
-  'avatar_text':                               'chatList.titleColor',
-  'avatar_backgroundBlue':                     'chatList.unreadBadgeActiveBackgroundColor',
-  'avatar_backgroundRed':                      'chatList.unreadBadgeActiveBackgroundColor',
-
-  'profile_title':                             'rootController.navigationBar.primaryTextColor',
-  'profile_status':                            'rootController.navigationBar.accentTextColor',
-
-  'chat_botKeyboardButtonBackground':          'chat.inputPanel.panelBackgroundColor',
-  'chat_botKeyboardButtonText':                'chat.inputPanel.panelControlAccentColor',
-  'inappPlayerBackground':                     'inAppNotification.fill',
-  'inappPlayerTitle':                          'inAppNotification.primaryTextColor',
-};
-
-const IOS_TO_ANDROID_MAP = {};
-for (const [aKey, iKey] of Object.entries(ANDROID_TO_IOS_MAP)) {
-  if (!(iKey in IOS_TO_ANDROID_MAP)) {
-    IOS_TO_ANDROID_MAP[iKey] = aKey;
+  function c6(hex, fallback) {
+    if (!hex) return fallback;
+    hex = hex.replace(/^#/, '').trim();
+    if (hex.length === 8) hex = hex.substring(2);
+    return hex.padEnd(6, '0').substring(0, 6);
   }
-}
 
-// ============================================================
-//  CONVERSION LOGIC
-// ============================================================
+  const bg = c6(palette.bg, isDark ? '0f0e0d' : 'ffffff');
+  const accent = c6(palette.accent, isDark ? '2ea6ff' : '007aff');
+  const primaryText = c6(palette.primaryText, isDark ? 'ffffff' : '000000');
+  const secondaryText = c6(palette.secondaryText, '8e8e93');
+  const inBubble = c6(palette.inBubbleBg, isDark ? '201f1d' : 'ffffff');
+  const outBubble = c6(palette.outBubbleBg, accent);
+  const navBg = c6(palette.navBg, bg);
+  const wallpaper = palette.wallpaper || bg;
 
-function convertAndroidToIOS(theme) {
-  if (theme.sourceFormat === 'telegram-slug') {
-    return generateTgiosFromSlug(theme);
-  }
+  const basedOn = isDark ? 'night' : 'day';
+  const darkVal = isDark ? 'true' : 'false';
+  const statusBar = 'black';
 
-  const iosColors = {};
-  const androidColors = theme.colors;
+  const templateLines = TGIOS_WORKING_TEMPLATE.split('\n');
+  const result = [];
 
-  for (const [aKey, iKey] of Object.entries(ANDROID_TO_IOS_MAP)) {
-    if (aKey in androidColors) {
-      let hex = androidColors[aKey];
-      iosColors[iKey] = argbToRgbHex(hex);
+  for (let i = 0; i < templateLines.length; i++) {
+    const line = templateLines[i];
+    const trimmed = line.trim();
+    const indent = line.length - line.trimStart().length;
+    const spaces = ' '.repeat(indent);
+
+    if (line.startsWith('name:')) {
+      result.push(`name: ${name || 'Custom Theme'}`);
+    } else if (line.startsWith('basedOn:')) {
+      result.push(`basedOn: ${basedOn}`);
+    } else if (line.startsWith('dark:')) {
+      result.push(`dark: ${darkVal}`);
+    } else if (line.startsWith('statusBar:')) {
+      result.push(`${spaces}statusBar: ${statusBar}`);
+    } else if (trimmed.startsWith('primaryText:') && indent <= 2) {
+      result.push(`${spaces}primaryText: ${primaryText}`);
+    } else if (trimmed.startsWith('accentText:') && indent <= 2) {
+      result.push(`${spaces}accentText: ${accent}`);
+    } else if (trimmed.startsWith('disabledText:') && indent <= 2) {
+      result.push(`${spaces}disabledText: 33${secondaryText}`);
+    } else if (trimmed.startsWith('startButton:') && indent <= 2) {
+      result.push(`${spaces}startButton: ${accent}`);
+    } else if (trimmed.startsWith('defaultWallpaper:')) {
+      result.push(`${spaces}defaultWallpaper: ${wallpaper}`);
+    } else {
+      let l = line;
+      l = l.replace(/0F0E0D|0f0e0d/g, bg);
+      l = l.replace(/a4997b|A4997B/g, accent);
+      l = l.replace(/beb4a3|BEB4A3/g, primaryText);
+      l = l.replace(/5F5B53|5f5b53/g, secondaryText);
+      l = l.replace(/201f1d|201F1D/g, inBubble);
+      l = l.replace(/181716/g, outBubble);
+      result.push(l);
     }
   }
 
-  if (androidColors['chat_wallpaper']) {
-    iosColors['chat.defaultWallpaper'] = argbToRgbHex(androidColors['chat_wallpaper']);
-  }
-
-  const inFill = iosColors['chat.message.incoming.bubble.withWallpaper.fill'];
-  if (inFill) {
-    iosColors['chat.message.incoming.bubble.withoutWallpaper.fill'] = inFill;
-    iosColors['chat.message.incoming.bubble.withoutWallpaper.highlightedFill'] =
-      iosColors['chat.message.incoming.bubble.withWallpaper.highlightedFill'] || inFill;
-  }
-  const outFill = iosColors['chat.message.outgoing.bubble.withWallpaper.fill'];
-  if (outFill) {
-    iosColors['chat.message.outgoing.bubble.withoutWallpaper.fill'] = outFill;
-    iosColors['chat.message.outgoing.bubble.withoutWallpaper.highlightedFill'] =
-      iosColors['chat.message.outgoing.bubble.withWallpaper.highlightedFill'] || outFill;
-  }
-
-  const bgColor = androidColors['windowBackgroundWhite'] || androidColors['actionBarDefault'] || 'ffffffff';
-  const themeIsDark = isDark(bgColor);
-  iosColors['intro.statusBarStyle'] = themeIsDark ? 'white' : 'black';
-  iosColors['rootController.statusBarStyle'] = themeIsDark ? 'white' : 'black';
-  iosColors['rootController.keyboardColor'] = themeIsDark ? 'dark' : 'light';
-
-  return generateTgiosTheme(iosColors);
+  return result.join('\n');
 }
+
+function convertAndroidToIOS(theme) {
+  let themeName = 'Custom Theme';
+  if (theme.meta && theme.meta.title) {
+    themeName = theme.meta.title;
+  } else if (fileNameEl.textContent) {
+    themeName = fileNameEl.textContent.replace(/\.attheme$/i, '');
+  }
+
+  if (theme.sourceFormat === 'telegram-slug') {
+    const palette = {
+      bg: theme.isDark ? '121214' : 'ffffff',
+      accent: theme.accentColor || (theme.isDark ? '2ea6ff' : '007aff'),
+      primaryText: theme.isDark ? 'ffffff' : '000000',
+      secondaryText: '8e8e93',
+      inBubbleBg: theme.isDark ? '201f1d' : 'ffffff',
+      outBubbleBg: theme.accentColor || (theme.isDark ? '2ea6ff' : '007aff'),
+      wallpaper: theme.wallpaperColors && theme.wallpaperColors.length ? theme.wallpaperColors.join(' ') : (theme.isDark ? '000000' : 'ffffff'),
+      navBg: theme.isDark ? '1c1c1e' : 'f2f2f7',
+    };
+    return generateTgiosTheme385(themeName, palette, theme.isDark);
+  }
+
+  // From Android .attheme
+  const colors = theme.colors;
+  const bgHex = colors['windowBackgroundWhite'] || colors['windowBackgroundGray'] || 'ffffffff';
+  const themeIsDark = isDark(bgHex);
+
+  const rawBg = argbToRgbHex(bgHex);
+  const rawAccent = argbToRgbHex(
+    colors['windowBackgroundWhiteBlueText4'] ||
+    colors['chats_unreadCounter'] ||
+    colors['actionBarDefaultIcon'] ||
+    colors['chat_outBubble'] ||
+    (themeIsDark ? '2ea6ff' : '007aff')
+  );
+  const rawPrimaryText = argbToRgbHex(
+    colors['windowBackgroundWhiteBlackText'] ||
+    colors['chats_name'] ||
+    (themeIsDark ? 'ffffff' : '000000')
+  );
+  const rawSecondaryText = argbToRgbHex(
+    colors['windowBackgroundWhiteGrayText'] ||
+    colors['chats_message'] ||
+    '8e8e93'
+  );
+  const rawInBubble = argbToRgbHex(
+    colors['chat_inBubble'] || (themeIsDark ? '201f1d' : 'ffffff')
+  );
+  const rawOutBubble = argbToRgbHex(
+    colors['chat_outBubble'] || rawAccent
+  );
+  const rawNavBg = argbToRgbHex(
+    colors['actionBarDefault'] || rawBg
+  );
+  const rawWallpaper = colors['chat_wallpaper']
+    ? argbToRgbHex(colors['chat_wallpaper'])
+    : rawBg;
+
+  const palette = {
+    bg: rawBg,
+    accent: rawAccent,
+    primaryText: rawPrimaryText,
+    secondaryText: rawSecondaryText,
+    inBubbleBg: rawInBubble,
+    outBubbleBg: rawOutBubble,
+    navBg: rawNavBg,
+    wallpaper: rawWallpaper
+  };
+
+  return generateTgiosTheme385(themeName, palette, themeIsDark);
+}
+
+const IOS_TO_ANDROID_MAP = {
+  'root.navBar.background': 'actionBarDefault',
+  'root.navBar.button': 'actionBarDefaultIcon',
+  'root.navBar.control': 'actionBarDefaultIcon',
+  'root.navBar.primaryText': 'actionBarDefaultTitle',
+  'root.navBar.secondaryText': 'actionBarDefaultSubtitle',
+  'root.tabBar.background': 'actionBarDefaultSubmenuBackground',
+  'root.tabBar.selectedIcon': 'actionBarTabLine',
+  'root.tabBar.selectedText': 'actionBarTabActiveText',
+  'root.tabBar.text': 'actionBarTabUnactiveText',
+  'list.plainBg': 'windowBackgroundWhite',
+  'list.blocksBg': 'windowBackgroundGray',
+  'list.primaryText': 'windowBackgroundWhiteBlackText',
+  'list.secondaryText': 'windowBackgroundWhiteGrayText',
+  'list.accent': 'windowBackgroundWhiteBlueText4',
+  'list.destructive': 'windowBackgroundWhiteRedText',
+  'chatList.bg': 'windowBackgroundWhite',
+  'chatList.title': 'chats_name',
+  'chatList.messageText': 'chats_message',
+  'chatList.dateText': 'chats_date',
+  'chatList.checkmark': 'chats_sentCheck',
+  'chatList.unreadBadgeActiveBg': 'chats_unreadCounter',
+  'chatList.unreadBadgeActiveText': 'chats_unreadCounterText',
+  'chatList.pinnedItemBg': 'chats_pinnedOverlay',
+  'chatList.muteIcon': 'chats_muteIcon',
+  'chat.defaultWallpaper': 'chat_wallpaper',
+  'chat.inputPanel.panelBg': 'chat_messagePanelBackground',
+  'chat.inputPanel.inputText': 'chat_messagePanelText',
+  'chat.inputPanel.inputPlaceholder': 'chat_messagePanelHint',
+  'chat.inputPanel.panelSeparator': 'chat_messagePanelShadow',
+  'chat.inputPanel.panelControl': 'chat_messagePanelIcons',
+  'chat.inputPanel.panelControlAccent': 'chat_messagePanelSend',
+  'chat.inputPanel.actionControlBg': 'chat_messagePanelSend',
+  'chat.serviceMessage.unreadBarBg': 'chat_serviceBackground',
+  'chat.serviceMessage.unreadBarText': 'chat_serviceText',
+  'chat.message.incoming.bubble.withWp.bg': 'chat_inBubble',
+  'chat.message.incoming.bubble.withWp.stroke': 'chat_inBubbleShadow',
+  'chat.message.incoming.primaryText': 'chat_inText',
+  'chat.message.incoming.secondaryText': 'chat_inTimeText',
+  'chat.message.incoming.linkText': 'chat_messageLinkIn',
+  'chat.message.incoming.accentText': 'chat_inReplyNameText',
+  'chat.message.outgoing.bubble.withWp.bg': 'chat_outBubble',
+  'chat.message.outgoing.bubble.withWp.stroke': 'chat_outBubbleShadow',
+  'chat.message.outgoing.primaryText': 'chat_outText',
+  'chat.message.outgoing.secondaryText': 'chat_outTimeText',
+  'chat.message.outgoing.linkText': 'chat_messageLinkOut',
+  'chat.message.outgoing.accentText': 'chat_outReplyNameText',
+};
 
 function convertIOSToAndroid(theme) {
   const androidColors = {};
@@ -1446,35 +1792,6 @@ function convertIOSToAndroid(theme) {
   return generateAttheme(androidColors, null);
 }
 
-function generateTgiosTheme(flatColors) {
-  const tree = {};
-  for (const [dotKey, value] of Object.entries(flatColors)) {
-    const parts = dotKey.split('.');
-    let node = tree;
-    for (let i = 0; i < parts.length - 1; i++) {
-      if (!(parts[i] in node)) node[parts[i]] = {};
-      node = node[parts[i]];
-    }
-    node[parts[parts.length - 1]] = value;
-  }
-
-  function renderNode(obj, indent) {
-    let result = '';
-    for (const [key, value] of Object.entries(obj)) {
-      const prefix = '  '.repeat(indent);
-      if (typeof value === 'string') {
-        result += `${prefix}${key}: ${value}\n`;
-      } else {
-        result += `${prefix}${key}:\n`;
-        result += renderNode(value, indent + 1);
-      }
-    }
-    return result;
-  }
-
-  return renderNode(tree, 0);
-}
-
 function generateAttheme(hexColors, wallpaperBlob) {
   const lines = [];
   for (const [key, hex] of Object.entries(hexColors)) {
@@ -1486,6 +1803,7 @@ function generateAttheme(hexColors, wallpaperBlob) {
   const textBytes = new TextEncoder().encode(textContent);
   return new Blob([textBytes], { type: 'application/octet-stream' });
 }
+
 
 // ============================================================
 //  PREVIEW RENDERING
@@ -1522,21 +1840,19 @@ function renderPreview(theme) {
     };
   } else {
     previewColors = {
-      'Nav Bar':          colors['rootController.navigationBar.opaqueBackgroundColor'],
-      'Nav Title':        colors['rootController.navigationBar.primaryTextColor'],
-      'List BG':          colors['list.plainBackgroundColor'],
-      'Primary Text':     colors['list.itemPrimaryTextColor'],
-      'Accent':           colors['list.itemAccentColor'],
+      'Nav Bar':          colors['root.navBar.background'] || colors['rootController.navigationBar.opaqueBackgroundColor'],
+      'Nav Title':        colors['root.navBar.primaryText'] || colors['rootController.navigationBar.primaryTextColor'],
+      'List BG':          colors['list.plainBg'] || colors['list.blocksBg'] || colors['list.plainBackgroundColor'],
+      'Primary Text':     colors['list.primaryText'] || colors['list.itemPrimaryTextColor'],
+      'Accent':           colors['root.navBar.button'] || colors['list.accent'] || colors['root.tabBar.selectedIcon'],
       'Wallpaper':        colors['chat.defaultWallpaper'],
-      'In Bubble':        colors['chat.message.incoming.bubble.withWallpaper.fill'] ||
-                          colors['chat.message.incoming.bubble.withoutWallpaper.fill'],
-      'In Text':          colors['chat.message.incoming.primaryTextColor'],
-      'Out Bubble':       colors['chat.message.outgoing.bubble.withWallpaper.fill'] ||
-                          colors['chat.message.outgoing.bubble.withoutWallpaper.fill'],
-      'Out Text':         colors['chat.message.outgoing.primaryTextColor'],
-      'Input Panel':      colors['chat.inputPanel.panelBackgroundColor'],
-      'Input Accent':     colors['chat.inputPanel.panelControlAccentColor'],
-      'Unread Badge':     colors['chatList.unreadBadgeActiveBackgroundColor'],
+      'In Bubble':        colors['chat.message.incoming.bubble.withWp.bg'] || colors['chat.message.incoming.bubble.withoutWp.bg'] || colors['chat.message.incoming.bubble.withWallpaper.fill'],
+      'In Text':          colors['chat.message.incoming.primaryText'] || colors['chat.message.incoming.primaryTextColor'],
+      'Out Bubble':       colors['chat.message.outgoing.bubble.withWp.bg'] || colors['chat.message.outgoing.bubble.withoutWp.bg'] || colors['chat.message.outgoing.bubble.withWallpaper.fill'],
+      'Out Text':         colors['chat.message.outgoing.primaryText'] || colors['chat.message.outgoing.primaryTextColor'],
+      'Input Panel':      colors['chat.inputPanel.panelBg'] || colors['chat.inputPanel.panelBackgroundColor'],
+      'Input Accent':     colors['chat.inputPanel.panelControlAccent'] || colors['chat.inputPanel.panelControlAccentColor'],
+      'Unread Badge':     colors['chatList.unreadBadgeActiveBg'] || colors['chatList.unreadBadgeActiveBackgroundColor'],
     };
   }
 

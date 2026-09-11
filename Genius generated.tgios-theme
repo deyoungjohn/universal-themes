@@ -1,0 +1,104 @@
+rootController:
+  navigationBar:
+    opaqueBackgroundColor: 2a2828
+    controlColor: ffff64
+    primaryTextColor: 282828
+    secondaryTextColor: 2a2828
+    inputPlaceholderTextColor: 1e1e0c
+  statusBarStyle: 2a2828
+  keyboardColor: dark
+list:
+  plainBackgroundColor: 282828
+  blocksBackgroundColor: 282828
+  itemPrimaryTextColor: e3e3e3
+  itemSecondaryTextColor: 646428
+  itemPlaceholderTextColor: b1b1b1
+  freeTextColor: 9d9ea5
+  itemAccentColor: ffff64
+  sectionHeaderTextColor: ffff64
+  itemCheckColor: ffff64
+  itemDestructiveColor: ffff64
+  itemInputField:
+    strokeColor: 646464
+    color: ffff64
+  itemSwitchColors:
+    frameColor: 3c3c3c
+    positiveColor: 3c3c3c
+    handleColor: ffff64
+  itemCheckColors:
+    fillColor: 716c6c
+    foregroundColor: ffff64
+    strokeColor: 0a0a0a
+chatList:
+  titleColor: ffff64
+  messageTextColor: e3e3e3
+  dateTextColor: cfcfcf
+  unreadBadgeActiveBackgroundColor: 464646
+  unreadBadgeInactiveBackgroundColor: 666462
+  unreadBadgeActiveTextColor: 0a0806
+  messageHighlightedTextColor: ffff64
+  messageDraftTextColor: d0cfcf
+  checkmarkColor: ffff64
+  pinnedItemBackgroundColor: 28000000
+  muteIconColor: ffff64
+  secretTitleColor: 9d9d9d
+chat:
+  inputPanel:
+    panelBackgroundColor: ffff64
+    primaryTextColor: b1b1b1
+    inputPlaceholderColor: 646464
+    panelSeparatorColor: e3e3e3
+    panelControlColor: ffff64
+    panelControlAccentColor: 000000
+    actionControlFillColor: ffff64
+    secondaryTextColor: aeb1b1
+  serviceMessage:
+    fill:
+      withCustomWallpaper: 282828
+    primaryTextColor: b1b1b1
+    unreadBarFillColor: ffff64
+    unreadBarStrokeColor: 282828
+  message:
+    incoming:
+      bubble:
+        withWallpaper:
+          fill: 1e1e1e
+          highlightedFill: 1e1e1e
+          stroke: a5a5a5
+        withoutWallpaper:
+          fill: 1e1e1e
+          highlightedFill: 1e1e1e
+      secondaryTextColor: ffff64
+      linkTextColor: ffff64
+      accentTextColor: ffff64
+      accentControlColor: 282828
+      mediaInactiveControlColor: 646464
+      mediaActiveControlColor: ffff64
+    outgoing:
+      bubble:
+        withWallpaper:
+          fill: ffff64
+          highlightedFill: 7f8000
+          stroke: 646428
+        withoutWallpaper:
+          fill: ffff64
+          highlightedFill: 7f8000
+      secondaryTextColor: 0a0806
+      linkTextColor: 000000
+      accentTextColor: 282828
+      pendingActivityColor: 282828
+      accentControlColor: ffff64
+      mediaInactiveControlColor: 8d8d37
+      mediaActiveControlColor: 141414
+    mediaDateAndStatusTextColor: e3e3e3
+actionSheet:
+  opaqueItemBackgroundColor: 323232
+  primaryTextColor: afb1b1
+  secondaryTextColor: cfcfcf
+  controlAccentColor: ffff64
+  destructiveActionTextColor: ffff64
+inAppNotification:
+  fill: 2a2828
+  primaryTextColor: b1b1b1
+intro:
+  statusBarStyle: white
