@@ -185,12 +185,16 @@
     inset: 0;
     opacity: 0;
     cursor: pointer;
+    z-index: 1;
   }
   .upload-area.has-file {
     border-style: solid;
     border-color: var(--success);
     background: rgba(34, 197, 94, 0.05);
     padding: 24px;
+  }
+  .upload-area.has-file input[type="file"] {
+    pointer-events: none;
   }
 
   /* URL Input Section */
@@ -280,6 +284,8 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    position: relative;
+    z-index: 10;
   }
   .file-info .filename {
     font-weight: 600;
@@ -306,14 +312,19 @@
     background: rgba(239, 68, 68, 0.15);
     color: var(--error);
     border: 1px solid rgba(239, 68, 68, 0.3);
-    padding: 4px 14px;
+    padding: 6px 16px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.8rem;
-    margin-top: 4px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-top: 6px;
+    position: relative;
+    z-index: 20;
+    transition: all 0.2s;
   }
   .file-info .remove-btn:hover {
     background: rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
   }
 
   /* Preview Panel */
@@ -374,6 +385,85 @@
   .color-swatch .swatch-hex {
     font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
     font-size: 0.72rem;
+  }
+
+  /* Opacity Control */
+  .opacity-control-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .opacity-control-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+  }
+  .opacity-control-title {
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .opacity-val-badge {
+    background: rgba(14, 165, 233, 0.15);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: 'SF Mono', Monaco, monospace;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+  }
+  .opacity-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .opacity-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    outline: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .opacity-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+    transition: transform 0.1s;
+  }
+  .opacity-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+  .opacity-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+  }
+  .opacity-hint {
+    font-size: 0.72rem;
+    color: var(--text-muted);
   }
 
   /* Chat Mockup */
@@ -1023,6 +1113,8 @@ let conversionDirection = 'android-to-ios'; // or 'ios-to-android'
 let currentInputTab = 'upload'; // 'upload' or 'url'
 let parsedTheme = null;    // { colors: {key: hexARGB}, wallpaperBlob: Blob|null, sourceFormat: string, meta: {} }
 let convertedData = null;  // { blob: Blob, filename: string, keyCount: number }
+let customBubbleOpacity = null; // null = use extracted theme opacity; or number 10-100
+let extractedBubbleOpacity = 100; // Original opacity from uploaded theme
 
 // --- DOM refs ---
 const sourceLabel = document.getElementById('sourceLabel');
@@ -1147,6 +1239,28 @@ function argbToRgbHex(hex) {
     return hex;
   }
   return hex;
+}
+
+// Extracts alpha channel from hex (ARGB or RRGGBB) as a percentage integer 0-100
+function hexToAlphaPercent(hex) {
+  if (!hex) return 100;
+  hex = hex.replace(/^#/, '').trim();
+  if (hex.length === 8) {
+    const a = parseInt(hex.substring(0, 2), 16);
+    return Math.round((a / 255) * 100);
+  }
+  return 100;
+}
+
+// Applies an opacity percentage (0-100) to a hex color, returning an 8-char ARGB hex
+function applyAlphaToHex(hex, opacityPercent) {
+  if (!hex) return 'ffffffff';
+  hex = hex.replace(/^#/, '').trim();
+  if (hex.length === 8) hex = hex.substring(2);
+  hex = hex.padEnd(6, '0').substring(0, 6);
+  const clamped = Math.max(0, Math.min(100, opacityPercent));
+  const alphaByte = Math.round((clamped / 100) * 255).toString(16).padStart(2, '0');
+  return alphaByte + hex;
 }
 
 // Convert RGB (0-255) to HSV
@@ -1922,6 +2036,16 @@ notification:
 function generateTgiosTheme385(name, palette, isDark) {
   if (isDark === undefined) isDark = true;
 
+  function cColor(hex, fallback) {
+    if (!hex) return fallback;
+    hex = hex.replace(/^#/, '').trim();
+    if (hex.length === 8) {
+      // If alpha is ff, keep 6 chars for brevity; if translucent, preserve all 8 chars!
+      return hex.startsWith('ff') ? hex.substring(2) : hex;
+    }
+    return hex.padEnd(6, '0').substring(0, 6);
+  }
+
   function c6(hex, fallback) {
     if (!hex) return fallback;
     hex = hex.replace(/^#/, '').trim();
@@ -1936,11 +2060,11 @@ function generateTgiosTheme385(name, palette, isDark) {
   const inputField = c6(palette.inputFieldBg, isDark ? '686c54' : 'e5e5ea');
   const inputText = c6(palette.inputText, isDark ? 'ffffff' : '000000');
 
-  const inBubble = c6(palette.inBubbleBg, isDark ? 'c0beaf' : 'ffffff');
+  const inBubble = cColor(palette.inBubbleBg, isDark ? 'c0beaf' : 'ffffff');
   const inBubbleText = c6(palette.inBubbleText, isDark ? '1a1f16' : '000000');
   const inBubbleSec = c6(palette.inBubbleSec, isDark ? '6b6e58' : '8e8e93');
 
-  const outBubble = c6(palette.outBubbleBg, isDark ? '88b884' : '6ba587');
+  const outBubble = cColor(palette.outBubbleBg, isDark ? '88b884' : '6ba587');
   const outBubbleText = c6(palette.outBubbleText, 'ffffff');
   const outBubbleSec = c6(palette.outBubbleSec, 'a5ffffff');
 
@@ -2171,6 +2295,15 @@ function convertAndroidToIOS(theme) {
     const inBubbleSec = inBubbleText === '000000' ? '5f614d' : '8e8e93';
     const outBubbleSec = outBubbleText === '000000' ? '3d5a3c' : 'a5ffffff';
 
+    let finalInBubble = inBubbleHex;
+    let finalOutBubble = outBubbleHex;
+
+    const targetOpacity = customBubbleOpacity !== null ? customBubbleOpacity : extractedBubbleOpacity;
+    if (targetOpacity !== 100) {
+      finalInBubble = applyAlphaToHex(inBubbleHex, targetOpacity);
+      finalOutBubble = applyAlphaToHex(outBubbleHex, targetOpacity);
+    }
+
     const palette = {
       bg: bgHex,
       navBg: bgHex,
@@ -2178,10 +2311,10 @@ function convertAndroidToIOS(theme) {
       inputPanelBg: bgHex,
       inputFieldBg: fieldHex,
       inputText: inputText,
-      inBubbleBg: inBubbleHex,
+      inBubbleBg: finalInBubble,
       inBubbleText: inBubbleText,
       inBubbleSec: inBubbleSec,
-      outBubbleBg: outBubbleHex,
+      outBubbleBg: finalOutBubble,
       outBubbleText: outBubbleText,
       outBubbleSec: outBubbleSec,
       accent: accentHex,
@@ -2257,6 +2390,19 @@ function convertAndroidToIOS(theme) {
   const rawBadgeBg = argbToRgbHex(colors['chats_unreadCounter'] || rawAccent);
   const rawBadgeText = argbToRgbHex(colors['chats_unreadCounterText'] || (isDark(rawBadgeBg) ? 'ffffff' : '000000'));
 
+  let finalInBubble = rawInBubble;
+  let finalOutBubble = rawOutBubble;
+
+  // Extract opacity from the theme's bubble colors if not already extracted
+  const themeBubbleOpacity = Math.min(hexToAlphaPercent(colors['chat_inBubble']), hexToAlphaPercent(colors['chat_outBubble']));
+  const effectiveExtracted = (typeof extractedBubbleOpacity === 'number') ? extractedBubbleOpacity : themeBubbleOpacity;
+  const targetOpacity = (typeof customBubbleOpacity === 'number') ? customBubbleOpacity : effectiveExtracted;
+
+  if (targetOpacity !== 100) {
+    finalInBubble = applyAlphaToHex(rawInBubble, targetOpacity);
+    finalOutBubble = applyAlphaToHex(rawOutBubble, targetOpacity);
+  }
+
   const palette = {
     bg: rawBg,
     navBg: rawNavBg,
@@ -2264,10 +2410,10 @@ function convertAndroidToIOS(theme) {
     inputPanelBg: rawPanelBg,
     inputFieldBg: rawFieldBg,
     inputText: argbToRgbHex(colors['chat_messagePanelText'] || rawPrimaryText),
-    inBubbleBg: rawInBubble,
+    inBubbleBg: finalInBubble,
     inBubbleText: rawInText,
     inBubbleSec: rawInSec,
-    outBubbleBg: rawOutBubble,
+    outBubbleBg: finalOutBubble,
     outBubbleText: rawOutText,
     outBubbleSec: rawOutSec,
     accent: rawAccent,
@@ -2350,6 +2496,22 @@ function convertIOSToAndroid(theme) {
     const wpVal = iosColors['chat.defaultWallpaper'].split(' ')[0];
     if (wpVal.length === 6 || wpVal.length === 8) {
       androidColors['chat_wallpaper'] = rgbToArgbHex(wpVal);
+    }
+  }
+
+  // Extract opacity from the iOS theme's bubble colors if not already extracted
+  const inBubbleColor = iosColors['chat.message.incoming.bubble.withWp.bg'] || iosColors['chat.message.incoming.bubble.withoutWp.bg'] || '';
+  const outBubbleColor = iosColors['chat.message.outgoing.bubble.withWp.bg'] || iosColors['chat.message.outgoing.bubble.withoutWp.bg'] || '';
+  const themeBubbleOpacity = Math.min(hexToAlphaPercent(inBubbleColor), hexToAlphaPercent(outBubbleColor));
+  const effectiveExtracted = (typeof extractedBubbleOpacity === 'number') ? extractedBubbleOpacity : themeBubbleOpacity;
+  const targetOpacity = (typeof customBubbleOpacity === 'number') ? customBubbleOpacity : effectiveExtracted;
+
+  if (targetOpacity !== 100) {
+    if (androidColors['chat_inBubble']) {
+      androidColors['chat_inBubble'] = applyAlphaToHex(androidColors['chat_inBubble'], targetOpacity);
+    }
+    if (androidColors['chat_outBubble']) {
+      androidColors['chat_outBubble'] = applyAlphaToHex(androidColors['chat_outBubble'], targetOpacity);
     }
   }
 
@@ -2448,9 +2610,26 @@ function renderPreview(theme) {
 
   const actionBarCSS = hexToCSS(actionBar);
   const actionTitleCSS = hexToCSS(actionTitle);
-  const inBubbleCSS = hexToCSS(inBubble);
+  // Determine bubble opacity:
+  // If user has actively touched the slider, use customBubbleOpacity.
+  // Otherwise, extract the opacity from the original theme bubble colors.
+  const rawInBubbleHex = previewColors['In Bubble'] || 'ffffffff';
+  const rawOutBubbleHex = previewColors['Out Bubble'] || 'ffffffff';
+  const originalInOpacity = hexToAlphaPercent(rawInBubbleHex);
+  const originalOutOpacity = hexToAlphaPercent(rawOutBubbleHex);
+  // Extracted opacity is the minimum of sender/receiver bubble opacity if translucent
+  const detectedOpacity = Math.min(originalInOpacity, originalOutOpacity);
+  extractedBubbleOpacity = detectedOpacity;
+
+  const currentOpacity = customBubbleOpacity !== null ? customBubbleOpacity : detectedOpacity;
+
+  // Apply current opacity to bubble CSS
+  const inRGB = hexToARGB(rawInBubbleHex);
+  const outRGB = hexToARGB(rawOutBubbleHex);
+  const inBubbleCSS = `rgba(${inRGB.r}, ${inRGB.g}, ${inRGB.b}, ${(currentOpacity / 100).toFixed(2)})`;
+  const outBubbleCSS = `rgba(${outRGB.r}, ${outRGB.g}, ${outRGB.b}, ${(currentOpacity / 100).toFixed(2)})`;
+
   const inTextCSS = hexToCSS(inText);
-  const outBubbleCSS = hexToCSS(outBubble);
   const outTextCSS = hexToCSS(outText);
   const inputPanelCSS = hexToCSS(inputPanel);
   const accentCSS = hexToCSS(accent);
@@ -2485,6 +2664,23 @@ function renderPreview(theme) {
   }
   const inputTextCSS = '#' + getContrastColor(argbToRgbHex(inputPanel));
 
+  const isOriginal = (currentOpacity === detectedOpacity);
+  const badgeLabel = `${currentOpacity}%` + (isOriginal ? ' (Original)' : '');
+
+  const opacitySliderHTML = `
+    <div class="opacity-control-card">
+      <div class="opacity-control-header">
+        <span class="opacity-control-title">
+          <span>✨</span> Chat Bubble Translucency / Opacity
+        </span>
+        <span class="opacity-val-badge" id="bubbleOpacityBadge">${badgeLabel}</span>
+      </div>
+      <div class="opacity-slider-row">
+        <input type="range" class="opacity-slider" id="bubbleOpacitySlider" min="10" max="100" value="${currentOpacity}" step="1">
+      </div>
+      <div class="opacity-hint">Slide to adjust transparency of sender and receiver chat bubbles in real-time.</div>
+    </div>`;
+
   const mockupHTML = `
     <div class="chat-mockup">
       <div class="mock-header" style="background:${actionBarCSS}; color:${actionTitleCSS}">
@@ -2498,15 +2694,15 @@ function renderPreview(theme) {
         <div style="text-align:center; margin-bottom:4px;">
           <span style="background:${serviceBgCSS}; color:${serviceTextCSS}; padding:3px 10px; border-radius:10px; font-size:0.72rem;">Today</span>
         </div>
-        <div class="mock-bubble incoming" style="background:${inBubbleCSS}; color:${inTextCSS}">
+        <div class="mock-bubble incoming" id="mockBubbleIn1" style="background:${inBubbleCSS}; color:${inTextCSS}">
           Hey! How's it going? 😊
           <div class="bubble-time" style="color:${inTextCSS}">10:30</div>
         </div>
-        <div class="mock-bubble outgoing" style="background:${outBubbleCSS}; color:${outTextCSS}">
+        <div class="mock-bubble outgoing" id="mockBubbleOut" style="background:${outBubbleCSS}; color:${outTextCSS}">
           Pretty good! Check out this new theme 🎨
           <div class="bubble-time" style="color:${outTextCSS}">10:31 <span class="bubble-check" style="color:${accentCSS}">✓✓</span></div>
         </div>
-        <div class="mock-bubble incoming" style="background:${inBubbleCSS}; color:${inTextCSS}">
+        <div class="mock-bubble incoming" id="mockBubbleIn2" style="background:${inBubbleCSS}; color:${inTextCSS}">
           Looks great! Love the colors 💜
           <div class="bubble-time" style="color:${inTextCSS}">10:32</div>
         </div>
@@ -2518,7 +2714,29 @@ function renderPreview(theme) {
       </div>
     </div>`;
 
-  previewContent.innerHTML = swatchesHTML + mockupHTML;
+  previewContent.innerHTML = swatchesHTML + opacitySliderHTML + mockupHTML;
+
+  // Bind slider event listener
+  const sliderEl = document.getElementById('bubbleOpacitySlider');
+  const badgeEl = document.getElementById('bubbleOpacityBadge');
+  if (sliderEl) {
+    sliderEl.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      customBubbleOpacity = val;
+      const isOrig = (val === extractedBubbleOpacity);
+      if (badgeEl) badgeEl.textContent = `${val}%` + (isOrig ? ' (Original)' : '');
+
+      // Real-time update of mock bubble elements
+      const newInCSS = `rgba(${inRGB.r}, ${inRGB.g}, ${inRGB.b}, ${(val / 100).toFixed(2)})`;
+      const newOutCSS = `rgba(${outRGB.r}, ${outRGB.g}, ${outRGB.b}, ${(val / 100).toFixed(2)})`;
+      const bIn1 = document.getElementById('mockBubbleIn1');
+      const bIn2 = document.getElementById('mockBubbleIn2');
+      const bOut = document.getElementById('mockBubbleOut');
+      if (bIn1) bIn1.style.background = newInCSS;
+      if (bIn2) bIn2.style.background = newInCSS;
+      if (bOut) bOut.style.background = newOutCSS;
+    });
+  }
 }
 
 function escapeHtml(str) {
@@ -2739,6 +2957,8 @@ function resetState() {
   wallpaperPreview.classList.add('hidden');
   previewThemeTitle.textContent = '';
   previewContent.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">Upload a theme file or enter a theme URL to see a preview of its colors and chat appearance.</p>';
+  customBubbleOpacity = null;
+  extractedBubbleOpacity = 100;
   fileInput.value = '';
 }
 
@@ -3038,6 +3258,9 @@ convertBtn.addEventListener('click', performConversion);
 downloadBtn.addEventListener('click', downloadResult);
 
 uploadArea.addEventListener('click', (e) => {
+  if (e.target === removeBtn || removeBtn.contains(e.target)) {
+    return;
+  }
   if (parsedTheme) {
     e.preventDefault();
   }
