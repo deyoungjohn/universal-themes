@@ -90,9 +90,27 @@ class ThemeHandler(http.server.SimpleHTTPRequestHandler):
                     return (0.299 * r + 0.587 * g + 0.114 * b) / 255.0
                 return 0.5
 
+            # Derive background luminance the same way the converter does:
+            # scale primary wallpaper color by ~0.565/0.570/0.545
+            def calc_relative_lum(c):
+                c = c.strip('#')
+                if len(c) == 8: c = c[2:]
+                if len(c) == 6:
+                    r, g, b = int(c[0:2], 16)/255, int(c[2:4], 16)/255, int(c[4:6], 16)/255
+                    def lin(v): return v/12.92 if v <= 0.04045 else ((v+0.055)/1.055)**2.4
+                    return 0.2126*lin(r) + 0.7152*lin(g) + 0.0722*lin(b)
+                return 0.5
+
             if colors:
-                avg_lum = sum(calc_lum(c) for c in colors) / len(colors)
-                is_dark = (avg_lum * 0.6) < 0.45 or any(k in title.lower() for k in ['night', 'dark', 'black'])
+                # Compute background luminance from primary wallpaper color
+                c0 = colors[0].strip('#')
+                if len(c0) >= 6:
+                    r0, g0, b0 = int(c0[0:2], 16), int(c0[2:4], 16), int(c0[4:6], 16)
+                    bg_hex = '%02x%02x%02x' % (round(r0*0.565), round(g0*0.570), round(b0*0.545))
+                    bg_lum = calc_relative_lum(bg_hex)
+                    is_dark = bg_lum < 0.179 or any(k in title.lower() for k in ['night', 'dark', 'black'])
+                else:
+                    is_dark = any(k in title.lower() for k in ['night', 'dark', 'black'])
             else:
                 is_dark = any(k in title.lower() for k in ['night', 'dark', 'black'])
 

@@ -67,12 +67,39 @@ export default async function handler(req, res) {
       return 0.5;
     }
 
+    // WCAG relative luminance
+    function calcRelativeLum(hex) {
+      let c = hex.replace(/^#/, '');
+      if (c.length === 8) c = c.substring(2);
+      if (c.length === 6) {
+        const sR = parseInt(c.substring(0, 2), 16) / 255;
+        const sG = parseInt(c.substring(2, 4), 16) / 255;
+        const sB = parseInt(c.substring(4, 6), 16) / 255;
+        const lin = v => v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        return 0.2126 * lin(sR) + 0.7152 * lin(sG) + 0.0722 * lin(sB);
+      }
+      return 0.5;
+    }
+
     let isDark = false;
+    const titleLower = title.toLowerCase();
     if (colors && colors.length > 0) {
-      const avgLum = colors.reduce((sum, c) => sum + calcLum(c), 0) / colors.length;
-      isDark = (avgLum * 0.6) < 0.45 || title.toLowerCase().includes('dark') || title.toLowerCase().includes('night');
+      // Derive bg luminance from primary wallpaper color (same as converter)
+      const c0 = colors[0].replace(/^#/, '');
+      if (c0.length >= 6) {
+        const r0 = parseInt(c0.substring(0, 2), 16);
+        const g0 = parseInt(c0.substring(2, 4), 16);
+        const b0 = parseInt(c0.substring(4, 6), 16);
+        const bgHex = [
+          Math.round(r0 * 0.565), Math.round(g0 * 0.570), Math.round(b0 * 0.545)
+        ].map(v => v.toString(16).padStart(2, '0')).join('');
+        const bgLum = calcRelativeLum(bgHex);
+        isDark = bgLum < 0.179 || titleLower.includes('dark') || titleLower.includes('night');
+      } else {
+        isDark = titleLower.includes('dark') || titleLower.includes('night');
+      }
     } else {
-      isDark = title.toLowerCase().includes('dark') || title.toLowerCase().includes('night');
+      isDark = titleLower.includes('dark') || titleLower.includes('night');
     }
 
     // Extract description

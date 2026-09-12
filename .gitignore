@@ -26,3 +26,7 @@ appThemesManager.ts
 # OS files
 .DS_Store
 Thumbs.db
+
+/tgios-theme (study purpose)/
+*.tgios-theme
+*.attheme
