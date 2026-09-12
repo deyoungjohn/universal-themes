@@ -107,7 +107,13 @@
     border: 1px solid var(--border);
     text-align: center;
     box-sizing: border-box;
+    cursor: pointer;
+    user-select: none;
     transition: all 0.2s;
+  }
+  .direction-toggle .format-label:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
   }
   .direction-toggle .format-label.active-source {
     border-color: var(--accent);
@@ -1004,14 +1010,16 @@
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: #fff;
     border: none;
-    padding: 14px 48px;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    padding: 16px 52px;
+    border-radius: 50px;
+    font-size: 1.15rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0.5;
     pointer-events: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.01em;
   }
   .convert-btn.ready {
     opacity: 1;
@@ -1019,7 +1027,11 @@
   }
   .convert-btn.ready:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(14, 165, 233, 0.3);
+    box-shadow: 0 10px 32px rgba(14, 165, 233, 0.4);
+  }
+  .convert-btn.ready:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
   }
 
   /* Result Area */
@@ -1064,8 +1076,8 @@
     background: linear-gradient(135deg, #10b981, #059669);
     color: #fff;
     border: none;
-    padding: 13px 28px;
-    border-radius: 9px;
+    padding: 13px 30px;
+    border-radius: 50px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -1082,8 +1094,8 @@
     background: linear-gradient(135deg, #0ea5e9, #6366f1);
     color: #fff;
     border: none;
-    padding: 13px 28px;
-    border-radius: 9px;
+    padding: 13px 30px;
+    border-radius: 50px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -1100,8 +1112,8 @@
     background: rgba(14, 165, 233, 0.15);
     border: 1px solid var(--accent);
     color: #38bdf8;
-    padding: 8px 18px;
-    border-radius: 7px;
+    padding: 8px 20px;
+    border-radius: 50px;
     font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
@@ -1348,7 +1360,8 @@
     .convert-btn {
       width: 100%;
       max-width: 100%;
-      padding: 14px 24px;
+      padding: 16px 24px;
+      border-radius: 50px;
     }
     .color-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -3894,13 +3907,19 @@ async function handleFile(file) {
   resetState();
 
   const fileName = file.name.toLowerCase();
-  if (conversionDirection === 'android-to-ios' && !fileName.endsWith('.attheme')) {
-    showStatus('Please upload an .attheme file (Android theme). Switch direction for .tgios-theme files.', 'error');
+  const isAtthemeFile = fileName.endsWith('.attheme');
+  const isTgiosFile = fileName.endsWith('.tgios-theme');
+
+  if (!isAtthemeFile && !isTgiosFile) {
+    showStatus('Please upload a valid .attheme (Android) or .tgios-theme (iOS) file.', 'error');
     return;
   }
-  if (conversionDirection === 'ios-to-android' && !fileName.endsWith('.tgios-theme')) {
-    showStatus('Please upload a .tgios-theme file (iOS theme). Switch direction for .attheme files.', 'error');
-    return;
+
+  // Auto-detect and sync conversion direction if file doesn't match current direction
+  if (isTgiosFile && conversionDirection !== 'ios-to-android') {
+    setDirection('ios-to-android', true);
+  } else if (isAtthemeFile && conversionDirection !== 'android-to-ios') {
+    setDirection('android-to-ios', true);
   }
 
   try {
@@ -4034,7 +4053,7 @@ async function performConversion() {
     } else {
       // iOS to Android
       resultBlob = convertIOSToAndroid(parsedTheme);
-      const text = new TextDecoder().decode(resultBlob);
+      const text = await resultBlob.text();
       keyCount = text.split('\n').filter(l => l.includes('=')).length;
       resultFilename = (fileNameEl.textContent || 'theme').replace(/\.tgios-theme$/i, '') + '.attheme';
       downloadBtnText.textContent = `Download ${resultFilename}`;
@@ -4122,10 +4141,11 @@ urlFetchBtn.addEventListener('click', () => {
   fetchThemeFromUrl(urlInput.value);
 });
 
-// Direction swap
-swapBtn.addEventListener('click', () => {
-  if (conversionDirection === 'android-to-ios') {
-    conversionDirection = 'ios-to-android';
+function setDirection(dir, preserveTheme = false) {
+  if (dir === conversionDirection) return;
+  conversionDirection = dir;
+
+  if (conversionDirection === 'ios-to-android') {
     sourceLabel.innerHTML = '.tgios-theme<br><small style="color:var(--text-muted)">iOS</small>';
     targetLabel.innerHTML = '.attheme<br><small style="color:var(--text-muted)">Android</small>';
     acceptHint.textContent = 'Accepts .tgios-theme files';
@@ -4139,7 +4159,21 @@ swapBtn.addEventListener('click', () => {
     fileInput.accept = '.attheme';
     urlInput.placeholder = 'https://t.me/addtheme/rAMg7bX2JlPQadda';
   }
-  resetState();
+
+  if (!preserveTheme) {
+    resetState();
+  }
+}
+
+// Direction swap
+swapBtn.addEventListener('click', () => {
+  setDirection(conversionDirection === 'android-to-ios' ? 'ios-to-android' : 'android-to-ios');
+});
+sourceLabel.addEventListener('click', () => {
+  setDirection(conversionDirection === 'android-to-ios' ? 'ios-to-android' : 'android-to-ios');
+});
+targetLabel.addEventListener('click', () => {
+  setDirection(conversionDirection === 'android-to-ios' ? 'ios-to-android' : 'android-to-ios');
 });
 
 // File input
