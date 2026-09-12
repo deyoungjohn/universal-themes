@@ -1,4 +1,4 @@
-# TeleShift (Telegram Theme Converter)
+# Telemorph (Telegram Theme Converter)
 
 Convert Telegram themes between **Android** (`.attheme` / `t.me/addtheme/...`) and **iOS** (`.tgios-theme`).
 

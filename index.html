@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Telegram Theme Converter — .attheme ↔ .tgios-theme</title>
+<title>Telemorph — Telegram Theme Converter (.attheme ↔ .tgios-theme)</title>
+<link rel="icon" type="image/png" sizes="64x64" href="icons8-telegram-logo-64.png">
+<link rel="shortcut icon" type="image/png" href="icons8-telegram-logo-64.png">
 <style>
   :root {
     --bg: #0f0f0f;
@@ -349,30 +351,83 @@
     font-weight: 600;
   }
 
-  /* Color Swatches */
+  /* Color Swatches & Interactive Color Picker */
+  .color-palette-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .color-palette-header .palette-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .color-palette-header .palette-hint {
+    font-size: 0.73rem;
+    color: var(--text-muted);
+  }
   .color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
     gap: 8px;
   }
   .color-swatch {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 8px;
+    padding: 7px 9px;
     background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 8px;
     font-size: 0.78rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s, border-color 0.15s, transform 0.12s;
+  }
+  .color-swatch:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(14, 165, 233, 0.4);
+    transform: translateY(-1px);
   }
   .color-swatch .swatch-circle {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-radius: 6px;
     flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .color-swatch:hover .swatch-circle {
+    transform: scale(1.08);
+    box-shadow: 0 0 8px rgba(14, 165, 233, 0.5);
+  }
+  .color-swatch .swatch-picker-input {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    margin: 0;
   }
   .color-swatch .swatch-info {
     overflow: hidden;
+    flex: 1;
+    min-width: 0;
   }
   .color-swatch .swatch-label {
     color: var(--text-muted);
@@ -381,10 +436,22 @@
     text-overflow: ellipsis;
     display: block;
     font-size: 0.72rem;
+    font-weight: 500;
   }
   .color-swatch .swatch-hex {
     font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
     font-size: 0.72rem;
+    color: var(--text);
+  }
+  .color-swatch .swatch-edit-icon {
+    font-size: 0.7rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.15s;
+    margin-left: auto;
+  }
+  .color-swatch:hover .swatch-edit-icon {
+    opacity: 0.8;
   }
 
   /* Opacity Control */
@@ -922,8 +989,8 @@
 
 <div class="container">
   <header>
-    <h1>✈️ Telegram Theme Converter</h1>
-    <p>Convert between Android (.attheme / links) and iOS (.tgios-theme) theme files</p>
+    <h1>✈️ Telemorph</h1>
+    <p>Telegram Theme Converter: Android (.attheme / links) ↔ iOS (.tgios-theme)</p>
   </header>
 
   <!-- Direction Toggle -->
@@ -1097,13 +1164,13 @@
   </div>
 
   <footer>
-    <p>Theme conversion runs locally in your browser. Compatible with Telegram on iOS, Android, and Desktop.</p>
+    <p>Telemorph &bull; Theme conversion runs locally in your browser. Compatible with Telegram on iOS, Android, and Desktop.</p>
   </footer>
 </div>
 
 <script>
 // ============================================================
-//  TELEGRAM THEME CONVERTER
+//  TELEMORPH - TELEGRAM THEME CONVERTER
 //  Bidirectional: .attheme (Android) ↔ .tgios-theme (iOS)
 //  Supports: File uploads & URL / t.me/addtheme links
 // ============================================================
@@ -1115,6 +1182,8 @@ let parsedTheme = null;    // { colors: {key: hexARGB}, wallpaperBlob: Blob|null
 let convertedData = null;  // { blob: Blob, filename: string, keyCount: number }
 let customBubbleOpacity = null; // null = use extracted theme opacity; or number 10-100
 let extractedBubbleOpacity = 100; // Original opacity from uploaded theme
+let activeInRGB = { r: 255, g: 255, b: 255 };
+let activeOutRGB = { r: 238, g: 255, b: 222 };
 
 // --- DOM refs ---
 const sourceLabel = document.getElementById('sourceLabel');
@@ -2268,10 +2337,10 @@ function convertAndroidToIOS(theme) {
       Math.round(b0.g * 0.570),
       Math.round(b0.b * 0.545)
     ];
-    const bgHex = bgRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+    let bgHex = bgRgb.map(v => v.toString(16).padStart(2, '0')).join('');
 
     // Input box: subtly tinted toward white (12% mix)
-    const fieldHex = mixColors(bgHex, 'ffffff', 0.12);
+    let fieldHex = mixColors(bgHex, 'ffffff', 0.12);
 
     // Incoming bubble: soft sage/beige derived from color 0
     const inBubbleRgb = [
@@ -2279,18 +2348,44 @@ function convertAndroidToIOS(theme) {
       Math.round(b0.g * 0.86),
       Math.round(b0.b * 0.94)
     ];
-    const inBubbleHex = inBubbleRgb.map(v => v.toString(16).padStart(2, '0')).join('');
+    let inBubbleHex = inBubbleRgb.map(v => v.toString(16).padStart(2, '0')).join('');
 
     // Accent and Outgoing bubble
-    const accentHex = rawWpColors[1] || '6ba587';
-    const outBubbleHex = rawWpColors[3] || rawWpColors[1] || '88b884';
-    const badgeHex = rawWpColors[2] || 'd5d88d';
+    let accentHex = rawWpColors[1] || '6ba587';
+    let outBubbleHex = rawWpColors[3] || rawWpColors[1] || '88b884';
+    let badgeHex = rawWpColors[2] || 'd5d88d';
+
+    let navBg = bgHex;
+    let inputPanelBg = bgHex;
+
+    // Apply any customized colors chosen via color picker
+    if (theme.colors) {
+      if (theme.colors['windowBackgroundWhite']) bgHex = argbToRgbHex(theme.colors['windowBackgroundWhite']);
+      if (theme.colors['actionBarDefault']) navBg = argbToRgbHex(theme.colors['actionBarDefault']);
+      if (theme.colors['chat_messagePanelBackground']) {
+        inputPanelBg = argbToRgbHex(theme.colors['chat_messagePanelBackground']);
+        const isD = isDark(inputPanelBg);
+        fieldHex = isD ? mixColors(inputPanelBg, '000000', 0.15) : mixColors(inputPanelBg, 'ffffff', 0.12);
+      }
+      if (theme.colors['chat_inBubble']) inBubbleHex = argbToRgbHex(theme.colors['chat_inBubble']);
+      if (theme.colors['chat_outBubble']) outBubbleHex = argbToRgbHex(theme.colors['chat_outBubble']);
+      if (theme.colors['actionBarDefaultIcon']) accentHex = argbToRgbHex(theme.colors['actionBarDefaultIcon']);
+      if (theme.colors['chats_unreadCounter']) badgeHex = argbToRgbHex(theme.colors['chats_unreadCounter']);
+    }
 
     // Contrast-aware text colors
-    const primaryText = getContrastColor(bgHex);
-    const inBubbleText = getContrastColor(inBubbleHex);
-    const outBubbleText = getContrastColor(outBubbleHex);
-    const inputText = getContrastColor(fieldHex);
+    const primaryText = (theme.colors && theme.colors['windowBackgroundWhiteBlackText'])
+      ? argbToRgbHex(theme.colors['windowBackgroundWhiteBlackText'])
+      : getContrastColor(bgHex);
+    const inBubbleText = (theme.colors && theme.colors['chat_inText'])
+      ? argbToRgbHex(theme.colors['chat_inText'])
+      : getContrastColor(inBubbleHex);
+    const outBubbleText = (theme.colors && theme.colors['chat_outText'])
+      ? argbToRgbHex(theme.colors['chat_outText'])
+      : getContrastColor(outBubbleHex);
+    const inputText = (theme.colors && theme.colors['chat_messagePanelText'])
+      ? argbToRgbHex(theme.colors['chat_messagePanelText'])
+      : getContrastColor(fieldHex);
     const secondaryText = primaryText === '000000' ? '424534' : '9ca08b';
     const inBubbleSec = inBubbleText === '000000' ? '5f614d' : '8e8e93';
     const outBubbleSec = outBubbleText === '000000' ? '3d5a3c' : 'a5ffffff';
@@ -2306,9 +2401,9 @@ function convertAndroidToIOS(theme) {
 
     const palette = {
       bg: bgHex,
-      navBg: bgHex,
+      navBg: navBg,
       chatListBg: bgHex,
-      inputPanelBg: bgHex,
+      inputPanelBg: inputPanelBg,
       inputFieldBg: fieldHex,
       inputText: inputText,
       inBubbleBg: finalInBubble,
@@ -2532,6 +2627,175 @@ function generateAttheme(hexColors, wallpaperBlob) {
 
 
 // ============================================================
+//  COLOR PICKER MAPPINGS & HELPERS
+// ============================================================
+
+const ANDROID_COLOR_KEYS = {
+  'Action Bar':       ['actionBarDefault'],
+  'Action Bar Title': ['actionBarDefaultTitle'],
+  'Chat List BG':     ['windowBackgroundWhite', 'windowBackgroundGray', 'dialogBackground'],
+  'Text':             ['windowBackgroundWhiteBlackText'],
+  'Accent':           ['actionBarDefaultIcon', 'windowBackgroundWhiteBlueText4'],
+  'Wallpaper':        ['chat_wallpaper'],
+  'In Bubble':        ['chat_inBubble', 'chat_inBubbleSelected'],
+  'In Text':          ['chat_inText', 'chat_messageTextIn'],
+  'Out Bubble':       ['chat_outBubble', 'chat_outBubbleSelected'],
+  'Out Text':         ['chat_outText', 'chat_messageTextOut'],
+  'Input Panel':      ['chat_messagePanelBackground'],
+  'Service BG':       ['chat_serviceBackground'],
+  'Unread Badge':     ['chats_unreadCounter'],
+  'Chat List Name':   ['chats_name'],
+  'Chat List Msg':    ['chats_message', 'windowBackgroundWhiteGrayText'],
+};
+
+const IOS_COLOR_KEYS = {
+  'Nav Bar':          ['root.navBar.background', 'rootController.navigationBar.opaqueBackgroundColor'],
+  'Nav Title':        ['root.navBar.primaryText', 'rootController.navigationBar.primaryTextColor'],
+  'List BG':          ['list.plainBg', 'list.blocksBg', 'list.plainBackgroundColor', 'chatList.bg'],
+  'Primary Text':     ['list.primaryText', 'list.itemPrimaryTextColor', 'chatList.title'],
+  'Accent':           ['root.navBar.button', 'list.accent', 'root.tabBar.selectedIcon'],
+  'Wallpaper':        ['chat.defaultWallpaper'],
+  'In Bubble':        ['chat.message.incoming.bubble.withWp.bg', 'chat.message.incoming.bubble.withoutWp.bg', 'chat.message.incoming.bubble.withWallpaper.fill'],
+  'In Text':          ['chat.message.incoming.primaryText', 'chat.message.incoming.primaryTextColor'],
+  'Out Bubble':       ['chat.message.outgoing.bubble.withWp.bg', 'chat.message.outgoing.bubble.withoutWp.bg', 'chat.message.outgoing.bubble.withWallpaper.fill'],
+  'Out Text':         ['chat.message.outgoing.primaryText', 'chat.message.outgoing.primaryTextColor'],
+  'Input Panel':      ['chat.inputPanel.panelBg', 'chat.inputPanel.panelBackgroundColor'],
+  'Input Accent':     ['chat.inputPanel.panelControlAccent', 'chat.inputPanel.panelControlAccentColor', 'chat.inputPanel.actionControlBg'],
+  'Unread Badge':     ['chatList.unreadBadgeActiveBg', 'chatList.unreadBadgeActiveBackgroundColor'],
+};
+
+function applyPickedColorToTheme(theme, label, cleanHex) {
+  if (!theme || !theme.colors) return;
+  const isAndroid = theme.sourceFormat === 'attheme' || theme.sourceFormat === 'telegram-slug';
+
+  if (isAndroid) {
+    const keys = ANDROID_COLOR_KEYS[label] || [];
+    for (const k of keys) {
+      const oldVal = theme.colors[k];
+      const alpha = (oldVal && oldVal.length === 8) ? oldVal.substring(0, 2) : 'ff';
+      theme.colors[k] = alpha + cleanHex;
+    }
+    if (label === 'Wallpaper' && theme.wallpaperColors && theme.wallpaperColors.length > 0) {
+      theme.wallpaperColors[0] = cleanHex;
+    }
+    if (label === 'In Bubble') {
+      activeInRGB = hexToARGB(cleanHex);
+    } else if (label === 'Out Bubble') {
+      activeOutRGB = hexToARGB(cleanHex);
+    }
+  } else {
+    const keys = IOS_COLOR_KEYS[label] || [];
+    for (const k of keys) {
+      const oldVal = theme.colors[k];
+      const alpha = (oldVal && oldVal.length === 8) ? oldVal.substring(6, 8) : '';
+      theme.colors[k] = cleanHex + alpha;
+    }
+    if (label === 'In Bubble') {
+      activeInRGB = hexToARGB(cleanHex);
+    } else if (label === 'Out Bubble') {
+      activeOutRGB = hexToARGB(cleanHex);
+    }
+  }
+}
+
+function updatePreviewMockupElement(theme, label, newHex, cleanHex) {
+  const curOp = customBubbleOpacity !== null ? customBubbleOpacity : extractedBubbleOpacity;
+
+  switch (label) {
+    case 'Action Bar':
+    case 'Nav Bar': {
+      const hdr = document.querySelector('.chat-mockup .mock-header');
+      if (hdr) hdr.style.background = newHex;
+      break;
+    }
+    case 'Action Bar Title':
+    case 'Nav Title': {
+      const hdr = document.querySelector('.chat-mockup .mock-header');
+      if (hdr) hdr.style.color = newHex;
+      break;
+    }
+    case 'Accent':
+    case 'Input Accent': {
+      const avatar = document.querySelector('.chat-mockup .mock-avatar');
+      if (avatar) avatar.style.background = newHex;
+      const sendBtn = document.querySelector('.chat-mockup .mock-send-btn');
+      if (sendBtn) sendBtn.style.background = newHex;
+      const checks = document.querySelectorAll('.chat-mockup .bubble-check');
+      checks.forEach(c => c.style.color = newHex);
+      break;
+    }
+    case 'In Bubble': {
+      const rgb = hexToARGB(cleanHex);
+      activeInRGB = rgb;
+      const inCSS = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${(curOp / 100).toFixed(2)})`;
+      const bIn1 = document.getElementById('mockBubbleIn1');
+      const bIn2 = document.getElementById('mockBubbleIn2');
+      if (bIn1) bIn1.style.background = inCSS;
+      if (bIn2) bIn2.style.background = inCSS;
+      break;
+    }
+    case 'In Text': {
+      const bIn1 = document.getElementById('mockBubbleIn1');
+      const bIn2 = document.getElementById('mockBubbleIn2');
+      if (bIn1) {
+        bIn1.style.color = newHex;
+        const t = bIn1.querySelector('.bubble-time');
+        if (t) t.style.color = newHex;
+      }
+      if (bIn2) {
+        bIn2.style.color = newHex;
+        const t = bIn2.querySelector('.bubble-time');
+        if (t) t.style.color = newHex;
+      }
+      break;
+    }
+    case 'Out Bubble': {
+      const rgb = hexToARGB(cleanHex);
+      activeOutRGB = rgb;
+      const outCSS = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${(curOp / 100).toFixed(2)})`;
+      const bOut = document.getElementById('mockBubbleOut');
+      if (bOut) bOut.style.background = outCSS;
+      break;
+    }
+    case 'Out Text': {
+      const bOut = document.getElementById('mockBubbleOut');
+      if (bOut) {
+        bOut.style.color = newHex;
+        const t = bOut.querySelector('.bubble-time');
+        if (t) t.style.color = newHex;
+      }
+      break;
+    }
+    case 'Input Panel': {
+      const bar = document.querySelector('.chat-mockup .mock-input-bar');
+      if (bar) bar.style.background = newHex;
+      const fld = document.querySelector('.chat-mockup .mock-input-field');
+      if (fld) {
+        const isD = isDark(cleanHex);
+        fld.style.background = isD ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.06)';
+        fld.style.color = '#' + getContrastColor(cleanHex);
+      }
+      break;
+    }
+    case 'Wallpaper': {
+      if (!theme.wallpaperBlob) {
+        const msgs = document.querySelector('.chat-mockup .mock-messages');
+        if (msgs) msgs.style.background = newHex;
+      }
+      break;
+    }
+    case 'Service BG': {
+      const srv = document.querySelector('.chat-mockup .mock-messages span');
+      if (srv) {
+        srv.style.background = newHex;
+        srv.style.color = isDark(cleanHex) ? '#fff' : '#000';
+      }
+      break;
+    }
+  }
+}
+
+// ============================================================
 //  PREVIEW RENDERING
 // ============================================================
 
@@ -2582,18 +2846,27 @@ function renderPreview(theme) {
     };
   }
 
-  let swatchesHTML = '<div class="color-grid">';
+  let swatchesHTML = `
+    <div class="color-palette-header">
+      <span class="palette-title">🎨 Extracted Colors</span>
+      <span class="palette-hint">💡 Click any circle or swatch to customize</span>
+    </div>
+    <div class="color-grid">`;
+
   for (const [label, hex] of Object.entries(previewColors)) {
     if (!hex) continue;
     const cssColor = hexToCSS(hex);
     const displayHex = '#' + argbToRgbHex(hex);
     swatchesHTML += `
-      <div class="color-swatch">
-        <div class="swatch-circle" style="background:${cssColor}"></div>
+      <div class="color-swatch" data-label="${escapeHtml(label)}" title="Click to customize ${escapeHtml(label)} color">
+        <div class="swatch-circle" style="background:${cssColor}">
+          <input type="color" class="swatch-picker-input" value="${displayHex}" data-label="${escapeHtml(label)}" aria-label="Color picker for ${escapeHtml(label)}">
+        </div>
         <div class="swatch-info">
           <span class="swatch-label">${label}</span>
           <span class="swatch-hex">${displayHex}</span>
         </div>
+        <span class="swatch-edit-icon" title="Customize color">✎</span>
       </div>`;
   }
   swatchesHTML += '</div>';
@@ -2624,10 +2897,10 @@ function renderPreview(theme) {
   const currentOpacity = customBubbleOpacity !== null ? customBubbleOpacity : detectedOpacity;
 
   // Apply current opacity to bubble CSS
-  const inRGB = hexToARGB(rawInBubbleHex);
-  const outRGB = hexToARGB(rawOutBubbleHex);
-  const inBubbleCSS = `rgba(${inRGB.r}, ${inRGB.g}, ${inRGB.b}, ${(currentOpacity / 100).toFixed(2)})`;
-  const outBubbleCSS = `rgba(${outRGB.r}, ${outRGB.g}, ${outRGB.b}, ${(currentOpacity / 100).toFixed(2)})`;
+  activeInRGB = hexToARGB(rawInBubbleHex);
+  activeOutRGB = hexToARGB(rawOutBubbleHex);
+  const inBubbleCSS = `rgba(${activeInRGB.r}, ${activeInRGB.g}, ${activeInRGB.b}, ${(currentOpacity / 100).toFixed(2)})`;
+  const outBubbleCSS = `rgba(${activeOutRGB.r}, ${activeOutRGB.g}, ${activeOutRGB.b}, ${(currentOpacity / 100).toFixed(2)})`;
 
   const inTextCSS = hexToCSS(inText);
   const outTextCSS = hexToCSS(outText);
@@ -2726,9 +2999,9 @@ function renderPreview(theme) {
       const isOrig = (val === extractedBubbleOpacity);
       if (badgeEl) badgeEl.textContent = `${val}%` + (isOrig ? ' (Original)' : '');
 
-      // Real-time update of mock bubble elements
-      const newInCSS = `rgba(${inRGB.r}, ${inRGB.g}, ${inRGB.b}, ${(val / 100).toFixed(2)})`;
-      const newOutCSS = `rgba(${outRGB.r}, ${outRGB.g}, ${outRGB.b}, ${(val / 100).toFixed(2)})`;
+      // Real-time update of mock bubble elements using current active bubble RGBs
+      const newInCSS = `rgba(${activeInRGB.r}, ${activeInRGB.g}, ${activeInRGB.b}, ${(val / 100).toFixed(2)})`;
+      const newOutCSS = `rgba(${activeOutRGB.r}, ${activeOutRGB.g}, ${activeOutRGB.b}, ${(val / 100).toFixed(2)})`;
       const bIn1 = document.getElementById('mockBubbleIn1');
       const bIn2 = document.getElementById('mockBubbleIn2');
       const bOut = document.getElementById('mockBubbleOut');
@@ -2737,6 +3010,44 @@ function renderPreview(theme) {
       if (bOut) bOut.style.background = newOutCSS;
     });
   }
+
+  // Bind color picker listeners for all extracted color swatches
+  document.querySelectorAll('.color-swatch').forEach(swatch => {
+    const pickerInput = swatch.querySelector('.swatch-picker-input');
+    if (!pickerInput) return;
+
+    // Clicking anywhere on swatch triggers the native color picker
+    swatch.addEventListener('click', (e) => {
+      if (e.target !== pickerInput) {
+        if (typeof pickerInput.showPicker === 'function') {
+          try { pickerInput.showPicker(); } catch (err) { pickerInput.click(); }
+        } else {
+          pickerInput.click();
+        }
+      }
+    });
+
+    const onColorChange = (e) => {
+      const label = e.target.getAttribute('data-label');
+      const newHex = e.target.value; // e.g. '#2ca5e0'
+      const cleanHex = newHex.replace('#', '').toLowerCase();
+
+      // 1. Update swatch circle background and hex text label
+      const circle = swatch.querySelector('.swatch-circle');
+      if (circle) circle.style.background = newHex;
+      const hexText = swatch.querySelector('.swatch-hex');
+      if (hexText) hexText.textContent = newHex.toLowerCase();
+
+      // 2. Apply picked color to theme.colors
+      applyPickedColorToTheme(theme, label, cleanHex);
+
+      // 3. Update preview mockup elements in real time
+      updatePreviewMockupElement(theme, label, newHex, cleanHex);
+    };
+
+    pickerInput.addEventListener('input', onColorChange);
+    pickerInput.addEventListener('change', onColorChange);
+  });
 }
 
 function escapeHtml(str) {

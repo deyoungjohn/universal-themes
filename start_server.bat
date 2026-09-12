@@ -1,5 +1,5 @@
 @echo off
-title Telegram Theme Converter Server
-echo Starting Telegram Theme Converter local server...
+title Telemorph Server
+echo Starting Telemorph local server...
 python server.py
 pause

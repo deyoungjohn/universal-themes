@@ -1,5 +1,5 @@
 """
-Telegram Theme Converter Server
+Telemorph - Telegram Theme Converter Server
 Local HTTP server with CORS proxy and Telegram theme scraper.
 Uses only Python standard library (no pip dependencies required).
 """
@@ -194,7 +194,7 @@ class ThemeHandler(http.server.SimpleHTTPRequestHandler):
 
 def run():
     with socketserver.TCPServer(("", PORT), ThemeHandler) as httpd:
-        print(f"Telegram Theme Converter running at http://localhost:{PORT}")
+        print(f"Telemorph running at http://localhost:{PORT}")
         print("Press Ctrl+C to stop.")
         try:
             httpd.serve_forever()
