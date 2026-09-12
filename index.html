@@ -18,42 +18,71 @@
     --border: #334155;
     --success: #22c55e;
     --error: #ef4444;
-    --radius: 12px;
+    --radius: 16px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
-    min-height: 100vh;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 24px 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  @media (max-width: 640px) {
+    .container {
+      padding: 16px 14px;
+    }
   }
 
   /* Header */
   header {
     text-align: center;
-    padding: 36px 0 24px;
+    padding: 28px 12px 18px;
+    max-width: 100%;
   }
   header h1 {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 800;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 8px;
+    letter-spacing: -0.02em;
   }
   header p {
     color: var(--text-muted);
-    font-size: 1.05rem;
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  @media (max-width: 480px) {
+    header {
+      padding: 16px 8px 12px;
+    }
+    header h1 {
+      font-size: 1.65rem;
+    }
+    header p {
+      font-size: 0.88rem;
+    }
   }
 
   /* Direction Toggle */
@@ -61,19 +90,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    margin: 20px 0;
-    flex-wrap: wrap;
+    gap: 12px;
+    margin: 16px auto 20px;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
   }
   .direction-toggle .format-label {
-    font-size: 0.95rem;
+    flex: 1;
+    min-width: 0;
+    font-size: 0.92rem;
     font-weight: 600;
-    padding: 8px 18px;
-    border-radius: 8px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
     background: var(--surface);
     border: 1px solid var(--border);
-    min-width: 130px;
     text-align: center;
+    box-sizing: border-box;
+    transition: all 0.2s;
   }
   .direction-toggle .format-label.active-source {
     border-color: var(--accent);
@@ -87,15 +121,16 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     color: var(--accent);
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
+    flex-shrink: 0;
   }
   .swap-btn:hover {
     background: var(--accent);
@@ -106,28 +141,32 @@
   /* Input Mode Tabs */
   .input-tabs {
     display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 8px;
+    margin-bottom: 14px;
     background: var(--surface2);
     padding: 4px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 1px solid var(--border);
+    width: 100%;
+    box-sizing: border-box;
   }
   .tab-btn {
     flex: 1;
+    min-width: 0;
     background: transparent;
     border: none;
     color: var(--text-muted);
-    padding: 10px 16px;
-    font-size: 0.95rem;
+    padding: 10px 14px;
+    font-size: 0.92rem;
     font-weight: 600;
-    border-radius: 8px;
+    border-radius: 9px;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
+    white-space: nowrap;
   }
   .tab-btn:hover {
     color: var(--text);
@@ -141,12 +180,18 @@
   /* Main Layout */
   .main-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 360px 1fr;
     gap: 24px;
     margin-top: 16px;
+    align-items: start;
+    width: 100%;
+    box-sizing: border-box;
   }
-  @media (max-width: 768px) {
-    .main-grid { grid-template-columns: 1fr; }
+  @media (max-width: 1024px) {
+    .main-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
   }
 
   /* Upload Area */
@@ -204,27 +249,33 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 28px 24px;
-    min-height: 250px;
+    padding: 26px 20px;
+    min-height: 240px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .url-input-group {
     display: flex;
     gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .url-input {
     flex: 1;
+    min-width: 0;
     background: rgba(255,255,255,0.05);
     border: 1px solid var(--border);
     color: var(--text);
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 0.95rem;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
     outline: none;
     transition: border-color 0.2s;
+    box-sizing: border-box;
   }
   .url-input:focus {
     border-color: var(--accent);
@@ -233,16 +284,19 @@
     background: var(--accent);
     color: #fff;
     border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 0.95rem;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 0.92rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
+    flex-shrink: 0;
+    box-sizing: border-box;
   }
   .url-fetch-btn:hover {
     background: #0284c7;
@@ -253,6 +307,14 @@
     cursor: not-allowed;
     transform: none;
   }
+  @media (max-width: 480px) {
+    .url-input-group {
+      flex-direction: column;
+    }
+    .url-fetch-btn {
+      width: 100%;
+    }
+  }
 
   .url-examples {
     font-size: 0.82rem;
@@ -261,18 +323,23 @@
   .example-pills {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
     margin-top: 6px;
   }
   .example-pill {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border);
-    padding: 4px 10px;
-    border-radius: 6px;
+    padding: 5px 10px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     color: var(--text);
     transition: all 0.15s;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
   }
   .example-pill:hover {
     background: rgba(14, 165, 233, 0.15);
@@ -533,17 +600,60 @@
     color: var(--text-muted);
   }
 
-  /* Chat Mockup */
+  /* Dual Phone Mockups Container */
+  .mockups-dual-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .mockup-column {
+    flex: 1 1 290px;
+    max-width: 340px;
+    min-width: 270px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (max-width: 640px) {
+    .mockup-column {
+      max-width: 100%;
+      min-width: 0;
+    }
+  }
+  .mockup-column-header {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    padding-left: 4px;
+  }
+
+  /* Chat Conversation Mockup */
   .chat-mockup {
-    border-radius: 12px;
+    border-radius: 18px;
     overflow: hidden;
     font-size: 0.82rem;
-    margin-top: 16px;
     border: 1px solid var(--border);
-    max-width: 380px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 340px;
+    height: 440px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
   }
   .chat-mockup .mock-header {
     padding: 10px 14px;
@@ -551,6 +661,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
   }
   .chat-mockup .mock-header .mock-avatar {
     width: 32px;
@@ -561,9 +672,13 @@
     justify-content: center;
     font-size: 0.8rem;
     font-weight: 700;
+    flex-shrink: 0;
   }
   .chat-mockup .mock-header .mock-title {
     flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .chat-mockup .mock-header .mock-subtitle {
     font-weight: 400;
@@ -572,18 +687,21 @@
   }
   .chat-mockup .mock-messages {
     padding: 12px;
-    min-height: 160px;
+    flex: 1;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     gap: 6px;
     transition: background 0.3s;
   }
   .chat-mockup .mock-bubble {
-    max-width: 75%;
+    max-width: 80%;
     padding: 8px 12px;
     border-radius: 12px;
     line-height: 1.4;
     position: relative;
+    font-size: 0.8rem;
   }
   .chat-mockup .mock-bubble.incoming {
     align-self: flex-start;
@@ -608,6 +726,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
   }
   .chat-mockup .mock-input-bar .mock-input-field {
     flex: 1;
@@ -625,6 +744,202 @@
     align-items: center;
     justify-content: center;
     font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  /* Chat List Mockup */
+  .chat-list-mockup {
+    border-radius: 18px;
+    overflow: hidden;
+    font-size: 0.82rem;
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 340px;
+    height: 440px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .mock-list-header {
+    padding: 10px 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .mock-list-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .mock-list-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    flex: 1;
+    letter-spacing: -0.01em;
+  }
+  .mock-list-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+  }
+  .mock-folder-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+  .mock-folder-pill {
+    padding: 3px 10px;
+    border-radius: 14px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .mock-pill-badge {
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+  .mock-pill-badge-subtle {
+    background: rgba(128,128,128,0.25);
+    padding: 1px 5px;
+    border-radius: 10px;
+    font-size: 0.65rem;
+  }
+  .mock-chat-items {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .mock-chat-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    cursor: default;
+    transition: background 0.15s;
+  }
+  .mock-chat-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .mock-chat-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .mock-chat-line1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mock-chat-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mock-chat-time {
+    font-size: 0.66rem;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .mock-chat-line2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mock-chat-msg {
+    font-size: 0.72rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.8;
+  }
+  .mock-unread-badge {
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-left: 6px;
+    flex-shrink: 0;
+  }
+  .mock-list-fab {
+    position: absolute;
+    bottom: 52px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    cursor: default;
+    z-index: 2;
+  }
+  .mock-list-bottom-bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 6px 4px 4px;
+    flex-shrink: 0;
+  }
+  .mock-bottom-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    font-size: 0.62rem;
+    font-weight: 500;
+    cursor: default;
+    position: relative;
+    padding: 2px 8px;
+  }
+  .mock-bottom-icon {
+    font-size: 0.92rem;
+    position: relative;
+    display: inline-block;
+  }
+  .mock-bottom-badge {
+    position: absolute;
+    top: -4px;
+    right: -10px;
+    font-size: 0.55rem;
+    padding: 1px 4px;
+    border-radius: 8px;
+    font-weight: 700;
   }
 
   /* Wallpaper Preview */
@@ -972,12 +1287,101 @@
     gap: 8px;
   }
 
+  /* Mobile Responsiveness Improvements */
+  @media (max-width: 640px) {
+    .result-area {
+      padding: 20px 14px;
+      border-radius: var(--radius);
+    }
+    .result-area h3 {
+      font-size: 1.25rem;
+    }
+    .download-actions {
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
+    }
+    .download-btn, .download-wp-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 20px;
+      font-size: 0.95rem;
+    }
+    .result-wp-card {
+      padding: 14px;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+    }
+    .result-wp-card .wp-card-details {
+      min-width: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .result-wp-card .download-wp-btn-secondary {
+      width: 100%;
+      justify-content: center;
+    }
+    .ios-guide-card {
+      padding: 18px 14px;
+      border-radius: var(--radius);
+    }
+    .guide-path-badge {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 0.78rem;
+      padding: 6px 8px;
+      word-break: break-word;
+      white-space: normal;
+    }
+    .guide-step-item {
+      gap: 10px;
+    }
+    .convert-section {
+      margin: 24px 0;
+      padding: 0 4px;
+    }
+    .convert-btn {
+      width: 100%;
+      max-width: 100%;
+      padding: 14px 24px;
+    }
+    .color-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .color-swatch {
+      padding: 6px 8px;
+      font-size: 0.74rem;
+    }
+    .color-swatch .swatch-circle {
+      width: 24px;
+      height: 24px;
+    }
+    .chat-mockup, .chat-list-mockup {
+      max-width: 100%;
+      height: 420px;
+      border-radius: var(--radius);
+    }
+  }
+
+  @media (max-width: 380px) {
+    .color-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   /* Footer */
   footer {
     text-align: center;
-    padding: 32px 0 16px;
+    padding: 32px 16px 20px;
     color: var(--text-muted);
     font-size: 0.82rem;
+    line-height: 1.5;
   }
   footer a { color: var(--accent); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
@@ -2700,18 +3104,25 @@ function applyPickedColorToTheme(theme, label, cleanHex) {
 
 function updatePreviewMockupElement(theme, label, newHex, cleanHex) {
   const curOp = customBubbleOpacity !== null ? customBubbleOpacity : extractedBubbleOpacity;
+  const isDarkColor = isDark(cleanHex);
 
   switch (label) {
     case 'Action Bar':
     case 'Nav Bar': {
       const hdr = document.querySelector('.chat-mockup .mock-header');
       if (hdr) hdr.style.background = newHex;
+      const listHdr = document.querySelector('.chat-list-mockup .mock-list-header');
+      if (listHdr) listHdr.style.background = newHex;
       break;
     }
     case 'Action Bar Title':
     case 'Nav Title': {
       const hdr = document.querySelector('.chat-mockup .mock-header');
       if (hdr) hdr.style.color = newHex;
+      const listHdr = document.querySelector('.chat-list-mockup .mock-list-header');
+      if (listHdr) listHdr.style.color = newHex;
+      const listActions = document.querySelector('.chat-list-mockup .mock-list-actions');
+      if (listActions) listActions.style.color = newHex;
       break;
     }
     case 'Accent':
@@ -2720,8 +3131,48 @@ function updatePreviewMockupElement(theme, label, newHex, cleanHex) {
       if (avatar) avatar.style.background = newHex;
       const sendBtn = document.querySelector('.chat-mockup .mock-send-btn');
       if (sendBtn) sendBtn.style.background = newHex;
-      const checks = document.querySelectorAll('.chat-mockup .bubble-check');
+      const checks = document.querySelectorAll('.chat-mockup .bubble-check, .mock-read-check');
       checks.forEach(c => c.style.color = newHex);
+      const fab = document.getElementById('mockListFab');
+      if (fab) fab.style.background = newHex;
+      const listAvatar = document.querySelector('.chat-list-mockup .mock-list-avatar');
+      if (listAvatar) listAvatar.style.background = newHex;
+      const activeTab = document.querySelector('.mock-bottom-tab.active');
+      if (activeTab) activeTab.style.color = newHex;
+      break;
+    }
+    case 'Chat List BG':
+    case 'List BG': {
+      const listEl = document.getElementById('mockChatList');
+      if (listEl) listEl.style.background = newHex;
+      const chatItems = document.getElementById('mockChatItems');
+      if (chatItems) chatItems.style.background = newHex;
+      const bottomBar = document.getElementById('mockListBottomBar');
+      if (bottomBar) bottomBar.style.background = newHex;
+      const tabs = document.querySelector('.mock-folder-tabs');
+      if (tabs) tabs.style.background = newHex;
+      break;
+    }
+    case 'Chat List Name':
+    case 'Primary Text':
+    case 'Text': {
+      document.querySelectorAll('.mock-chat-name').forEach(el => el.style.color = newHex);
+      const activePill = document.getElementById('mockPillActive');
+      if (activePill) activePill.style.color = newHex;
+      break;
+    }
+    case 'Chat List Msg':
+    case 'Secondary Text': {
+      document.querySelectorAll('.mock-chat-msg, .mock-chat-time').forEach(el => el.style.color = newHex);
+      document.querySelectorAll('.mock-folder-pill:not(.active)').forEach(el => el.style.color = newHex);
+      document.querySelectorAll('.mock-bottom-tab:not(.active)').forEach(el => el.style.color = newHex);
+      break;
+    }
+    case 'Unread Badge': {
+      document.querySelectorAll('.mock-unread-badge, .mock-pill-badge, .mock-bottom-badge').forEach(el => {
+        el.style.background = newHex;
+        el.style.color = isDarkColor ? '#ffffff' : '#000000';
+      });
       break;
     }
     case 'In Bubble': {
@@ -2771,8 +3222,7 @@ function updatePreviewMockupElement(theme, label, newHex, cleanHex) {
       if (bar) bar.style.background = newHex;
       const fld = document.querySelector('.chat-mockup .mock-input-field');
       if (fld) {
-        const isD = isDark(cleanHex);
-        fld.style.background = isD ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.06)';
+        fld.style.background = isDarkColor ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.06)';
         fld.style.color = '#' + getContrastColor(cleanHex);
       }
       break;
@@ -2788,7 +3238,7 @@ function updatePreviewMockupElement(theme, label, newHex, cleanHex) {
       const srv = document.querySelector('.chat-mockup .mock-messages span');
       if (srv) {
         srv.style.background = newHex;
-        srv.style.color = isDark(cleanHex) ? '#fff' : '#000';
+        srv.style.color = isDarkColor ? '#fff' : '#000';
       }
       break;
     }
@@ -2909,6 +3359,18 @@ function renderPreview(theme) {
   const serviceBgCSS = hexToCSS(serviceBg);
   const serviceTextCSS = isDark(serviceBg) ? '#fff' : '#000';
 
+  const chatListBg = previewColors['Chat List BG'] || previewColors['List BG'] || (isAndroid ? (colors['windowBackgroundWhite'] || 'ffffffff') : (colors['list.plainBg'] || 'ffffffff'));
+  const chatListBgCSS = hexToCSS(chatListBg);
+  const chatListName = previewColors['Chat List Name'] || previewColors['Primary Text'] || previewColors['Text'] || (isDark(chatListBg) ? 'ffffffff' : 'ff000000');
+  const chatListNameCSS = hexToCSS(chatListName);
+  const chatListMsg = previewColors['Chat List Msg'] || previewColors['Secondary Text'] || (isDark(chatListBg) ? 'ff9ca08b' : 'ff5f614d');
+  const chatListMsgCSS = hexToCSS(chatListMsg);
+  const unreadBadge = previewColors['Unread Badge'] || accent;
+  const unreadBadgeCSS = hexToCSS(unreadBadge);
+  const unreadBadgeTextCSS = isDark(unreadBadge) ? '#ffffff' : '#000000';
+  const listDividerCSS = isDark(chatListBg) ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  const activePillBgCSS = isDark(chatListBg) ? 'rgba(255,255,255,0.14)' : 'rgba(0,0,0,0.09)';
+
   // Determine wallpaper style
   let wallpaperCSS;
   if (theme.wallpaperBlob) {
@@ -2955,35 +3417,179 @@ function renderPreview(theme) {
     </div>`;
 
   const mockupHTML = `
-    <div class="chat-mockup">
-      <div class="mock-header" style="background:${actionBarCSS}; color:${actionTitleCSS}">
-        <div class="mock-avatar" style="background:${accentCSS}; color:#fff;">A</div>
-        <div>
-          <div class="mock-title">${theme.meta && theme.meta.title ? escapeHtml(theme.meta.title) : 'Telegram'}</div>
-          <div class="mock-subtitle">last seen recently</div>
+    <div class="mockups-dual-container">
+      <!-- Left Mockup: Chat List UI -->
+      <div class="mockup-column">
+        <div class="mockup-column-header">
+          <span>📋</span> Chat List UI
+        </div>
+        <div class="chat-list-mockup" id="mockChatList" style="background:${chatListBgCSS}">
+          <!-- Header -->
+          <div class="mock-list-header" style="background:${actionBarCSS}; color:${actionTitleCSS}">
+            <div class="mock-list-avatar" style="background:${accentCSS}; color:#fff">
+              <span style="font-size:0.75rem">☰</span>
+            </div>
+            <div class="mock-list-title">Telegram</div>
+            <div class="mock-list-actions" style="color:${actionTitleCSS}">
+              <span class="mock-list-icon">🔍</span>
+              <span class="mock-list-icon">⋮</span>
+            </div>
+          </div>
+
+          <!-- Folder Tabs -->
+          <div class="mock-folder-tabs" style="border-bottom: 1px solid ${listDividerCSS}; background:${chatListBgCSS}">
+            <div class="mock-folder-pill active" id="mockPillActive" style="background:${activePillBgCSS}; color:${chatListNameCSS}">
+              Personal <span class="mock-pill-badge" id="mockPillBadge" style="background:${unreadBadgeCSS}; color:${unreadBadgeTextCSS}">12</span>
+            </div>
+            <div class="mock-folder-pill" style="color:${chatListMsgCSS}">All</div>
+            <div class="mock-folder-pill" style="color:${chatListMsgCSS}">
+              Work <span class="mock-pill-badge-subtle">3</span>
+            </div>
+            <div class="mock-folder-pill" style="color:${chatListMsgCSS}">Bots</div>
+          </div>
+
+          <!-- Chat Rows -->
+          <div class="mock-chat-items" id="mockChatItems" style="background:${chatListBgCSS}">
+            <!-- Row 1: Alex River -->
+            <div class="mock-chat-row" style="border-bottom: 1px solid ${listDividerCSS}">
+              <div class="mock-chat-avatar" style="background: linear-gradient(135deg, #38bdf8, #6366f1); color:#fff">AR</div>
+              <div class="mock-chat-body">
+                <div class="mock-chat-line1">
+                  <span class="mock-chat-name" style="color:${chatListNameCSS}">Alex River</span>
+                  <span class="mock-chat-time" style="color:${chatListMsgCSS}">
+                    <span class="mock-read-check" style="color:${accentCSS}">✓✓</span> 12:45 AM
+                  </span>
+                </div>
+                <div class="mock-chat-line2">
+                  <span class="mock-chat-msg" style="color:${chatListMsgCSS}">📷 Photo</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2: Elena Rostova -->
+            <div class="mock-chat-row" style="border-bottom: 1px solid ${listDividerCSS}">
+              <div class="mock-chat-avatar" style="background: linear-gradient(135deg, #ec4899, #f43f5e); color:#fff">ER</div>
+              <div class="mock-chat-body">
+                <div class="mock-chat-line1">
+                  <span class="mock-chat-name" style="color:${chatListNameCSS}">Elena Rostova</span>
+                  <span class="mock-chat-time" style="color:${accentCSS}">12:36 AM</span>
+                </div>
+                <div class="mock-chat-line2">
+                  <span class="mock-chat-msg" style="color:${chatListMsgCSS}">Elena joined Telegram!</span>
+                  <span class="mock-unread-badge" style="background:${unreadBadgeCSS}; color:${unreadBadgeTextCSS}">1</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3: Design & Tech -->
+            <div class="mock-chat-row" style="border-bottom: 1px solid ${listDividerCSS}">
+              <div class="mock-chat-avatar" style="background: linear-gradient(135deg, #10b981, #059669); color:#fff">DT</div>
+              <div class="mock-chat-body">
+                <div class="mock-chat-line1">
+                  <span class="mock-chat-name" style="color:${chatListNameCSS}">Design &amp; Tech</span>
+                  <span class="mock-chat-time" style="color:${chatListMsgCSS}">
+                    <span class="mock-read-check" style="color:${accentCSS}">✓</span> 12:24 AM
+                  </span>
+                </div>
+                <div class="mock-chat-line2">
+                  <span class="mock-chat-msg" style="color:${chatListMsgCSS}">Telemorph color converter updated</span>
+                  <span class="mock-unread-badge" style="background:${unreadBadgeCSS}; color:${unreadBadgeTextCSS}">3</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 4: Telegram Notifications -->
+            <div class="mock-chat-row" style="border-bottom: 1px solid ${listDividerCSS}">
+              <div class="mock-chat-avatar" style="background: linear-gradient(135deg, #2ca5e0, #0284c7); color:#fff">TN</div>
+              <div class="mock-chat-body">
+                <div class="mock-chat-line1">
+                  <span class="mock-chat-name" style="color:${chatListNameCSS}">Telegram Notifications <span style="color:${accentCSS}">✓</span></span>
+                  <span class="mock-chat-time" style="color:${chatListMsgCSS}">Wed</span>
+                </div>
+                <div class="mock-chat-line2">
+                  <span class="mock-chat-msg" style="color:${chatListMsgCSS}">Login code: 74921. Do not share...</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 5: David Kim -->
+            <div class="mock-chat-row">
+              <div class="mock-chat-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706); color:#fff">DK</div>
+              <div class="mock-chat-body">
+                <div class="mock-chat-line1">
+                  <span class="mock-chat-name" style="color:${chatListNameCSS}">David Kim</span>
+                  <span class="mock-chat-time" style="color:${chatListMsgCSS}">Sep 08</span>
+                </div>
+                <div class="mock-chat-line2">
+                  <span class="mock-chat-msg" style="color:${chatListMsgCSS}">Shared 3 mockup files</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compose FAB -->
+          <div class="mock-list-fab" id="mockListFab" style="background:${accentCSS}; color:#fff">
+            ✏️
+          </div>
+
+          <!-- Bottom Navigation Bar -->
+          <div class="mock-list-bottom-bar" id="mockListBottomBar" style="background:${chatListBgCSS}; border-top: 1px solid ${listDividerCSS}">
+            <div class="mock-bottom-tab active" style="color:${accentCSS}">
+              <span class="mock-bottom-icon">💬<span class="mock-bottom-badge" style="background:${unreadBadgeCSS}; color:${unreadBadgeTextCSS}">17</span></span>
+              <span class="mock-bottom-label">Chats</span>
+            </div>
+            <div class="mock-bottom-tab" style="color:${chatListMsgCSS}">
+              <span class="mock-bottom-icon">👥</span>
+              <span class="mock-bottom-label">Contacts</span>
+            </div>
+            <div class="mock-bottom-tab" style="color:${chatListMsgCSS}">
+              <span class="mock-bottom-icon">⚙️</span>
+              <span class="mock-bottom-label">Settings</span>
+            </div>
+            <div class="mock-bottom-tab" style="color:${chatListMsgCSS}">
+              <span class="mock-bottom-icon">👤</span>
+              <span class="mock-bottom-label">Profile</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="mock-messages" style="background:${wallpaperCSS}">
-        <div style="text-align:center; margin-bottom:4px;">
-          <span style="background:${serviceBgCSS}; color:${serviceTextCSS}; padding:3px 10px; border-radius:10px; font-size:0.72rem;">Today</span>
+
+      <!-- Right Mockup: Chat Conversation UI -->
+      <div class="mockup-column">
+        <div class="mockup-column-header">
+          <span>💬</span> Chat Conversation UI
         </div>
-        <div class="mock-bubble incoming" id="mockBubbleIn1" style="background:${inBubbleCSS}; color:${inTextCSS}">
-          Hey! How's it going? 😊
-          <div class="bubble-time" style="color:${inTextCSS}">10:30</div>
+        <div class="chat-mockup" id="mockChatConversation">
+          <div class="mock-header" style="background:${actionBarCSS}; color:${actionTitleCSS}">
+            <div class="mock-avatar" style="background:${accentCSS}; color:#fff;">A</div>
+            <div>
+              <div class="mock-title">${theme.meta && theme.meta.title ? escapeHtml(theme.meta.title) : 'Telegram'}</div>
+              <div class="mock-subtitle">last seen recently</div>
+            </div>
+          </div>
+          <div class="mock-messages" style="background:${wallpaperCSS}">
+            <div style="text-align:center; margin-bottom:4px;">
+              <span style="background:${serviceBgCSS}; color:${serviceTextCSS}; padding:3px 10px; border-radius:10px; font-size:0.72rem;">Today</span>
+            </div>
+            <div class="mock-bubble incoming" id="mockBubbleIn1" style="background:${inBubbleCSS}; color:${inTextCSS}">
+              Hey! How's it going? 😊
+              <div class="bubble-time" style="color:${inTextCSS}">10:30</div>
+            </div>
+            <div class="mock-bubble outgoing" id="mockBubbleOut" style="background:${outBubbleCSS}; color:${outTextCSS}">
+              Pretty good! Check out this new theme 🎨
+              <div class="bubble-time" style="color:${outTextCSS}">10:31 <span class="bubble-check" style="color:${accentCSS}">✓✓</span></div>
+            </div>
+            <div class="mock-bubble incoming" id="mockBubbleIn2" style="background:${inBubbleCSS}; color:${inTextCSS}">
+              Looks great! Love the colors 💜
+              <div class="bubble-time" style="color:${inTextCSS}">10:32</div>
+            </div>
+          </div>
+          <div class="mock-input-bar" style="background:${inputPanelCSS}">
+            <span style="font-size:1.2rem; opacity:0.5">😀</span>
+            <div class="mock-input-field" style="background:${inputFieldBg}; color:${inputTextCSS}">Message</div>
+            <div class="mock-send-btn" style="background:${accentCSS}; color:#fff">↑</div>
+          </div>
         </div>
-        <div class="mock-bubble outgoing" id="mockBubbleOut" style="background:${outBubbleCSS}; color:${outTextCSS}">
-          Pretty good! Check out this new theme 🎨
-          <div class="bubble-time" style="color:${outTextCSS}">10:31 <span class="bubble-check" style="color:${accentCSS}">✓✓</span></div>
-        </div>
-        <div class="mock-bubble incoming" id="mockBubbleIn2" style="background:${inBubbleCSS}; color:${inTextCSS}">
-          Looks great! Love the colors 💜
-          <div class="bubble-time" style="color:${inTextCSS}">10:32</div>
-        </div>
-      </div>
-      <div class="mock-input-bar" style="background:${inputPanelCSS}">
-        <span style="font-size:1.2rem; opacity:0.5">😀</span>
-        <div class="mock-input-field" style="background:${inputFieldBg}; color:${inputTextCSS}">Message</div>
-        <div class="mock-send-btn" style="background:${accentCSS}; color:#fff">↑</div>
       </div>
     </div>`;
 
