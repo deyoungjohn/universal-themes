@@ -47,13 +47,21 @@ class ThemeHandler(http.server.SimpleHTTPRequestHandler):
 
         # Extract slug if a URL was provided
         slug = target
-        m = re.search(r'addtheme[/:=]([a-zA-Z0-9_-]+)', target)
-        if m:
-            slug = m.group(1)
-        elif target.startswith('http') and not 'addtheme' in target:
-            # Not an addtheme link - pass through to fetch directly
+        m_bg = re.search(r'bg[/:=]([a-zA-Z0-9_-]+)', target)
+        m_add = re.search(r'addtheme[/:=]([a-zA-Z0-9_-]+)', target)
+        if m_bg:
+            slug = m_bg.group(1)
+            tme_url = f"https://t.me/bg/{slug}"
+        elif m_add:
+            slug = m_add.group(1)
+            tme_url = f"https://t.me/addtheme/{slug}"
+        elif target.startswith('http') and not ('addtheme' in target or '/bg/' in target):
+            # Not an addtheme or bg link - pass through to fetch directly
             self.handle_direct_url_info(target)
             return
+        else:
+            slug = re.sub(r'[^a-zA-Z0-9_-]', '', slug)
+            tme_url = f"https://t.me/addtheme/{slug}"
 
         # Clean slug
         slug = re.sub(r'[^a-zA-Z0-9_-]', '', slug)
@@ -61,7 +69,6 @@ class ThemeHandler(http.server.SimpleHTTPRequestHandler):
             self.send_json_error("Invalid theme slug or URL", 400)
             return
 
-        tme_url = f"https://t.me/addtheme/{slug}"
         try:
             req = urllib.request.Request(
                 tme_url,
@@ -76,10 +83,31 @@ class ThemeHandler(http.server.SimpleHTTPRequestHandler):
             title_m = re.search(r'<meta property="og:title" content="([^"]+)"', html)
             title = title_m.group(1) if title_m else f"Theme {slug}"
             title = re.sub(r'^Telegram Theme:\s*', '', title).strip()
+            if not title:
+                title = f"Theme {slug}"
 
             # Extract background / wallpaper colors
             colors_m = re.search(r'data-colors="([0-9a-fA-F,]+)"', html)
             colors = colors_m.group(1).split(',') if colors_m else []
+
+            # Extract direct wallpaper image if present
+            wallpaper_url = None
+            og_img_m = re.search(r'<meta property="og:image" content="([^"]+)"', html)
+            if og_img_m:
+                og_img = og_img_m.group(1).strip()
+                if og_img and not ('t_logo' in og_img or 'telegram.org/img' in og_img):
+                    wallpaper_url = og_img
+
+            bg_style_m = re.search(r'class="tgme_background[^"]*"[^>]*style="[^"]*background(?:-image)?:\s*url\([\'"]?([^\'")]+)[\'"]?\)', html)
+            if bg_style_m:
+                wallpaper_url = bg_style_m.group(1).strip()
+
+            pattern_url = None
+            pat_m = re.search(r'var\(--pattern-url,\s*url\([\'"]?([^\'")]+)[\'"]?\)\)', html)
+            if not pat_m:
+                pat_m = re.search(r'--pattern-url:\s*url\([\'"]?([^\'")]+)[\'"]?\)', html)
+            if pat_m:
+                pattern_url = pat_m.group(1).strip()
 
             # Check if dark or light based on color luminance
             def calc_lum(c):
@@ -126,7 +154,9 @@ class ThemeHandler(http.server.SimpleHTTPRequestHandler):
                 "colors": colors,
                 "isDark": is_dark,
                 "description": desc,
-                "url": tme_url
+                "url": tme_url,
+                "wallpaperUrl": wallpaper_url,
+                "patternUrl": pattern_url
             }
             self.send_json(response_data)
 

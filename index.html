@@ -7,18 +7,54 @@
 <link rel="icon" type="image/png" sizes="64x64" href="icons8-telegram-logo-64.png">
 <link rel="shortcut icon" type="image/png" href="icons8-telegram-logo-64.png">
 <style>
+  @font-face {
+    font-family: 'Overused Grotesk';
+    src: url('https://cdn.jsdelivr.net/npm/overused-grotesk@latest/OverusedGrotesk-Medium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/mishka/overused-grotesk@master/fonts/woff2/OverusedGrotesk-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Overused Grotesk';
+    src: url('https://cdn.jsdelivr.net/npm/overused-grotesk@latest/OverusedGrotesk-SemiBold.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/mishka/overused-grotesk@master/fonts/woff2/OverusedGrotesk-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
   :root {
-    --bg: #0f0f0f;
-    --surface: #1a1a2e;
-    --surface2: #16213e;
-    --accent: #0ea5e9;
-    --accent2: #6366f1;
-    --text: #e2e8f0;
-    --text-muted: #94a3b8;
-    --border: #334155;
-    --success: #22c55e;
-    --error: #ef4444;
-    --radius: 16px;
+    --color-primary: #8E6CE4;
+    --color-primary-strong: #AB8FF1;
+    --color-primary-soft: #62626F;
+    --color-secondary: #25252D;
+    --color-tertiary: #31313A;
+    --color-neutral: #08080A;
+    --color-surface: #25252D;
+    --color-on-surface: #DAD7DE;
+    --color-text: #AEAAC0;
+    --color-muted: #62626F;
+    --color-border: #31313A;
+    --color-highlight: #DAD7DE;
+    --color-error: #E46C8E;
+    --color-success: #6CE4A2;
+
+    --font-heading: 'Overused Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    --rounded-none: 0px;
+    --rounded-sm: 3px;
+    --rounded-md: 5px;
+    --rounded-lg: 8px;
+    --rounded-xl: 12px;
+    --rounded-full: 9999px;
+
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 26px;
+    --spacing-lg: 40px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,61 +63,86 @@
     width: 100%;
     min-height: 100vh;
     overflow-x: hidden;
+    background: var(--color-neutral);
+    color: var(--color-text);
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: radial-gradient(ellipse 90% 40% at 50% -10%, rgba(142, 108, 228, 0.12), transparent 60%), var(--color-neutral);
+    background-attachment: fixed;
   }
 
   .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 24px 20px;
+    padding: 32px 24px 60px;
     width: 100%;
     box-sizing: border-box;
   }
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .container {
-      padding: 16px 14px;
+      padding: 20px 16px 40px;
     }
   }
 
   /* Header */
   header {
     text-align: center;
-    padding: 28px 12px 18px;
+    padding: 20px 0 24px;
     max-width: 100%;
   }
+  .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--rounded-full);
+    border: 1px solid var(--color-border);
+    background: rgba(37, 37, 45, 0.6);
+    color: var(--color-on-surface);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .brand-badge span.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    box-shadow: 0 0 8px var(--color-primary);
+  }
   header h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 8px;
-    letter-spacing: -0.02em;
+    font-family: var(--font-heading);
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -1.92px;
+    color: var(--color-on-surface);
+    margin-bottom: 10px;
   }
   header p {
-    color: var(--text-muted);
-    font-size: 1rem;
+    color: var(--color-muted);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
     max-width: 600px;
     margin: 0 auto;
   }
-  @media (max-width: 480px) {
-    header {
-      padding: 16px 8px 12px;
-    }
+  @media (max-width: 640px) {
     header h1 {
-      font-size: 1.65rem;
+      font-size: 32px;
+      letter-spacing: -0.96px;
     }
     header p {
-      font-size: 0.88rem;
+      font-size: 14px;
+      line-height: 20px;
     }
   }
 
@@ -91,55 +152,59 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin: 16px auto 20px;
+    margin: 16px auto 26px;
     width: 100%;
-    max-width: 420px;
+    max-width: 440px;
     box-sizing: border-box;
   }
   .direction-toggle .format-label {
     flex: 1;
     min-width: 0;
-    font-size: 0.92rem;
+    font-size: 14px;
     font-weight: 600;
-    padding: 10px 14px;
-    border-radius: var(--radius);
-    background: var(--surface);
-    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: var(--rounded-full);
+    background: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
     text-align: center;
     box-sizing: border-box;
     cursor: pointer;
     user-select: none;
-    transition: all 0.2s;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
   }
   .direction-toggle .format-label:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px);
+    border-color: var(--color-primary-soft);
+    color: var(--color-on-surface);
   }
   .direction-toggle .format-label.active-source {
-    border-color: var(--accent);
-    background: rgba(14, 165, 233, 0.1);
+    border-color: var(--color-primary);
+    background: rgba(142, 108, 228, 0.1);
+    color: var(--color-on-surface);
   }
   .direction-toggle .format-label.active-target {
-    border-color: var(--success);
-    background: rgba(34, 197, 94, 0.1);
+    border-color: var(--color-primary-strong);
+    background: rgba(171, 143, 241, 0.12);
+    color: var(--color-on-surface);
   }
   .swap-btn {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--accent);
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
+    background: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    color: var(--color-primary-strong);
+    width: 38px;
+    height: 38px;
+    border-radius: var(--rounded-full);
     cursor: pointer;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     flex-shrink: 0;
   }
   .swap-btn:hover {
-    background: var(--accent);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
     color: #fff;
     transform: rotate(180deg);
   }
@@ -147,12 +212,12 @@
   /* Input Mode Tabs */
   .input-tabs {
     display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: var(--surface2);
-    padding: 4px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
+    gap: 6px;
+    margin-bottom: 12px;
+    background: #141418;
+    padding: 3px;
+    border-radius: var(--rounded-md);
+    border: 1px solid var(--color-border);
     width: 100%;
     box-sizing: border-box;
   }
@@ -161,13 +226,13 @@
     min-width: 0;
     background: transparent;
     border: none;
-    color: var(--text-muted);
-    padding: 10px 14px;
-    font-size: 0.92rem;
-    font-weight: 600;
-    border-radius: 9px;
+    color: var(--color-muted);
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--rounded-sm);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,63 +240,68 @@
     white-space: nowrap;
   }
   .tab-btn:hover {
-    color: var(--text);
+    color: var(--color-on-surface);
   }
   .tab-btn.active {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    background: var(--color-secondary);
+    color: var(--color-on-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   }
 
-  /* Main Layout */
+  /* Main Grid */
   .main-grid {
     display: grid;
     grid-template-columns: 360px 1fr;
-    gap: 24px;
-    margin-top: 16px;
+    gap: 20px;
+    margin-top: 10px;
     align-items: start;
     width: 100%;
     box-sizing: border-box;
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 960px) {
     .main-grid {
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 16px;
     }
   }
 
   /* Upload Area */
   .upload-area {
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    padding: 40px 24px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 36px 20px;
     text-align: center;
-    background: var(--surface);
-    transition: all 0.3s;
+    background: var(--color-surface);
+    transition: border-color 0.2s, background 0.2s;
     cursor: pointer;
     position: relative;
-    min-height: 250px;
+    min-height: 240px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
   .upload-area:hover, .upload-area.drag-over {
-    border-color: var(--accent);
-    background: rgba(14, 165, 233, 0.05);
+    border-color: var(--color-primary);
+    background: rgba(142, 108, 228, 0.04);
   }
   .upload-area .icon {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
     margin-bottom: 12px;
     opacity: 0.8;
   }
   .upload-area h3 {
-    font-size: 1.1rem;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.4px;
+    color: var(--color-on-surface);
     margin-bottom: 4px;
   }
   .upload-area p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-size: 13px;
   }
   .upload-area input[type="file"] {
     position: absolute;
@@ -242,8 +312,8 @@
   }
   .upload-area.has-file {
     border-style: solid;
-    border-color: var(--success);
-    background: rgba(34, 197, 94, 0.05);
+    border-color: var(--color-primary);
+    background: rgba(142, 108, 228, 0.05);
     padding: 24px;
   }
   .upload-area.has-file input[type="file"] {
@@ -252,50 +322,53 @@
 
   /* URL Input Section */
   .url-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 26px 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 24px 18px;
     min-height: 240px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 16px;
+    gap: 14px;
     width: 100%;
     box-sizing: border-box;
   }
   .url-input-group {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
     box-sizing: border-box;
   }
   .url-input {
     flex: 1;
     min-width: 0;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 12px 14px;
-    border-radius: 12px;
-    font-size: 0.9rem;
+    background: var(--color-neutral);
+    border: 1px solid var(--color-border);
+    color: var(--color-on-surface);
+    padding: 10px 12px;
+    border-radius: var(--rounded-sm);
+    font-size: 14px;
+    height: 40px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.15s;
     box-sizing: border-box;
+    font-family: var(--font-body);
   }
   .url-input:focus {
-    border-color: var(--accent);
+    border-color: var(--color-primary);
   }
   .url-fetch-btn {
-    background: var(--accent);
-    color: #fff;
+    background: var(--color-primary);
+    color: var(--color-on-surface);
     border: none;
-    padding: 12px 22px;
-    border-radius: 12px;
-    font-size: 0.92rem;
+    padding: 10px 18px;
+    border-radius: var(--rounded-sm);
+    font-size: 14px;
     font-weight: 600;
+    height: 40px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background 0.15s ease;
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -305,13 +378,11 @@
     box-sizing: border-box;
   }
   .url-fetch-btn:hover {
-    background: #0284c7;
-    transform: translateY(-1px);
+    background: var(--color-primary-strong);
   }
   .url-fetch-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
   }
   @media (max-width: 480px) {
     .url-input-group {
@@ -323,8 +394,8 @@
   }
 
   .url-examples {
-    font-size: 0.82rem;
-    color: var(--text-muted);
+    font-size: 12px;
+    color: var(--color-muted);
   }
   .example-pills {
     display: flex;
@@ -333,24 +404,18 @@
     margin-top: 6px;
   }
   .example-pill {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--border);
-    padding: 5px 10px;
-    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    padding: 4px 10px;
+    border-radius: var(--rounded-full);
     cursor: pointer;
-    font-size: 0.76rem;
-    color: var(--text);
-    transition: all 0.15s;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    word-break: break-word;
+    font-size: 12px;
+    color: var(--color-text);
+    transition: border-color 0.15s, color 0.15s;
   }
   .example-pill:hover {
-    background: rgba(14, 165, 233, 0.15);
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--color-primary);
+    color: var(--color-on-surface);
   }
 
   /* File Info */
@@ -364,64 +429,67 @@
   }
   .file-info .filename {
     font-weight: 600;
-    font-size: 1rem;
-    color: var(--success);
+    font-size: 15px;
+    color: var(--color-on-surface);
     word-break: break-all;
     text-align: center;
   }
   .file-info .theme-badge {
     display: inline-block;
-    background: rgba(14, 165, 233, 0.15);
-    color: var(--accent);
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
+    background: rgba(142, 108, 228, 0.15);
+    color: var(--color-primary-strong);
+    padding: 2px 10px;
+    border-radius: var(--rounded-full);
+    font-size: 12px;
     font-weight: 600;
-    border: 1px solid rgba(14, 165, 233, 0.3);
+    border: 1px solid rgba(142, 108, 228, 0.35);
   }
   .file-info .filesize {
-    color: var(--text-muted);
-    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-size: 13px;
   }
   .file-info .remove-btn {
-    background: rgba(239, 68, 68, 0.15);
-    color: var(--error);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    padding: 6px 16px;
-    border-radius: 6px;
+    background: transparent;
+    color: var(--color-error);
+    border: 1px solid rgba(228, 108, 142, 0.4);
+    padding: 6px 14px;
+    border-radius: var(--rounded-sm);
     cursor: pointer;
-    font-size: 0.82rem;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
     margin-top: 6px;
     position: relative;
     z-index: 20;
-    transition: all 0.2s;
+    transition: background 0.15s, border-color 0.15s;
   }
   .file-info .remove-btn:hover {
-    background: rgba(239, 68, 68, 0.3);
-    transform: translateY(-1px);
+    background: rgba(228, 108, 142, 0.15);
+    border-color: var(--color-error);
   }
 
   /* Preview Panel */
   .preview-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-md);
     padding: 20px;
     min-height: 250px;
   }
   .preview-panel h3 {
-    font-size: 1rem;
-    margin-bottom: 16px;
-    color: var(--text-muted);
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.4px;
+    margin-bottom: 14px;
+    color: var(--color-on-surface);
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   .preview-theme-title {
-    font-size: 0.85rem;
-    color: var(--accent);
+    font-size: 13px;
     font-weight: 600;
+    color: var(--color-primary-strong);
   }
 
   /* Color Swatches & Interactive Color Picker */
@@ -429,18 +497,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     flex-wrap: wrap;
     gap: 6px;
   }
   .color-palette-header .palette-title {
-    font-size: 0.85rem;
+    font-size: 13px;
     font-weight: 600;
-    color: var(--text);
+    color: var(--color-on-surface);
   }
   .color-palette-header .palette-hint {
-    font-size: 0.73rem;
-    color: var(--text-muted);
+    font-size: 12px;
+    color: var(--color-muted);
   }
   .color-grid {
     display: grid;
@@ -451,39 +519,33 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 9px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    font-size: 0.78rem;
+    padding: 6px 10px;
+    background: #191920;
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-sm);
+    font-size: 12px;
     position: relative;
     cursor: pointer;
     user-select: none;
-    transition: background 0.15s, border-color 0.15s, transform 0.12s;
+    transition: border-color 0.15s, background 0.15s;
   }
   .color-swatch:hover {
-    background: rgba(255,255,255,0.07);
-    border-color: rgba(14, 165, 233, 0.4);
-    transform: translateY(-1px);
+    border-color: var(--color-primary);
+    background: #202028;
   }
   .color-swatch .swatch-circle {
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: var(--rounded-sm);
     flex-shrink: 0;
-    border: 1.5px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.25);
     position: relative;
     cursor: pointer;
     overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
-    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .color-swatch:hover .swatch-circle {
-    transform: scale(1.08);
-    box-shadow: 0 0 8px rgba(14, 165, 233, 0.5);
   }
   .color-swatch .swatch-picker-input {
     position: absolute;
@@ -503,36 +565,36 @@
     min-width: 0;
   }
   .color-swatch .swatch-label {
-    color: var(--text-muted);
+    color: var(--color-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
-    font-size: 0.72rem;
+    font-size: 11px;
     font-weight: 500;
   }
   .color-swatch .swatch-hex {
-    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-    font-size: 0.72rem;
-    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-on-surface);
   }
   .color-swatch .swatch-edit-icon {
-    font-size: 0.7rem;
-    color: var(--accent);
+    font-size: 10px;
+    color: var(--color-primary-strong);
     opacity: 0;
     transition: opacity 0.15s;
     margin-left: auto;
   }
   .color-swatch:hover .swatch-edit-icon {
-    opacity: 0.8;
+    opacity: 0.9;
   }
 
   /* Opacity Control */
   .opacity-control-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 16px;
+    background: #191920;
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 14px 16px;
     margin-top: 14px;
     margin-bottom: 6px;
     display: flex;
@@ -543,24 +605,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.82rem;
+    font-size: 13px;
   }
   .opacity-control-title {
     font-weight: 600;
-    color: var(--text);
+    color: var(--color-on-surface);
     display: flex;
     align-items: center;
     gap: 6px;
   }
   .opacity-val-badge {
-    background: rgba(14, 165, 233, 0.15);
-    color: var(--accent);
+    background: rgba(142, 108, 228, 0.15);
+    color: var(--color-primary-strong);
     padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 0.78rem;
+    border-radius: var(--rounded-full);
+    font-size: 12px;
     font-weight: 600;
-    font-family: 'SF Mono', Monaco, monospace;
-    border: 1px solid rgba(14, 165, 233, 0.3);
+    font-family: var(--font-mono);
+    border: 1px solid rgba(142, 108, 228, 0.35);
   }
   .opacity-slider-row {
     display: flex;
@@ -571,49 +633,48 @@
     flex: 1;
     -webkit-appearance: none;
     appearance: none;
-    height: 6px;
-    border-radius: 3px;
-    background: rgba(255, 255, 255, 0.15);
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-border);
     outline: none;
     cursor: pointer;
-    transition: background 0.2s;
   }
   .opacity-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--color-primary);
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
-    transition: transform 0.1s;
+    box-shadow: 0 0 10px rgba(142, 108, 228, 0.5);
+    transition: background 0.15s, transform 0.1s;
   }
   .opacity-slider::-webkit-slider-thumb:hover {
+    background: var(--color-primary-strong);
     transform: scale(1.15);
   }
   .opacity-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--color-primary);
     cursor: pointer;
     border: none;
-    box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
   }
   .opacity-hint {
-    font-size: 0.72rem;
-    color: var(--text-muted);
+    font-size: 12px;
+    color: var(--color-muted);
   }
 
   /* Dual Phone Mockups Container */
   .mockups-dual-container {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 18px;
     width: 100%;
     box-sizing: border-box;
   }
@@ -634,9 +695,9 @@
     }
   }
   .mockup-column-header {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-muted);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     margin-bottom: 8px;
@@ -644,22 +705,23 @@
     align-items: center;
     gap: 6px;
     align-self: flex-start;
-    padding-left: 4px;
+    padding-left: 2px;
   }
 
   /* Chat Conversation Mockup */
   .chat-mockup {
-    border-radius: 18px;
+    border-radius: var(--rounded-lg);
     overflow: hidden;
-    font-size: 0.82rem;
-    border: 1px solid var(--border);
+    font-size: 13px;
+    border: 1px solid var(--color-border);
     width: 100%;
     max-width: 340px;
     height: 440px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    position: relative;
   }
   .chat-mockup .mock-header {
     padding: 10px 14px;
@@ -668,15 +730,16 @@
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
+    z-index: 3;
   }
   .chat-mockup .mock-header .mock-avatar {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 12px;
     font-weight: 700;
     flex-shrink: 0;
   }
@@ -685,13 +748,15 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
   }
   .chat-mockup .mock-header .mock-subtitle {
     font-weight: 400;
-    font-size: 0.72rem;
+    font-size: 11px;
     opacity: 0.7;
   }
   .chat-mockup .mock-messages {
+    position: relative;
     padding: 12px;
     flex: 1;
     overflow-y: auto;
@@ -699,15 +764,31 @@
     flex-direction: column;
     justify-content: flex-end;
     gap: 6px;
-    transition: background 0.3s;
+    transition: background 0.2s;
+  }
+  .chat-mockup .mock-pattern-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: center repeat;
+    background-size: 360px auto;
+    background-image: url('telegram-pattern.svg'), url('https://telegram.org/img/tgme/pattern.svg?1');
+    mix-blend-mode: overlay;
+    opacity: 0.32;
+    z-index: 1;
   }
   .chat-mockup .mock-bubble {
+    position: relative;
+    z-index: 2;
     max-width: 80%;
     padding: 8px 12px;
     border-radius: 12px;
     line-height: 1.4;
-    position: relative;
-    font-size: 0.8rem;
+    font-size: 13px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+    transition: background 0.1s ease;
   }
   .chat-mockup .mock-bubble.incoming {
     align-self: flex-start;
@@ -718,16 +799,18 @@
     border-bottom-right-radius: 4px;
   }
   .chat-mockup .mock-bubble .bubble-time {
-    font-size: 0.62rem;
-    opacity: 0.6;
+    font-size: 10px;
+    opacity: 0.65;
     text-align: right;
     margin-top: 2px;
   }
   .chat-mockup .mock-bubble .bubble-check {
-    font-size: 0.62rem;
+    font-size: 10px;
     margin-left: 3px;
   }
   .chat-mockup .mock-input-bar {
+    position: relative;
+    z-index: 3;
     padding: 8px 12px;
     display: flex;
     align-items: center;
@@ -738,31 +821,33 @@
     flex: 1;
     padding: 6px 12px;
     border-radius: 18px;
-    font-size: 0.78rem;
+    font-size: 13px;
     border: none;
     outline: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .chat-mockup .mock-input-bar .mock-send-btn {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
+    font-size: 14px;
     flex-shrink: 0;
   }
 
   /* Chat List Mockup */
   .chat-list-mockup {
-    border-radius: 18px;
+    border-radius: var(--rounded-lg);
     overflow: hidden;
-    font-size: 0.82rem;
-    border: 1px solid var(--border);
+    font-size: 13px;
+    border: 1px solid var(--color-border);
     width: 100%;
     max-width: 340px;
     height: 440px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -777,18 +862,18 @@
     flex-shrink: 0;
   }
   .mock-list-avatar {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.78rem;
+    font-size: 12px;
     font-weight: 700;
     flex-shrink: 0;
   }
   .mock-list-title {
-    font-size: 1.05rem;
+    font-size: 16px;
     font-weight: 700;
     flex: 1;
     letter-spacing: -0.01em;
@@ -797,37 +882,37 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 0.95rem;
+    font-size: 15px;
   }
   .mock-folder-tabs {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
+    gap: 6px;
+    padding: 6px 12px;
     overflow-x: auto;
     flex-shrink: 0;
   }
   .mock-folder-pill {
     padding: 3px 10px;
-    border-radius: 14px;
-    font-size: 0.72rem;
+    border-radius: var(--rounded-full);
+    font-size: 11px;
     font-weight: 600;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
   }
   .mock-pill-badge {
-    padding: 1px 6px;
-    border-radius: 10px;
-    font-size: 0.65rem;
+    padding: 1px 5px;
+    border-radius: var(--rounded-full);
+    font-size: 10px;
     font-weight: 700;
   }
   .mock-pill-badge-subtle {
     background: rgba(128,128,128,0.25);
     padding: 1px 5px;
-    border-radius: 10px;
-    font-size: 0.65rem;
+    border-radius: var(--rounded-full);
+    font-size: 10px;
   }
   .mock-chat-items {
     flex: 1;
@@ -844,13 +929,13 @@
     transition: background 0.15s;
   }
   .mock-chat-avatar {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 13px;
     font-weight: 700;
     flex-shrink: 0;
   }
@@ -867,14 +952,14 @@
     align-items: center;
   }
   .mock-chat-name {
-    font-size: 0.8rem;
+    font-size: 13px;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .mock-chat-time {
-    font-size: 0.66rem;
+    font-size: 11px;
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -886,32 +971,32 @@
     align-items: center;
   }
   .mock-chat-msg {
-    font-size: 0.72rem;
+    font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    opacity: 0.8;
+    opacity: 0.75;
   }
   .mock-unread-badge {
     padding: 1px 6px;
-    border-radius: 10px;
-    font-size: 0.65rem;
+    border-radius: var(--rounded-full);
+    font-size: 10px;
     font-weight: 700;
     margin-left: 6px;
     flex-shrink: 0;
   }
   .mock-list-fab {
     position: absolute;
-    bottom: 52px;
+    bottom: 48px;
     right: 14px;
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     cursor: default;
     z-index: 2;
   }
@@ -927,24 +1012,24 @@
     flex-direction: column;
     align-items: center;
     gap: 1px;
-    font-size: 0.62rem;
+    font-size: 10px;
     font-weight: 500;
     cursor: default;
     position: relative;
-    padding: 2px 8px;
+    padding: 2px 6px;
   }
   .mock-bottom-icon {
-    font-size: 0.92rem;
+    font-size: 14px;
     position: relative;
     display: inline-block;
   }
   .mock-bottom-badge {
     position: absolute;
     top: -4px;
-    right: -10px;
-    font-size: 0.55rem;
+    right: -8px;
+    font-size: 9px;
     padding: 1px 4px;
-    border-radius: 8px;
+    border-radius: var(--rounded-full);
     font-weight: 700;
   }
 
@@ -956,23 +1041,23 @@
   .wallpaper-preview img {
     max-width: 100%;
     max-height: 180px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
+    border-radius: var(--rounded-md);
+    border: 1px solid var(--color-border);
   }
   .wallpaper-preview .wp-label {
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    font-size: 12px;
+    color: var(--color-muted);
     margin-top: 6px;
   }
 
   /* Loading indicator */
   .loading-spinner {
     display: inline-block;
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255,255,255,0.3);
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.25);
     border-radius: 50%;
-    border-top-color: #fff;
+    border-top-color: var(--color-on-surface);
     animation: spin 0.8s linear infinite;
   }
   @keyframes spin {
@@ -982,76 +1067,78 @@
   /* Status message */
   .status-msg {
     padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 0.88rem;
+    border-radius: var(--rounded-sm);
+    font-size: 13px;
     margin-top: 12px;
     display: none;
     text-align: center;
   }
   .status-msg.info {
     display: block;
-    background: rgba(14, 165, 233, 0.1);
-    border: 1px solid rgba(14, 165, 233, 0.3);
-    color: var(--accent);
+    background: rgba(142, 108, 228, 0.1);
+    border: 1px solid rgba(142, 108, 228, 0.35);
+    color: var(--color-primary-strong);
   }
   .status-msg.error {
     display: block;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: var(--error);
+    background: rgba(228, 108, 142, 0.1);
+    border: 1px solid rgba(228, 108, 142, 0.35);
+    color: var(--color-error);
   }
 
   /* Convert Button */
   .convert-section {
     text-align: center;
-    margin: 32px 0;
+    margin: 28px 0;
   }
   .convert-btn {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #fff;
+    background: var(--color-primary);
+    color: var(--color-on-surface);
     border: none;
-    padding: 16px 52px;
-    border-radius: 50px;
-    font-size: 1.15rem;
-    font-weight: 700;
+    padding: 10px 32px;
+    border-radius: var(--rounded-sm);
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    height: 44px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0.5;
+    transition: background 0.15s ease, transform 0.12s ease;
+    opacity: 0.45;
     pointer-events: none;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-    letter-spacing: 0.01em;
+    letter-spacing: -0.2px;
   }
   .convert-btn.ready {
     opacity: 1;
     pointer-events: auto;
   }
   .convert-btn.ready:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 32px rgba(14, 165, 233, 0.4);
+    background: var(--color-primary-strong);
+    transform: translateY(-1px);
   }
   .convert-btn.ready:active {
     transform: translateY(0);
-    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
   }
 
   /* Result Area */
   .result-area {
-    background: var(--surface);
-    border: 1px solid rgba(16, 185, 129, 0.4);
-    border-radius: var(--radius);
-    padding: 30px 24px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 26px 20px;
     display: none;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   }
   .result-area.visible { display: block; }
   .result-area .result-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
   .result-area h3 {
-    color: var(--success);
-    font-size: 1.45rem;
-    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--color-on-surface);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.7px;
     margin-bottom: 6px;
     display: flex;
     align-items: center;
@@ -1059,8 +1146,8 @@
     gap: 8px;
   }
   .result-area .result-stats {
-    color: var(--text-muted);
-    font-size: 0.95rem;
+    color: var(--color-muted);
+    font-size: 14px;
   }
 
   /* Download Action Buttons */
@@ -1068,92 +1155,93 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin: 22px 0;
+    margin: 20px 0;
   }
   .download-btn {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: #fff;
+    background: var(--color-primary);
+    color: var(--color-on-surface);
     border: none;
-    padding: 13px 30px;
-    border-radius: 50px;
-    font-size: 1rem;
+    padding: 10px 22px;
+    border-radius: var(--rounded-sm);
+    font-size: 15px;
     font-weight: 600;
+    height: 40px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background 0.15s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
   }
   .download-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.35);
+    background: var(--color-primary-strong);
   }
   .download-wp-btn {
-    background: linear-gradient(135deg, #0ea5e9, #6366f1);
-    color: #fff;
-    border: none;
-    padding: 13px 30px;
-    border-radius: 50px;
-    font-size: 1rem;
+    background: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    color: var(--color-on-surface);
+    padding: 10px 22px;
+    border-radius: var(--rounded-sm);
+    font-size: 15px;
     font-weight: 600;
+    height: 40px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: border-color 0.15s ease, background 0.15s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
   }
   .download-wp-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(14, 165, 233, 0.35);
+    border-color: var(--color-primary);
+    background: rgba(142, 108, 228, 0.08);
   }
   .download-wp-btn-secondary {
-    background: rgba(14, 165, 233, 0.15);
-    border: 1px solid var(--accent);
-    color: #38bdf8;
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 0.88rem;
+    background: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    color: var(--color-on-surface);
+    padding: 8px 18px;
+    border-radius: var(--rounded-sm);
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.15s ease;
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
   .download-wp-btn-secondary:hover {
-    background: var(--accent);
-    color: #fff;
+    border-color: var(--color-primary);
+    color: var(--color-primary-strong);
   }
 
   /* Extracted Wallpaper Card */
   .result-wp-card {
-    background: var(--surface2);
-    border: 1px solid rgba(14, 165, 233, 0.3);
-    border-radius: 12px;
-    padding: 18px;
-    margin: 20px 0;
+    background: #191920;
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 16px;
+    margin: 18px 0;
     text-align: left;
     display: flex;
-    gap: 18px;
+    gap: 16px;
     align-items: center;
     flex-wrap: wrap;
   }
   .result-wp-card .wp-thumb-box {
-    width: 90px;
-    height: 130px;
-    border-radius: 8px;
+    width: 80px;
+    height: 120px;
+    border-radius: var(--rounded-sm);
     overflow: hidden;
-    border: 2px solid var(--accent);
+    border: 1px solid var(--color-border);
     flex-shrink: 0;
     background: #000;
     cursor: pointer;
     box-shadow: 0 4px 14px rgba(0,0,0,0.5);
-    transition: transform 0.2s;
+    transition: border-color 0.2s;
   }
   .result-wp-card .wp-thumb-box:hover {
-    transform: scale(1.03);
+    border-color: var(--color-primary);
   }
   .result-wp-card .wp-thumb-box img {
     width: 100%;
@@ -1167,37 +1255,39 @@
   }
   .result-wp-card .wp-badge-tag {
     display: inline-block;
-    background: rgba(14, 165, 233, 0.15);
-    border: 1px solid var(--accent);
-    color: #38bdf8;
-    font-size: 0.75rem;
+    background: rgba(142, 108, 228, 0.15);
+    border: 1px solid rgba(142, 108, 228, 0.35);
+    color: var(--color-primary-strong);
+    font-size: 11px;
     font-weight: 600;
-    padding: 3px 9px;
-    border-radius: 12px;
+    padding: 2px 8px;
+    border-radius: var(--rounded-full);
     margin-bottom: 6px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
   .result-wp-card h4 {
-    font-size: 1.05rem;
-    color: var(--text);
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-on-surface);
     margin-bottom: 4px;
   }
   .result-wp-card p {
-    font-size: 0.86rem;
-    color: var(--text-muted);
+    font-size: 13px;
+    color: var(--color-muted);
     line-height: 1.45;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   /* iOS Step-by-Step Instructions Guide */
   .ios-guide-card {
-    background: #0f172a;
-    border: 1px solid rgba(99, 102, 241, 0.4);
-    border-radius: 14px;
-    padding: 24px;
+    background: #14141a;
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-md);
+    padding: 22px;
     text-align: left;
-    margin-top: 24px;
+    margin-top: 20px;
     position: relative;
     overflow: hidden;
   }
@@ -1207,8 +1297,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--success));
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-strong));
   }
   .ios-guide-card .guide-title-row {
     display: flex;
@@ -1217,58 +1307,60 @@
     margin-bottom: 8px;
   }
   .ios-guide-card .guide-title-row h4 {
-    font-size: 1.15rem;
-    color: #fff;
-    font-weight: 700;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-on-surface);
     margin: 0;
+    letter-spacing: -0.4px;
   }
   .ios-guide-card .guide-intro {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--color-muted);
+    margin-bottom: 18px;
     line-height: 1.5;
   }
   .ios-guide-steps {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
   .guide-step-item {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
+    gap: 12px;
   }
   .step-circle {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    background: var(--accent2);
-    color: #fff;
-    font-size: 0.85rem;
+    background: var(--color-secondary);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary-strong);
+    font-size: 12px;
     font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     margin-top: 2px;
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
   }
   .step-circle.done {
-    background: var(--success);
-    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+    background: var(--color-primary);
+    color: var(--color-on-surface);
   }
   .step-text {
     flex: 1;
   }
   .step-text strong {
-    color: #f1f5f9;
-    font-size: 0.95rem;
+    color: var(--color-on-surface);
+    font-size: 14px;
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
   }
   .step-text p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-size: 13px;
     line-height: 1.45;
     margin: 0;
   }
@@ -1276,24 +1368,24 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(14, 165, 233, 0.12);
-    border: 1px solid rgba(14, 165, 233, 0.35);
-    color: #38bdf8;
-    padding: 5px 12px;
-    border-radius: 7px;
-    font-size: 0.85rem;
+    background: #1c1c24;
+    border: 1px solid var(--color-border);
+    color: var(--color-on-surface);
+    padding: 4px 10px;
+    border-radius: var(--rounded-sm);
+    font-size: 12px;
     font-weight: 600;
     margin: 6px 0;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--font-mono);
   }
   .guide-tip {
-    margin-top: 18px;
-    padding: 12px 14px;
-    background: rgba(234, 179, 8, 0.1);
-    border: 1px solid rgba(234, 179, 8, 0.3);
-    border-radius: 8px;
-    color: #fde047;
-    font-size: 0.82rem;
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: rgba(142, 108, 228, 0.08);
+    border: 1px solid rgba(142, 108, 228, 0.25);
+    border-radius: var(--rounded-sm);
+    color: var(--color-on-surface);
+    font-size: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1302,11 +1394,10 @@
   /* Mobile Responsiveness Improvements */
   @media (max-width: 640px) {
     .result-area {
-      padding: 20px 14px;
-      border-radius: var(--radius);
+      padding: 18px 14px;
     }
     .result-area h3 {
-      font-size: 1.25rem;
+      font-size: 20px;
     }
     .download-actions {
       flex-direction: column;
@@ -1316,15 +1407,15 @@
     .download-btn, .download-wp-btn {
       width: 100%;
       justify-content: center;
-      padding: 14px 20px;
-      font-size: 0.95rem;
+      padding: 12px 18px;
+      font-size: 14px;
     }
     .result-wp-card {
       padding: 14px;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 14px;
+      gap: 12px;
     }
     .result-wp-card .wp-card-details {
       min-width: 0;
@@ -1338,47 +1429,33 @@
       justify-content: center;
     }
     .ios-guide-card {
-      padding: 18px 14px;
-      border-radius: var(--radius);
+      padding: 16px 14px;
     }
     .guide-path-badge {
       display: block;
       width: 100%;
       text-align: center;
-      font-size: 0.78rem;
+      font-size: 11px;
       padding: 6px 8px;
       word-break: break-word;
       white-space: normal;
     }
-    .guide-step-item {
-      gap: 10px;
-    }
     .convert-section {
-      margin: 24px 0;
+      margin: 22px 0;
       padding: 0 4px;
     }
     .convert-btn {
       width: 100%;
       max-width: 100%;
-      padding: 16px 24px;
-      border-radius: 50px;
+      padding: 12px 20px;
     }
     .color-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 6px;
     }
-    .color-swatch {
-      padding: 6px 8px;
-      font-size: 0.74rem;
-    }
-    .color-swatch .swatch-circle {
-      width: 24px;
-      height: 24px;
-    }
     .chat-mockup, .chat-list-mockup {
       max-width: 100%;
       height: 420px;
-      border-radius: var(--radius);
     }
   }
 
@@ -1391,12 +1468,12 @@
   /* Footer */
   footer {
     text-align: center;
-    padding: 32px 16px 20px;
-    color: var(--text-muted);
-    font-size: 0.82rem;
+    padding: 36px 16px 20px;
+    color: var(--color-muted);
+    font-size: 13px;
     line-height: 1.5;
   }
-  footer a { color: var(--accent); text-decoration: none; }
+  footer a { color: var(--color-primary-strong); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
   .hidden { display: none !important; }
@@ -1406,8 +1483,9 @@
 
 <div class="container">
   <header>
-    <h1>✈️ Telemorph</h1>
-    <p>Telegram Theme Converter: Android (.attheme / links) ↔ iOS (.tgios-theme)</p>
+    <div class="brand-badge"><span class="dot"></span>Telemorph Studio</div>
+    <h1>Telemorph</h1>
+    <p>Bi-directional theme metamorphosis between Android (.attheme / links) and iOS (.tgios-theme).</p>
   </header>
 
   <!-- Direction Toggle -->
@@ -1764,6 +1842,153 @@ function rgbToHsv(r, g, b) {
     h /= 6;
   }
   return { h, s, v };
+}
+
+// Safely extract RGB components from 6-char or 8-char ARGB hex strings
+function extractRGB(hex) {
+  if (!hex) return { r: 255, g: 255, b: 255 };
+  hex = String(hex).trim().replace(/^#/, '');
+  if (hex === 'clear') return { r: 255, g: 255, b: 255 };
+  if (hex.length === 8) hex = hex.substring(2);
+  if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+  if (hex.length !== 6) hex = hex.padEnd(6, 'f').substring(0, 6);
+  const num = parseInt(hex, 16);
+  if (isNaN(num)) return { r: 255, g: 255, b: 255 };
+  return {
+    r: (num >> 16) & 0xff,
+    g: (num >> 8) & 0xff,
+    b: num & 0xff
+  };
+}
+
+// Fetch image from URL directly or through local/public proxies
+async function fetchImageAsBlob(url) {
+  if (!url) return null;
+  // 1. Direct fetch
+  try {
+    const res = await fetch(url);
+    if (res.ok) return await res.blob();
+  } catch (e) {}
+
+  // 2. Local proxy
+  try {
+    const localRes = await fetch(`/api/fetch?url=${encodeURIComponent(url)}`);
+    if (localRes.ok) return await localRes.blob();
+  } catch (e) {}
+
+  // 3. Fallback proxies
+  const proxies = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+  ];
+  for (const p of proxies) {
+    try {
+      const res = await fetch(p);
+      if (res.ok) return await res.blob();
+    } catch (e) {}
+  }
+  return null;
+}
+
+// Synthesize authentic Telegram 4-corner bilinear mesh wallpaper (matching TWallpaper) with pattern overlay
+async function renderTelegramMeshWallpaper(colors, hasPattern = true, width = 1170, height = 2532) {
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  const hexList = (colors && colors.length > 0 ? colors : ['dbddbb', '6ba587', 'd5d88d', '88b884'])
+    .map(c => c.replace(/^#/, '').padEnd(6, '0').substring(0, 6));
+
+  if (hexList.length === 1) {
+    ctx.fillStyle = '#' + hexList[0];
+    ctx.fillRect(0, 0, width, height);
+  } else if (hexList.length === 2) {
+    const grad = ctx.createLinearGradient(0, 0, 0, height);
+    grad.addColorStop(0, '#' + hexList[0]);
+    grad.addColorStop(1, '#' + hexList[1]);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+  } else {
+    const c0 = extractRGB(hexList[0]);
+    const c1 = extractRGB(hexList[1] || hexList[0]);
+    const c2 = extractRGB(hexList[2] || hexList[1] || hexList[0]);
+    const c3 = extractRGB(hexList[3] || hexList[2] || hexList[0]);
+
+    const offW = 320;
+    const offH = Math.round(320 * (height / width));
+    const offCanvas = document.createElement('canvas');
+    offCanvas.width = offW;
+    offCanvas.height = offH;
+    const offCtx = offCanvas.getContext('2d');
+    const imgData = offCtx.createImageData(offW, offH);
+    const data = imgData.data;
+
+    const smooth = (t) => t * t * (3 - 2 * t);
+
+    for (let y = 0; y < offH; y++) {
+      const v = smooth(y / (offH - 1));
+      const iv = 1 - v;
+      for (let x = 0; x < offW; x++) {
+        const u = smooth(x / (offW - 1));
+        const iu = 1 - u;
+
+        const w0 = iu * iv;
+        const w1 = u * iv;
+        const w2 = iu * v;
+        const w3 = u * v;
+
+        const r = Math.round(c0.r * w0 + c1.r * w1 + c2.r * w2 + c3.r * w3);
+        const g = Math.round(c0.g * w0 + c1.g * w1 + c2.g * w2 + c3.g * w3);
+        const b = Math.round(c0.b * w0 + c1.b * w1 + c2.b * w2 + c3.b * w3);
+
+        const idx = (y * offW + x) * 4;
+        data[idx] = r;
+        data[idx + 1] = g;
+        data[idx + 2] = b;
+        data[idx + 3] = 255;
+      }
+    }
+    offCtx.putImageData(imgData, 0, 0);
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(offCanvas, 0, 0, width, height);
+  }
+
+  // Overlay authentic Telegram doodle pattern
+  if (hasPattern) {
+    try {
+      const patImg = new Image();
+      patImg.crossOrigin = 'anonymous';
+      await new Promise((resolve) => {
+        patImg.onload = resolve;
+        patImg.onerror = resolve;
+        patImg.src = 'telegram-pattern.svg';
+      });
+
+      if (patImg.complete && patImg.naturalWidth > 0) {
+        ctx.save();
+        const patPattern = ctx.createPattern(patImg, 'repeat');
+        if (patPattern) {
+          ctx.fillStyle = patPattern;
+          ctx.globalAlpha = 0.28;
+          ctx.globalCompositeOperation = 'overlay';
+          ctx.fillRect(0, 0, width, height);
+        }
+        ctx.restore();
+      }
+    } catch (err) {
+      console.warn('Pattern overlay skipped:', err);
+    }
+  }
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(blob);
+    }, 'image/jpeg', 0.95);
+  });
 }
 
 // ============================================================
@@ -2663,7 +2888,7 @@ function generateTgiosTheme385(name, palette, isDark) {
     'chat.inputPanel.panelControlAccent': accent,
     'chat.inputPanel.panelControl': secondaryText,
     'chat.inputPanel.panelControlDisabled': '1e' + secondaryText,
-    'chat.inputPanel.inputBg': inputField,
+    'chat.inputPanel.inputBg': isDarkTheme ? '1ed6d6d6' : '1e000000',
     'chat.inputPanel.inputStroke': panelBg,
     'chat.inputPanel.inputPlaceholder': '33' + secondaryText,
     'chat.inputPanel.inputText': inputText,
@@ -2782,7 +3007,7 @@ function convertAndroidToIOS(theme) {
       if (theme.colors['chat_messagePanelBackground']) {
         inputPanelBg = argbToRgbHex(theme.colors['chat_messagePanelBackground']);
         const isD = isDark(inputPanelBg);
-        fieldHex = isD ? mixColors(inputPanelBg, '000000', 0.15) : mixColors(inputPanelBg, 'ffffff', 0.12);
+        fieldHex = isD ? mixColors(inputPanelBg, 'ffffff', 0.12) : mixColors(inputPanelBg, '000000', 0.06);
       }
       if (theme.colors['chat_inBubble']) inBubbleHex = argbToRgbHex(theme.colors['chat_inBubble']);
       if (theme.colors['chat_outBubble']) outBubbleHex = argbToRgbHex(theme.colors['chat_outBubble']);
@@ -2850,10 +3075,10 @@ function convertAndroidToIOS(theme) {
   const rawNavBg = argbToRgbHex(colors['actionBarDefault'] || rawBg);
   const rawPanelBg = argbToRgbHex(colors['chat_messagePanelBackground'] || rawNavBg);
 
-  // Derive input field: mix panel bg with white/black for a subtle tint
+  // Derive input field: mix panel bg with white/black for a subtle translucent pill
   const rawFieldBg = themeIsDark
-    ? mixColors(rawPanelBg, '000000', 0.15)
-    : mixColors(rawPanelBg, 'ffffff', 0.12);
+    ? mixColors(rawPanelBg, 'ffffff', 0.12)
+    : mixColors(rawPanelBg, '000000', 0.06);
 
   const rawAccent = argbToRgbHex(
     colors['windowBackgroundWhiteBlueText4'] ||
@@ -3096,21 +3321,21 @@ function applyPickedColorToTheme(theme, label, cleanHex) {
       theme.wallpaperColors[0] = cleanHex;
     }
     if (label === 'In Bubble') {
-      activeInRGB = hexToARGB(cleanHex);
+      activeInRGB = extractRGB(cleanHex);
     } else if (label === 'Out Bubble') {
-      activeOutRGB = hexToARGB(cleanHex);
+      activeOutRGB = extractRGB(cleanHex);
     }
   } else {
     const keys = IOS_COLOR_KEYS[label] || [];
     for (const k of keys) {
       const oldVal = theme.colors[k];
-      const alpha = (oldVal && oldVal.length === 8) ? oldVal.substring(6, 8) : '';
-      theme.colors[k] = cleanHex + alpha;
+      const alpha = (oldVal && oldVal.length === 8) ? oldVal.substring(0, 2) : '';
+      theme.colors[k] = alpha + cleanHex;
     }
     if (label === 'In Bubble') {
-      activeInRGB = hexToARGB(cleanHex);
+      activeInRGB = extractRGB(cleanHex);
     } else if (label === 'Out Bubble') {
-      activeOutRGB = hexToARGB(cleanHex);
+      activeOutRGB = extractRGB(cleanHex);
     }
   }
 }
@@ -3189,7 +3414,7 @@ function updatePreviewMockupElement(theme, label, newHex, cleanHex) {
       break;
     }
     case 'In Bubble': {
-      const rgb = hexToARGB(cleanHex);
+      const rgb = extractRGB(cleanHex);
       activeInRGB = rgb;
       const inCSS = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${(curOp / 100).toFixed(2)})`;
       const bIn1 = document.getElementById('mockBubbleIn1');
@@ -3214,7 +3439,7 @@ function updatePreviewMockupElement(theme, label, newHex, cleanHex) {
       break;
     }
     case 'Out Bubble': {
-      const rgb = hexToARGB(cleanHex);
+      const rgb = extractRGB(cleanHex);
       activeOutRGB = rgb;
       const outCSS = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${(curOp / 100).toFixed(2)})`;
       const bOut = document.getElementById('mockBubbleOut');
@@ -3360,8 +3585,8 @@ function renderPreview(theme) {
   const currentOpacity = customBubbleOpacity !== null ? customBubbleOpacity : detectedOpacity;
 
   // Apply current opacity to bubble CSS
-  activeInRGB = hexToARGB(rawInBubbleHex);
-  activeOutRGB = hexToARGB(rawOutBubbleHex);
+  activeInRGB = extractRGB(rawInBubbleHex);
+  activeOutRGB = extractRGB(rawOutBubbleHex);
   const inBubbleCSS = `rgba(${activeInRGB.r}, ${activeInRGB.g}, ${activeInRGB.b}, ${(currentOpacity / 100).toFixed(2)})`;
   const outBubbleCSS = `rgba(${activeOutRGB.r}, ${activeOutRGB.g}, ${activeOutRGB.b}, ${(currentOpacity / 100).toFixed(2)})`;
 
@@ -3397,20 +3622,8 @@ function renderPreview(theme) {
     wallpaperCSS = hexToCSS(wpVal.split(' ')[0]);
   }
 
-  let inputFieldBg;
-  if (isAndroid && theme.sourceFormat === 'telegram-slug' && theme.wallpaperColors && theme.wallpaperColors.length) {
-    const b0 = hexToARGB(theme.wallpaperColors[0]);
-    const bgRgb = [Math.round(b0.r * 0.565), Math.round(b0.g * 0.570), Math.round(b0.b * 0.545)];
-    const bgHex = bgRgb.map(v => v.toString(16).padStart(2, '0')).join('');
-    inputFieldBg = '#' + mixColors(bgHex, 'ffffff', 0.12);
-  } else if (isAndroid && colors['chat_messagePanelBackground']) {
-    const panelHex = argbToRgbHex(colors['chat_messagePanelBackground']);
-    const isD = isDark(panelHex);
-    inputFieldBg = '#' + (isD ? mixColors(panelHex, '000000', 0.15) : mixColors(panelHex, 'ffffff', 0.12));
-  } else {
-    inputFieldBg = isDark(inputPanel) ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.06)';
-  }
-  const inputTextCSS = '#' + getContrastColor(argbToRgbHex(inputPanel));
+  const inputFieldBg = isDark(inputPanel) ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.06)';
+  const inputTextCSS = isDark(inputPanel) ? '#ffffff' : '#000000';
 
   const isOriginal = (currentOpacity === detectedOpacity);
   const badgeLabel = `${currentOpacity}%` + (isOriginal ? ' (Original)' : '');
@@ -3581,7 +3794,8 @@ function renderPreview(theme) {
             </div>
           </div>
           <div class="mock-messages" style="background:${wallpaperCSS}">
-            <div style="text-align:center; margin-bottom:4px;">
+            <div class="mock-pattern-layer" style="filter:${isDark(chatListBg) ? 'invert(1)' : 'none'}; opacity:${isDark(chatListBg) ? '0.22' : '0.14'};"></div>
+            <div style="text-align:center; margin-bottom:4px; position:relative; z-index:2;">
               <span style="background:${serviceBgCSS}; color:${serviceTextCSS}; padding:3px 10px; border-radius:10px; font-size:0.72rem;">Today</span>
             </div>
             <div class="mock-bubble incoming" id="mockBubbleIn1" style="background:${inBubbleCSS}; color:${inTextCSS}">
@@ -3687,11 +3901,20 @@ async function fetchThemeFromUrl(inputUrl) {
   showStatus('Fetching theme details...', 'info');
   setFetching(true);
 
-  // 1. Check if it's a Telegram theme slug link (t.me/addtheme/... or tg://addtheme?slug=...)
-  const slugMatch = inputUrl.match(/addtheme[/:=]([a-zA-Z0-9_-]+)/);
+  // 1. Check if it's a Telegram theme slug or wallpaper link (t.me/addtheme/..., t.me/bg/..., etc.)
+  const slugMatch = inputUrl.match(/(?:addtheme|bg)[/:=]([a-zA-Z0-9_-]+)/i);
+  const isBgSlug = /bg[/:=]/i.test(inputUrl);
+
   if (slugMatch) {
     const slug = slugMatch[1];
-    await resolveTelegramSlug(slug, inputUrl);
+    await resolveTelegramSlug(slug, inputUrl, isBgSlug);
+    setFetching(false);
+    return;
+  }
+
+  // Bare slug without domain
+  if (/^[a-zA-Z0-9_-]{3,64}$/.test(inputUrl) && !inputUrl.includes('.')) {
+    await resolveTelegramSlug(inputUrl, inputUrl, false);
     setFetching(false);
     return;
   }
@@ -3702,16 +3925,19 @@ async function fetchThemeFromUrl(inputUrl) {
 }
 
 // Resolve Telegram slug via local server or CORS proxies
-async function resolveTelegramSlug(slug, originalUrl) {
-  showStatus(`Resolving Telegram theme: ${slug}...`, 'info');
+async function resolveTelegramSlug(slug, originalUrl, isBg = false) {
+  showStatus(`Resolving Telegram ${isBg ? 'wallpaper' : 'theme'}: ${slug}...`, 'info');
+
+  const typeParam = isBg ? '&type=bg' : '';
+  const urlParam = originalUrl ? `&url=${encodeURIComponent(originalUrl)}` : '';
 
   // Try Local server API first
   try {
-    const localRes = await fetch(`/api/theme-info?slug=${encodeURIComponent(slug)}`);
+    const localRes = await fetch(`/api/theme-info?slug=${encodeURIComponent(slug)}${typeParam}${urlParam}`);
     if (localRes.ok) {
       const data = await localRes.json();
       if (data.success) {
-        applySlugTheme(data);
+        await applySlugTheme(data);
         return;
       }
     }
@@ -3720,7 +3946,10 @@ async function resolveTelegramSlug(slug, originalUrl) {
   }
 
   // Proxies to try
-  const targetUrl = `https://t.me/addtheme/${slug}`;
+  const targetUrl = originalUrl && originalUrl.startsWith('http')
+    ? originalUrl
+    : (isBg ? `https://t.me/bg/${slug}` : `https://t.me/addtheme/${slug}`);
+
   const proxies = [
     `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
     `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
@@ -3733,7 +3962,7 @@ async function resolveTelegramSlug(slug, originalUrl) {
       const res = await fetch(proxy);
       if (res.ok) {
         html = await res.text();
-        if (html && html.includes('tgme_page')) {
+        if (html && (html.includes('tgme_page') || html.includes('data-colors') || html.includes('og:title'))) {
           break;
         }
       }
@@ -3754,21 +3983,57 @@ async function resolveTelegramSlug(slug, originalUrl) {
   const colorsMatch = html.match(/data-colors="([0-9a-fA-F,]+)"/);
   const colors = colorsMatch ? colorsMatch[1].split(',') : [];
 
+  let wallpaperUrl = null;
+  const ogImgMatch = html.match(/<meta property="og:image" content="([^"]+)"/);
+  if (ogImgMatch) {
+    const ogImg = ogImgMatch[1].trim();
+    if (ogImg && !ogImg.includes('t_logo') && !ogImg.includes('telegram.org/img')) {
+      wallpaperUrl = ogImg;
+    }
+  }
+  const bgStyleMatch = html.match(/class="tgme_background[^"]*"[^>]*style="[^"]*background(?:-image)?:\s*url\(['"]?([^'")]+)['"]?\)/i);
+  if (bgStyleMatch) {
+    wallpaperUrl = bgStyleMatch[1].trim();
+  }
+
   const isDark = html.includes('theme_dark') || html.toLowerCase().includes('dark') || html.toLowerCase().includes('night');
 
-  applySlugTheme({
+  await applySlugTheme({
     slug,
     title,
     colors,
     isDark,
-    url: targetUrl
+    url: targetUrl,
+    wallpaperUrl
   });
 }
 
-function applySlugTheme(data) {
+async function applySlugTheme(data) {
   resetState();
 
   parsedTheme = createThemeFromSlugData(data);
+
+  // If theme has a direct wallpaper URL, fetch authentic image blob
+  if (data.wallpaperUrl) {
+    showStatus(`Downloading authentic wallpaper image...`, 'info');
+    const blob = await fetchImageAsBlob(data.wallpaperUrl);
+    if (blob) {
+      parsedTheme.wallpaperBlob = blob;
+    }
+  }
+
+  // If no static wallpaper blob but colors exist, generate authentic 4-corner mesh wallpaper
+  if (!parsedTheme.wallpaperBlob && data.colors && data.colors.length > 0) {
+    try {
+      showStatus('Rendering authentic Telegram mesh wallpaper...', 'info');
+      const meshBlob = await renderTelegramMeshWallpaper(data.colors, true);
+      if (meshBlob) {
+        parsedTheme.wallpaperBlob = meshBlob;
+      }
+    } catch (e) {
+      console.warn('Mesh wallpaper generation skipped:', e);
+    }
+  }
 
   // Show active theme badge and info
   uploadPlaceholder.classList.add('hidden');
@@ -3776,16 +4041,16 @@ function applySlugTheme(data) {
   uploadArea.classList.add('has-file');
 
   themeBadge.classList.remove('hidden');
-  themeBadge.textContent = '🌐 Telegram Link';
+  themeBadge.textContent = data.wallpaperUrl ? '🖼️ Wallpaper Theme' : '🌐 Telegram Link';
 
   fileNameEl.textContent = data.title;
-  const colCount = data.colors && data.colors.length ? `${data.colors.length}-color gradient` : 'solid';
+  const colCount = parsedTheme.wallpaperBlob ? 'Wallpaper Extracted' : (data.colors && data.colors.length ? `${data.colors.length}-color gradient` : 'solid');
   fileSizeEl.textContent = `Slug: ${data.slug} • ${colCount}`;
 
   renderPreview(parsedTheme);
   convertBtn.classList.add('ready');
 
-  showStatus(`Theme '${data.title}' loaded successfully! Click 'Convert Theme' to generate your iOS file.`, 'info');
+  showStatus(`Theme '${data.title}' loaded with authentic background! Click 'Convert Theme' to generate your iOS file.`, 'info');
 }
 
 // Fetch direct file (.attheme or .tgios-theme)
@@ -3988,45 +4253,12 @@ async function performConversion() {
       if (wpBlob) {
         wpExt = wpBlob.type === 'image/png' ? 'png' : 'jpg';
       } else if (parsedTheme.wallpaperColors && parsedTheme.wallpaperColors.length > 0) {
-        // Render high-res iPhone wallpaper (1170x2532)
-        const canvas = document.createElement('canvas');
-        canvas.width = 1170;
-        canvas.height = 2532;
-        const ctx = canvas.getContext('2d');
-        const colors = parsedTheme.wallpaperColors;
-        if (colors.length === 1) {
-          ctx.fillStyle = '#' + colors[0];
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-        } else {
-          const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-          colors.forEach((c, idx) => {
-            grad.addColorStop(idx / (colors.length - 1), '#' + c);
-          });
-          ctx.fillStyle = grad;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-        await new Promise((resolve) => {
-          canvas.toBlob((b) => {
-            wpBlob = b;
-            wpExt = 'jpg';
-            resolve();
-          }, 'image/jpeg', 0.95);
-        });
+        wpBlob = await renderTelegramMeshWallpaper(parsedTheme.wallpaperColors, true);
+        wpExt = 'jpg';
       } else if (parsedTheme.colors && (parsedTheme.colors['chat_wallpaper'] || parsedTheme.colors['windowBackgroundWhite'])) {
         const bgHex = argbToRgbHex(parsedTheme.colors['chat_wallpaper'] || parsedTheme.colors['windowBackgroundWhite']);
-        const canvas = document.createElement('canvas');
-        canvas.width = 1170;
-        canvas.height = 2532;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#' + bgHex;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        await new Promise((resolve) => {
-          canvas.toBlob((b) => {
-            wpBlob = b;
-            wpExt = 'jpg';
-            resolve();
-          }, 'image/jpeg', 0.95);
-        });
+        wpBlob = await renderTelegramMeshWallpaper([bgHex], true);
+        wpExt = 'jpg';
       }
 
       if (wpBlob) {
@@ -4037,7 +4269,9 @@ async function performConversion() {
         const wpUrl = URL.createObjectURL(wpBlob);
         resultWpThumb.src = wpUrl;
         resultWpFilename.textContent = convertedWallpaperData.filename;
-        resultWpBadge.textContent = parsedTheme.wallpaperBlob ? 'Extracted from .attheme' : 'Theme Wallpaper Ready';
+        resultWpBadge.textContent = (parsedTheme.sourceFormat === 'telegram-slug' && parsedTheme.wallpaperBlob)
+          ? 'Authentic Wallpaper Extracted'
+          : (parsedTheme.sourceFormat === 'attheme' && parsedTheme.wallpaperBlob ? 'Extracted from .attheme' : 'Theme Wallpaper Ready');
 
         resultWpCard.classList.remove('hidden');
         downloadWpBtn.classList.remove('hidden');

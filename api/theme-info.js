@@ -17,18 +17,23 @@ export default async function handler(req, res) {
 
   // Extract slug
   let slug = target;
-  const match = target.match(/addtheme[/:=]([a-zA-Z0-9_-]+)/);
-  if (match) {
-    slug = match[1];
+  let tmeUrl = '';
+  const matchBg = target.match(/bg[/:=]([a-zA-Z0-9_-]+)/);
+  const matchAdd = target.match(/addtheme[/:=]([a-zA-Z0-9_-]+)/);
+  if (matchBg) {
+    slug = matchBg[1];
+    tmeUrl = `https://t.me/bg/${slug}`;
+  } else if (matchAdd) {
+    slug = matchAdd[1];
+    tmeUrl = `https://t.me/addtheme/${slug}`;
   } else {
     slug = slug.replace(/[^a-zA-Z0-9_-]/g, '');
+    tmeUrl = `https://t.me/addtheme/${slug}`;
   }
 
   if (!slug) {
     return res.status(400).json({ success: false, error: 'Invalid theme slug or link' });
   }
-
-  const tmeUrl = `https://t.me/addtheme/${slug}`;
 
   try {
     const response = await fetch(tmeUrl, {
@@ -49,10 +54,31 @@ export default async function handler(req, res) {
     // Extract title
     const titleMatch = html.match(/<meta property="og:title" content="([^"]+)"/);
     let title = titleMatch ? titleMatch[1].replace(/^Telegram Theme:\s*/i, '').trim() : `Theme ${slug}`;
+    if (!title) title = `Theme ${slug}`;
 
     // Extract colors
     const colorsMatch = html.match(/data-colors="([0-9a-fA-F,]+)"/);
     const colors = colorsMatch ? colorsMatch[1].split(',') : [];
+
+    // Extract wallpaper image if present
+    let wallpaperUrl = null;
+    const ogImgMatch = html.match(/<meta property="og:image" content="([^"]+)"/);
+    if (ogImgMatch) {
+      const ogImg = ogImgMatch[1].trim();
+      if (ogImg && !ogImg.includes('t_logo') && !ogImg.includes('telegram.org/img')) {
+        wallpaperUrl = ogImg;
+      }
+    }
+    const bgStyleMatch = html.match(/class="tgme_background[^"]*"[^>]*style="[^"]*background(?:-image)?:\s*url\(['"]?([^'")]+)['"]?\)/);
+    if (bgStyleMatch) {
+      wallpaperUrl = bgStyleMatch[1].trim();
+    }
+
+    let patternUrl = null;
+    const patMatch = html.match(/var\(--pattern-url,\s*url\(['"]?([^'")]+)['"]?\)\)/) || html.match(/--pattern-url:\s*url\(['"]?([^'")]+)['"]?\)/);
+    if (patMatch) {
+      patternUrl = patMatch[1].trim();
+    }
 
     // Detect dark theme from colors luminance
     function calcLum(c) {
@@ -115,6 +141,8 @@ export default async function handler(req, res) {
       isDark,
       description,
       url: tmeUrl,
+      wallpaperUrl,
+      patternUrl
     });
   } catch (error) {
     return res.status(500).json({
