@@ -6,755 +6,952 @@
 <title>Telemorph — Telegram Theme Converter (.attheme ↔ .tgios-theme)</title>
 <link rel="icon" type="image/png" sizes="64x64" href="icons8-telegram-logo-64.png">
 <link rel="shortcut icon" type="image/png" href="icons8-telegram-logo-64.png">
+
+<!-- Google Fonts: Newsreader (Editorial Serif) + Plus Jakarta Sans + JetBrains Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-  @font-face {
-    font-family: 'Overused Grotesk';
-    src: url('https://cdn.jsdelivr.net/npm/overused-grotesk@latest/OverusedGrotesk-Medium.woff2') format('woff2'),
-         url('https://cdn.jsdelivr.net/gh/mishka/overused-grotesk@master/fonts/woff2/OverusedGrotesk-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Overused Grotesk';
-    src: url('https://cdn.jsdelivr.net/npm/overused-grotesk@latest/OverusedGrotesk-SemiBold.woff2') format('woff2'),
-         url('https://cdn.jsdelivr.net/gh/mishka/overused-grotesk@master/fonts/woff2/OverusedGrotesk-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-
   :root {
-    --color-primary: #8E6CE4;
-    --color-primary-strong: #AB8FF1;
-    --color-primary-soft: #62626F;
-    --color-secondary: #25252D;
-    --color-tertiary: #31313A;
-    --color-neutral: #08080A;
-    --color-surface: #25252D;
-    --color-on-surface: #DAD7DE;
-    --color-text: #AEAAC0;
-    --color-muted: #62626F;
-    --color-border: #31313A;
-    --color-highlight: #DAD7DE;
-    --color-error: #E46C8E;
-    --color-success: #6CE4A2;
+    --bg-space-dark: #08090a;
+    --surface-canvas: #12110F;
+    --surface-card-hero: rgba(20, 20, 22, 0.72);
+    --surface-card-item: rgba(28, 28, 30, 0.45);
+    --surface-card-hover: rgba(38, 38, 42, 0.65);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-highlight: rgba(255, 255, 255, 0.16);
+    --text-primary: #f4efe6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --badge-bg: rgba(255, 255, 255, 0.06);
+    --cta-bg: #ffffff;
+    --cta-text: #0f0e0c;
+    --accent-emerald: #34d399;
 
-    --font-heading: 'Overused Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --font-serif: 'Newsreader', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-    --rounded-none: 0px;
-    --rounded-sm: 3px;
-    --rounded-md: 5px;
-    --rounded-lg: 8px;
-    --rounded-xl: 12px;
-    --rounded-full: 9999px;
-
-    --spacing-xs: 8px;
-    --spacing-sm: 16px;
-    --spacing-md: 26px;
-    --spacing-lg: 40px;
+    --radius-full: 9999px;
+    --radius-3xl: 32px;
+    --radius-2xl: 24px;
+    --radius-xl: 16px;
+    --radius-lg: 12px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html, body {
-    width: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
-    background: var(--color-neutral);
-    color: var(--color-text);
-  }
-
+  /* Base Canvas & Space Atmospheric Starfield */
   body {
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.5;
+    background-color: #080b11;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: radial-gradient(ellipse 90% 40% at 50% -10%, rgba(142, 108, 228, 0.12), transparent 60%), var(--color-neutral);
-    background-attachment: fixed;
   }
 
   .container {
-    max-width: 1200px;
+    position: relative;
+    z-index: 1;
+    max-width: 1420px;
     margin: 0 auto;
-    padding: 32px 24px 60px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  @media (max-width: 768px) {
-    .container {
-      padding: 20px 16px 40px;
-    }
+    padding: 24px 32px 64px;
   }
 
-  /* Header */
-  header {
-    text-align: center;
-    padding: 20px 0 24px;
-    max-width: 100%;
+  /* Top Navigation Bar */
+  .top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 6px 0;
+  }
+  .top-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-emblem {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+  }
+  .brand-title {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #ffffff;
   }
   .brand-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 12px;
-    border-radius: var(--rounded-full);
-    border: 1px solid var(--color-border);
-    background: rgba(37, 37, 45, 0.6);
-    color: var(--color-on-surface);
-    font-size: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
+    letter-spacing: 0.12em;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: var(--text-secondary);
   }
-  .brand-badge span.dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    box-shadow: 0 0 8px var(--color-primary);
+
+  /* Main Dual-Column Grid */
+  .main-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
-  header h1 {
-    font-family: var(--font-heading);
-    font-size: 48px;
-    font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -1.92px;
-    color: var(--color-on-surface);
-    margin-bottom: 10px;
-  }
-  header p {
-    color: var(--color-muted);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  @media (max-width: 640px) {
-    header h1 {
-      font-size: 32px;
-      letter-spacing: -0.96px;
+
+  /* Desktop Equal Height Requirement */
+  @media (min-width: 1024px) {
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.28fr);
+      gap: 28px;
+      align-items: stretch; /* STRICT EQUAL HEIGHT */
     }
-    header p {
-      font-size: 14px;
-      line-height: 20px;
+
+    .hero-upload-card,
+    .preview-panel {
+      height: 100%;
+      min-height: 740px;
+      display: flex;
+      flex-direction: column;
     }
   }
 
-  /* Direction Toggle */
-  .direction-toggle {
+  /* Translucent Glass Cards (Hackodds Specification) */
+  .hero-upload-card,
+  .preview-panel {
+    position: relative;
+    border-radius: var(--radius-3xl);
+    padding: 32px 28px;
+    overflow: hidden;
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .hero-upload-card {
+    background: rgba(13, 16, 21, 0.68);
+    backdrop-filter: blur(20px) saturate(130%);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  .preview-panel {
+    background: rgba(14, 17, 23, 0.38);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+  }
+  .hero-upload-card:hover,
+  .preview-panel:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  /* Hero Card Header */
+  .hero-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .card-brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .hero-chip {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+  }
+  .hero-telemetry {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  /* 3D Rotating Wireframe Globe */
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spinReverseSlow {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+  @keyframes globePulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.02); }
+  }
+  .globe-container {
+    position: relative;
+    width: 110px;
+    height: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin: 16px auto 26px;
-    width: 100%;
-    max-width: 440px;
-    box-sizing: border-box;
+    margin: 4px auto 18px;
   }
-  .direction-toggle .format-label {
-    flex: 1;
-    min-width: 0;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: var(--rounded-full);
-    background: var(--color-secondary);
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+  .globe-orbit-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    animation: spinSlow 28s linear infinite;
+  }
+  .globe-svg {
+    position: absolute;
+    inset: 6px;
+    width: 98px;
+    height: 98px;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  .globe-ellipse-horizontal {
+    animation: spinReverseSlow 20s linear infinite;
+    transform-origin: center;
+  }
+  .globe-ellipse-vertical {
+    animation: globePulse 4s ease-in-out infinite;
+    transform-origin: center;
+    stroke: rgba(255, 255, 255, 0.28);
+  }
+  .globe-counter {
+    position: relative;
+    z-index: 2;
     text-align: center;
-    box-sizing: border-box;
-    cursor: pointer;
-    user-select: none;
-    transition: border-color 0.15s, color 0.15s, background 0.15s;
   }
-  .direction-toggle .format-label:hover {
-    border-color: var(--color-primary-soft);
-    color: var(--color-on-surface);
+  .globe-count-val {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
-  .direction-toggle .format-label.active-source {
-    border-color: var(--color-primary);
-    background: rgba(142, 108, 228, 0.1);
-    color: var(--color-on-surface);
+  .globe-count-lbl {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    text-transform: uppercase;
   }
-  .direction-toggle .format-label.active-target {
-    border-color: var(--color-primary-strong);
-    background: rgba(171, 143, 241, 0.12);
-    color: var(--color-on-surface);
+
+  /* Hero Headline with Newsreader Italic */
+  .hero-text-block {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .hero-headline {
+    font-size: 2.15rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+  .editorial-italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: #ffffff;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.28);
+    text-underline-offset: 6px;
+  }
+  .hero-subtitle {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* Direction Switcher Capsule - Clean Color Change, No Glow */
+  .direction-toggle-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .direction-toggle {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    padding: 4px;
+    gap: 4px;
+    box-shadow: none; /* NO GLOW */
+  }
+  .format-label {
+    padding: 7px 16px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    box-shadow: none; /* NO GLOW */
+  }
+  .format-label.active-source,
+  .format-label.active-target {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-highlight);
+    color: var(--text-primary);
+    box-shadow: none; /* NO GLOW */
   }
   .swap-btn {
-    background: var(--color-secondary);
-    border: 1px solid var(--color-border);
-    color: var(--color-primary-strong);
-    width: 38px;
-    height: 38px;
-    border-radius: var(--rounded-full);
-    cursor: pointer;
-    font-size: 1.1rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.25s ease;
+    box-shadow: none; /* NO GLOW */
   }
   .swap-btn:hover {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.22);
     transform: rotate(180deg);
   }
 
-  /* Input Mode Tabs */
-  .input-tabs {
+  /* Input Tabs - Clean Color Change, No Glow */
+  .input-tabs-wrap {
     display: flex;
-    gap: 6px;
-    margin-bottom: 12px;
-    background: #141418;
-    padding: 3px;
-    border-radius: var(--rounded-md);
-    border: 1px solid var(--color-border);
-    width: 100%;
-    box-sizing: border-box;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .input-tabs {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    padding: 4px;
+    gap: 4px;
+    box-shadow: none; /* NO GLOW */
   }
   .tab-btn {
-    flex: 1;
-    min-width: 0;
-    background: transparent;
-    border: none;
-    color: var(--color-muted);
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 7px 18px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
     font-weight: 500;
-    border-radius: var(--rounded-sm);
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid transparent;
     cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 6px;
-    white-space: nowrap;
-  }
-  .tab-btn:hover {
-    color: var(--color-on-surface);
+    box-shadow: none; /* NO GLOW */
   }
   .tab-btn.active {
-    background: var(--color-secondary);
-    color: var(--color-on-surface);
-    border: 1px solid var(--color-border);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    background: rgba(255, 255, 255, 0.09);
+    border-color: var(--border-highlight);
+    color: var(--text-primary);
+    box-shadow: none; /* NO GLOW */
+  }
+  .tab-btn:hover:not(.active) {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
   }
 
-  /* Main Grid */
-  .main-grid {
-    display: grid;
-    grid-template-columns: 360px 1fr;
-    gap: 20px;
-    margin-top: 10px;
-    align-items: start;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  @media (max-width: 960px) {
-    .main-grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-  }
-
-  /* Upload Area */
+  /* Upload Area (Dropzone) */
   .upload-area {
-    border: 1px dashed var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 36px 20px;
-    text-align: center;
-    background: var(--color-surface);
-    transition: border-color 0.2s, background 0.2s;
-    cursor: pointer;
     position: relative;
-    min-height: 240px;
+    border: 1.5px dashed rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-2xl);
+    padding: 32px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 180px;
   }
-  .upload-area:hover, .upload-area.drag-over {
-    border-color: var(--color-primary);
-    background: rgba(142, 108, 228, 0.04);
+  .upload-area:hover,
+  .upload-area.dragover {
+    border-color: rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.045);
   }
-  .upload-area .icon {
-    font-size: 2.4rem;
-    margin-bottom: 12px;
-    opacity: 0.8;
-  }
-  .upload-area h3 {
-    font-family: var(--font-heading);
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: -0.4px;
-    color: var(--color-on-surface);
-    margin-bottom: 4px;
-  }
-  .upload-area p {
-    color: var(--color-muted);
-    font-size: 13px;
+  .upload-area.has-file {
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.03);
   }
   .upload-area input[type="file"] {
     position: absolute;
     inset: 0;
     opacity: 0;
     cursor: pointer;
-    z-index: 1;
-  }
-  .upload-area.has-file {
-    border-style: solid;
-    border-color: var(--color-primary);
-    background: rgba(142, 108, 228, 0.05);
-    padding: 24px;
-  }
-  .upload-area.has-file input[type="file"] {
-    pointer-events: none;
-  }
-
-  /* URL Input Section */
-  .url-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 24px 18px;
-    min-height: 240px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 14px;
     width: 100%;
-    box-sizing: border-box;
+    height: 100%;
   }
-  .url-input-group {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .url-input {
-    flex: 1;
-    min-width: 0;
-    background: var(--color-neutral);
-    border: 1px solid var(--color-border);
-    color: var(--color-on-surface);
-    padding: 10px 12px;
-    border-radius: var(--rounded-sm);
-    font-size: 14px;
-    height: 40px;
-    outline: none;
-    transition: border-color 0.15s;
-    box-sizing: border-box;
-    font-family: var(--font-body);
-  }
-  .url-input:focus {
-    border-color: var(--color-primary);
-  }
-  .url-fetch-btn {
-    background: var(--color-primary);
-    color: var(--color-on-surface);
-    border: none;
-    padding: 10px 18px;
-    border-radius: var(--rounded-sm);
-    font-size: 14px;
-    font-weight: 600;
-    height: 40px;
-    cursor: pointer;
-    transition: background 0.15s ease;
-    white-space: nowrap;
+  .drop-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    flex-shrink: 0;
-    box-sizing: border-box;
+    margin: 0 auto 12px;
+    color: #ffffff;
   }
-  .url-fetch-btn:hover {
-    background: var(--color-primary-strong);
+  #uploadPlaceholder h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
   }
-  .url-fetch-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  @media (max-width: 480px) {
-    .url-input-group {
-      flex-direction: column;
-    }
-    .url-fetch-btn {
-      width: 100%;
-    }
-  }
-
-  .url-examples {
+  #uploadPlaceholder p {
     font-size: 12px;
-    color: var(--color-muted);
+    color: var(--text-muted);
   }
-  .example-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 6px;
-  }
-  .example-pill {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    padding: 4px 10px;
-    border-radius: var(--rounded-full);
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--color-text);
-    transition: border-color 0.15s, color 0.15s;
-  }
-  .example-pill:hover {
-    border-color: var(--color-primary);
-    color: var(--color-on-surface);
-  }
-
-  /* File Info */
   .file-info {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    position: relative;
-    z-index: 10;
   }
-  .file-info .filename {
-    font-weight: 600;
-    font-size: 15px;
-    color: var(--color-on-surface);
-    word-break: break-all;
-    text-align: center;
-  }
-  .file-info .theme-badge {
-    display: inline-block;
-    background: rgba(142, 108, 228, 0.15);
-    color: var(--color-primary-strong);
-    padding: 2px 10px;
-    border-radius: var(--rounded-full);
-    font-size: 12px;
-    font-weight: 600;
-    border: 1px solid rgba(142, 108, 228, 0.35);
-  }
-  .file-info .filesize {
-    color: var(--color-muted);
-    font-size: 13px;
-  }
-  .file-info .remove-btn {
-    background: transparent;
-    color: var(--color-error);
-    border: 1px solid rgba(228, 108, 142, 0.4);
-    padding: 6px 14px;
-    border-radius: var(--rounded-sm);
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    margin-top: 6px;
-    position: relative;
-    z-index: 20;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .file-info .remove-btn:hover {
-    background: rgba(228, 108, 142, 0.15);
-    border-color: var(--color-error);
-  }
-
-  /* Preview Panel */
-  .preview-panel {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 20px;
-    min-height: 250px;
-  }
-  .preview-panel h3 {
-    font-family: var(--font-heading);
+  .file-info-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(52, 211, 153, 0.15);
+    border: 1px solid var(--accent-emerald);
+    color: var(--accent-emerald);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 18px;
-    font-weight: 500;
-    letter-spacing: -0.4px;
-    margin-bottom: 14px;
-    color: var(--color-on-surface);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-weight: 700;
   }
-  .preview-theme-title {
-    font-size: 13px;
+  .theme-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #ffffff;
+  }
+  .filename {
+    font-size: 15px;
     font-weight: 600;
-    color: var(--color-primary-strong);
+    color: #ffffff;
+    word-break: break-all;
+    max-width: 320px;
+  }
+  .filesize {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .remove-btn {
+    margin-top: 4px;
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    color: var(--text-secondary);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .remove-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
   }
 
-  /* Color Swatches & Interactive Color Picker */
-  .color-palette-header {
+  /* URL Card */
+  .url-card {
+    border-radius: var(--radius-2xl);
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--border-subtle);
+    padding: 22px 20px;
+    flex: 1;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .url-card-header h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+  .url-card-header p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .url-input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .url-input {
+    flex: 1;
+    padding: 11px 16px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    color: #ffffff;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .url-input:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  .url-fetch-btn {
+    padding: 11px 20px;
+    border-radius: var(--radius-full);
+    background: #ffffff;
+    color: #0f0e0c;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.18s ease;
+    white-space: nowrap;
+  }
+  .url-fetch-btn:hover {
+    background: #ede9e1;
+  }
+  .url-examples {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .url-examples-title {
+    display: block;
+    margin-bottom: 6px;
+  }
+  .example-pills {
+    display: flex;
     flex-wrap: wrap;
     gap: 6px;
   }
-  .color-palette-header .palette-title {
+  .example-pill {
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: var(--text-secondary);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .example-pill:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  /* Embedded Wallpaper Preview */
+  .wallpaper-preview {
+    margin-top: 14px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    position: relative;
+    max-height: 120px;
+  }
+  .wallpaper-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .wp-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 11px;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  /* Status Message */
+  .status-msg {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: var(--radius-lg);
+    font-size: 12px;
+    display: none;
+  }
+  .status-msg.info {
+    display: block;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+  }
+  .status-msg.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #f87171;
+  }
+
+  /* Primary Hero CTA (Neatly Rounded White Pill Button) */
+  .hero-cta-box {
+    margin-top: 20px;
+  }
+  .convert-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 15px 28px;
+    border-radius: var(--radius-full); /* FULL PILL */
+    background: #ffffff;
+    color: #0f0e0c;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    border: none;
+    cursor: pointer;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+  .convert-btn.ready {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .convert-btn.ready:hover {
+    background: #ede9e1;
+    transform: translateY(-1px);
+  }
+  .convert-btn.ready:active {
+    transform: scale(0.98);
+  }
+  .convert-btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(15, 14, 12, 0.09);
+    font-size: 13px;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+  }
+  .convert-btn:hover .convert-btn-icon {
+    transform: translateX(3px);
+  }
+
+  /* Right Theme Preview Card */
+  .preview-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .preview-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .preview-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-emerald);
+  }
+  .preview-header-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+  }
+  .preview-theme-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+  .preview-panel-body {
+    flex: 1;
+    overflow-y: auto;
+  }
+  .preview-panel-body::-webkit-scrollbar {
+    width: 6px;
+  }
+  .preview-panel-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .preview-panel-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-full);
+  }
+
+  /* Empty State */
+  .preview-empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+  }
+  .empty-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-2xl);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: var(--text-secondary);
+  }
+  .preview-empty-state h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .preview-empty-state p {
+    font-size: 13px;
+    max-width: 360px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* Color Swatches Grid */
+  .color-palette-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .palette-title {
     font-size: 13px;
     font-weight: 600;
-    color: var(--color-on-surface);
+    color: #ffffff;
   }
-  .color-palette-header .palette-hint {
-    font-size: 12px;
-    color: var(--color-muted);
+  .palette-hint {
+    font-size: 11px;
+    color: var(--text-muted);
   }
   .color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 8px;
+    margin-bottom: 22px;
   }
   .color-swatch {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    background: #191920;
-    border: 1px solid var(--color-border);
-    border-radius: var(--rounded-sm);
-    font-size: 12px;
-    position: relative;
+    gap: 10px;
+    padding: 7px 12px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-subtle);
     cursor: pointer;
-    user-select: none;
-    transition: border-color 0.15s, background 0.15s;
+    transition: all 0.18s ease;
   }
   .color-swatch:hover {
-    border-color: var(--color-primary);
-    background: #202028;
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--border-highlight);
   }
-  .color-swatch .swatch-circle {
+  .swatch-circle {
+    position: relative;
     width: 22px;
     height: 22px;
-    border-radius: var(--rounded-sm);
+    border-radius: 50%;
     flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,0.25);
-    position: relative;
-    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
-  .color-swatch .swatch-picker-input {
+  .swatch-picker-input {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     opacity: 0;
     cursor: pointer;
-    border: none;
-    padding: 0;
-    margin: 0;
   }
-  .color-swatch .swatch-info {
-    overflow: hidden;
+  .swatch-info {
     flex: 1;
     min-width: 0;
   }
-  .color-swatch .swatch-label {
-    color: var(--color-muted);
+  .swatch-label {
+    display: block;
+    font-size: 10px;
+    color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block;
-    font-size: 11px;
-    font-weight: 500;
   }
-  .color-swatch .swatch-hex {
+  .swatch-hex {
+    display: block;
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--color-on-surface);
+    color: var(--text-primary);
+    font-weight: 500;
   }
-  .color-swatch .swatch-edit-icon {
-    font-size: 10px;
-    color: var(--color-primary-strong);
+  .swatch-edit-icon {
+    font-size: 11px;
+    color: var(--text-muted);
     opacity: 0;
-    transition: opacity 0.15s;
-    margin-left: auto;
+    transition: opacity 0.18s ease;
   }
   .color-swatch:hover .swatch-edit-icon {
-    opacity: 0.9;
+    opacity: 1;
   }
 
-  /* Opacity Control */
+  /* Opacity Control Card */
   .opacity-control-card {
-    background: #191920;
-    border: 1px solid var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 14px 16px;
-    margin-top: 14px;
-    margin-bottom: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    border-radius: var(--radius-2xl);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-subtle);
+    padding: 14px 18px;
+    margin-bottom: 22px;
   }
   .opacity-control-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    font-size: 13px;
+    justify-content: space-between;
+    margin-bottom: 10px;
   }
   .opacity-control-title {
+    font-size: 13px;
     font-weight: 600;
-    color: var(--color-on-surface);
+    color: #ffffff;
     display: flex;
     align-items: center;
     gap: 6px;
   }
   .opacity-val-badge {
-    background: rgba(142, 108, 228, 0.15);
-    color: var(--color-primary-strong);
-    padding: 2px 8px;
-    border-radius: var(--rounded-full);
-    font-size: 12px;
-    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     font-family: var(--font-mono);
-    border: 1px solid rgba(142, 108, 228, 0.35);
-  }
-  .opacity-slider-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    font-size: 11px;
+    color: #ffffff;
   }
   .opacity-slider {
-    flex: 1;
+    width: 100%;
     -webkit-appearance: none;
     appearance: none;
-    height: 4px;
-    border-radius: 2px;
-    background: var(--color-border);
+    height: 5px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.12);
     outline: none;
-    cursor: pointer;
   }
   .opacity-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background: var(--color-primary);
+    background: #ffffff;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(142, 108, 228, 0.5);
-    transition: background 0.15s, transform 0.1s;
-  }
-  .opacity-slider::-webkit-slider-thumb:hover {
-    background: var(--color-primary-strong);
-    transform: scale(1.15);
-  }
-  .opacity-slider::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    cursor: pointer;
-    border: none;
-  }
-  .opacity-hint {
-    font-size: 12px;
-    color: var(--color-muted);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   }
 
-  /* Dual Phone Mockups Container */
-  .mockups-dual-container {
-    display: flex;
+  /* Dual Side-by-Side Mockups */
+  .mockups-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    margin-top: 18px;
-    width: 100%;
-    box-sizing: border-box;
   }
   .mockup-column {
-    flex: 1 1 290px;
-    max-width: 340px;
-    min-width: 270px;
-    width: 100%;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
-  }
-  @media (max-width: 640px) {
-    .mockup-column {
-      max-width: 100%;
-      min-width: 0;
-    }
+    gap: 8px;
   }
   .mockup-column-header {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--color-muted);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 6px;
-    align-self: flex-start;
-    padding-left: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    text-transform: uppercase;
   }
-
-  /* Chat Conversation Mockup */
-  .chat-mockup {
-    border-radius: var(--rounded-lg);
+  .chat-mockup,
+  .chat-list-mockup {
+    height: 460px;
+    border-radius: var(--radius-2xl);
     overflow: hidden;
-    font-size: 13px;
-    border: 1px solid var(--color-border);
-    width: 100%;
-    max-width: 340px;
-    height: 440px;
-    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
     position: relative;
+    background: #000000;
   }
-  .chat-mockup .mock-header {
+
+  /* Mockup Headers */
+  .mock-header {
     padding: 10px 14px;
-    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-shrink: 0;
     z-index: 3;
   }
-  .chat-mockup .mock-header .mock-avatar {
-    width: 30px;
-    height: 30px;
+  .mock-avatar {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
+    color: #fff;
     flex-shrink: 0;
   }
-  .chat-mockup .mock-header .mock-title {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 14px;
+  .mock-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
   }
-  .chat-mockup .mock-header .mock-subtitle {
-    font-weight: 400;
-    font-size: 11px;
-    opacity: 0.7;
+  .mock-subtitle {
+    font-size: 10px;
+    opacity: 0.65;
   }
+
+  /* Mock Messages Container & Authentic Pattern Layer */
   .chat-mockup .mock-messages {
     position: relative;
     padding: 12px;
@@ -764,7 +961,6 @@
     flex-direction: column;
     justify-content: flex-end;
     gap: 6px;
-    transition: background 0.2s;
   }
   .chat-mockup .mock-pattern-layer {
     position: absolute;
@@ -773,8 +969,7 @@
     background: center repeat;
     background-size: 360px auto;
     background-image: url('telegram-pattern.svg'), url('https://telegram.org/img/tgme/pattern.svg?1');
-    mix-blend-mode: overlay;
-    opacity: 0.32;
+    mix-blend-mode: normal;
     z-index: 1;
   }
   .chat-mockup .mock-bubble {
@@ -787,7 +982,7 @@
     font-size: 13px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
     transition: background 0.1s ease;
   }
   .chat-mockup .mock-bubble.incoming {
@@ -808,6 +1003,8 @@
     font-size: 10px;
     margin-left: 3px;
   }
+
+  /* Mock Input Bar */
   .chat-mockup .mock-input-bar {
     position: relative;
     z-index: 3;
@@ -815,21 +1012,16 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-shrink: 0;
   }
-  .chat-mockup .mock-input-bar .mock-input-field {
+  .chat-mockup .mock-input-field {
     flex: 1;
-    padding: 6px 12px;
-    border-radius: 18px;
+    padding: 7px 12px;
+    border-radius: var(--radius-full);
     font-size: 13px;
-    border: none;
-    outline: none;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
   }
-  .chat-mockup .mock-input-bar .mock-send-btn {
-    width: 28px;
-    height: 28px;
+  .chat-mockup .mock-send-btn {
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -839,27 +1031,12 @@
   }
 
   /* Chat List Mockup */
-  .chat-list-mockup {
-    border-radius: var(--rounded-lg);
-    overflow: hidden;
-    font-size: 13px;
-    border: 1px solid var(--color-border);
-    width: 100%;
-    max-width: 340px;
-    height: 440px;
-    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-  }
   .mock-list-header {
     padding: 10px 14px;
-    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
+    gap: 10px;
+    z-index: 2;
   }
   .mock-list-avatar {
     width: 28px;
@@ -868,69 +1045,56 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    flex-shrink: 0;
   }
   .mock-list-title {
-    font-size: 16px;
-    font-weight: 700;
     flex: 1;
-    letter-spacing: -0.01em;
+    font-size: 14px;
+    font-weight: 700;
   }
   .mock-list-actions {
     display: flex;
-    align-items: center;
     gap: 12px;
-    font-size: 15px;
+    font-size: 13px;
   }
   .mock-folder-tabs {
     display: flex;
-    align-items: center;
+    padding: 0 10px;
     gap: 6px;
-    padding: 6px 12px;
     overflow-x: auto;
-    flex-shrink: 0;
   }
   .mock-folder-pill {
-    padding: 3px 10px;
-    border-radius: var(--rounded-full);
+    padding: 6px 10px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 500;
+    border-radius: var(--radius-full);
     white-space: nowrap;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 4px;
   }
   .mock-pill-badge {
-    padding: 1px 5px;
-    border-radius: var(--rounded-full);
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
     font-size: 10px;
     font-weight: 700;
   }
   .mock-pill-badge-subtle {
-    background: rgba(128,128,128,0.25);
-    padding: 1px 5px;
-    border-radius: var(--rounded-full);
+    opacity: 0.6;
     font-size: 10px;
   }
   .mock-chat-items {
     flex: 1;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
   }
   .mock-chat-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 12px;
-    cursor: default;
-    transition: background 0.15s;
+    padding: 9px 12px;
   }
   .mock-chat-avatar {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -942,14 +1106,12 @@
   .mock-chat-body {
     flex: 1;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
   }
   .mock-chat-line1 {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
+    margin-bottom: 2px;
   }
   .mock-chat-name {
     font-size: 13px;
@@ -959,11 +1121,8 @@
     text-overflow: ellipsis;
   }
   .mock-chat-time {
-    font-size: 11px;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 3px;
+    font-size: 10px;
+    flex-shrink: 0;
   }
   .mock-chat-line2 {
     display: flex;
@@ -971,550 +1130,473 @@
     align-items: center;
   }
   .mock-chat-msg {
-    font-size: 12px;
+    font-size: 11px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    opacity: 0.75;
   }
   .mock-unread-badge {
     padding: 1px 6px;
-    border-radius: var(--rounded-full);
+    border-radius: var(--radius-full);
     font-size: 10px;
     font-weight: 700;
-    margin-left: 6px;
     flex-shrink: 0;
   }
   .mock-list-fab {
     position: absolute;
-    bottom: 48px;
+    bottom: 46px;
     right: 14px;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    cursor: default;
-    z-index: 2;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 4;
   }
   .mock-list-bottom-bar {
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    padding: 6px 4px 4px;
-    flex-shrink: 0;
+    padding: 6px 0;
+    z-index: 2;
   }
   .mock-bottom-tab {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1px;
-    font-size: 10px;
-    font-weight: 500;
-    cursor: default;
-    position: relative;
-    padding: 2px 6px;
+    gap: 2px;
+    font-size: 9px;
   }
   .mock-bottom-icon {
-    font-size: 14px;
     position: relative;
-    display: inline-block;
+    font-size: 14px;
   }
   .mock-bottom-badge {
     position: absolute;
     top: -4px;
     right: -8px;
-    font-size: 9px;
-    padding: 1px 4px;
-    border-radius: var(--rounded-full);
+    padding: 0 4px;
+    border-radius: var(--radius-full);
+    font-size: 8px;
     font-weight: 700;
   }
 
-  /* Wallpaper Preview */
-  .wallpaper-preview {
-    margin-top: 12px;
-    text-align: center;
-  }
-  .wallpaper-preview img {
-    max-width: 100%;
-    max-height: 180px;
-    border-radius: var(--rounded-md);
-    border: 1px solid var(--color-border);
-  }
-  .wallpaper-preview .wp-label {
-    font-size: 12px;
-    color: var(--color-muted);
-    margin-top: 6px;
-  }
-
-  /* Loading indicator */
-  .loading-spinner {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255,255,255,0.25);
-    border-radius: 50%;
-    border-top-color: var(--color-on-surface);
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  /* Status message */
-  .status-msg {
-    padding: 10px 14px;
-    border-radius: var(--rounded-sm);
-    font-size: 13px;
-    margin-top: 12px;
-    display: none;
-    text-align: center;
-  }
-  .status-msg.info {
-    display: block;
-    background: rgba(142, 108, 228, 0.1);
-    border: 1px solid rgba(142, 108, 228, 0.35);
-    color: var(--color-primary-strong);
-  }
-  .status-msg.error {
-    display: block;
-    background: rgba(228, 108, 142, 0.1);
-    border: 1px solid rgba(228, 108, 142, 0.35);
-    color: var(--color-error);
-  }
-
-  /* Convert Button */
-  .convert-section {
-    text-align: center;
-    margin: 28px 0;
-  }
-  .convert-btn {
-    background: var(--color-primary);
-    color: var(--color-on-surface);
-    border: none;
-    padding: 10px 32px;
-    border-radius: var(--rounded-sm);
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 600;
-    height: 44px;
-    cursor: pointer;
-    transition: background 0.15s ease, transform 0.12s ease;
-    opacity: 0.45;
-    pointer-events: none;
-    letter-spacing: -0.2px;
-  }
-  .convert-btn.ready {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .convert-btn.ready:hover {
-    background: var(--color-primary-strong);
-    transform: translateY(-1px);
-  }
-  .convert-btn.ready:active {
-    transform: translateY(0);
-  }
-
-  /* Result Area */
+  /* Result Area (Glassmorphic) */
   .result-area {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 26px 20px;
+    margin-top: 32px;
+    border-radius: var(--radius-3xl);
+    background: radial-gradient(120% 120% at 50% 10%, rgba(28, 28, 32, 0.85) 0%, rgba(12, 12, 14, 0.94) 100%);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.7);
+    padding: 36px 32px;
     display: none;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   }
-  .result-area.visible { display: block; }
-  .result-area .result-header {
-    text-align: center;
-    margin-bottom: 18px;
+  .result-area.visible {
+    display: block;
+    animation: fadeIn 0.3s ease forwards;
   }
-  .result-area h3 {
-    font-family: var(--font-heading);
-    color: var(--color-on-surface);
-    font-size: 24px;
-    font-weight: 500;
-    letter-spacing: -0.7px;
-    margin-bottom: 6px;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .result-header {
+    margin-bottom: 24px;
+  }
+  .result-badge-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
+    gap: 12px;
+    margin-bottom: 8px;
   }
-  .result-area .result-stats {
-    color: var(--color-muted);
-    font-size: 14px;
+  .result-success-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background: rgba(52, 211, 153, 0.15);
+    border: 1px solid var(--accent-emerald);
+    color: var(--accent-emerald);
+  }
+  .result-stats {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .result-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #ffffff;
   }
 
-  /* Download Action Buttons */
+  /* Result Download Actions (Pill Buttons) */
   .download-actions {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
     flex-wrap: wrap;
-    margin: 20px 0;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .download-btn,
+  .download-wp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 26px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.18s ease;
   }
   .download-btn {
-    background: var(--color-primary);
-    color: var(--color-on-surface);
-    border: none;
-    padding: 10px 22px;
-    border-radius: var(--rounded-sm);
-    font-size: 15px;
-    font-weight: 600;
-    height: 40px;
-    cursor: pointer;
-    transition: background 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    background: #ffffff;
+    color: #0f0e0c;
   }
   .download-btn:hover {
-    background: var(--color-primary-strong);
+    background: #ede9e1;
+    transform: translateY(-1px);
   }
   .download-wp-btn {
-    background: var(--color-secondary);
-    border: 1px solid var(--color-border);
-    color: var(--color-on-surface);
-    padding: 10px 22px;
-    border-radius: var(--rounded-sm);
-    font-size: 15px;
-    font-weight: 600;
-    height: 40px;
-    cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-highlight);
+    color: #ffffff;
   }
   .download-wp-btn:hover {
-    border-color: var(--color-primary);
-    background: rgba(142, 108, 228, 0.08);
-  }
-  .download-wp-btn-secondary {
-    background: var(--color-secondary);
-    border: 1px solid var(--color-border);
-    color: var(--color-on-surface);
-    padding: 8px 18px;
-    border-radius: var(--rounded-sm);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .download-wp-btn-secondary:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary-strong);
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
   }
 
-  /* Extracted Wallpaper Card */
+  /* Result Wallpaper Card */
   .result-wp-card {
-    background: #191920;
-    border: 1px solid var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 16px;
-    margin: 18px 0;
-    text-align: left;
     display: flex;
-    gap: 16px;
+    gap: 20px;
     align-items: center;
-    flex-wrap: wrap;
+    padding: 18px 22px;
+    border-radius: var(--radius-2xl);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 24px;
   }
-  .result-wp-card .wp-thumb-box {
-    width: 80px;
+  .wp-thumb-box {
+    width: 72px;
     height: 120px;
-    border-radius: var(--rounded-sm);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    border: 1px solid var(--color-border);
     flex-shrink: 0;
-    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
-    transition: border-color 0.2s;
   }
-  .result-wp-card .wp-thumb-box:hover {
-    border-color: var(--color-primary);
-  }
-  .result-wp-card .wp-thumb-box img {
+  .wp-thumb-box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
   }
-  .result-wp-card .wp-card-details {
+  .wp-card-details {
     flex: 1;
-    min-width: 220px;
   }
-  .result-wp-card .wp-badge-tag {
+  .wp-badge-tag {
     display: inline-block;
-    background: rgba(142, 108, 228, 0.15);
-    border: 1px solid rgba(142, 108, 228, 0.35);
-    color: var(--color-primary-strong);
-    font-size: 11px;
-    font-weight: 600;
     padding: 2px 8px;
-    border-radius: var(--rounded-full);
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-secondary);
     margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
   }
-  .result-wp-card h4 {
-    font-family: var(--font-heading);
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--color-on-surface);
+  .wp-card-details h4 {
+    font-size: 15px;
+    color: #ffffff;
     margin-bottom: 4px;
   }
-  .result-wp-card p {
-    font-size: 13px;
-    color: var(--color-muted);
-    line-height: 1.45;
-    margin-bottom: 10px;
+  .wp-card-details p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .download-wp-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-highlight);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.18s ease;
+  }
+  .download-wp-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
   }
 
-  /* iOS Step-by-Step Instructions Guide */
+  /* iOS Guide Card */
   .ios-guide-card {
-    background: #14141a;
-    border: 1px solid var(--color-border);
-    border-radius: var(--rounded-md);
-    padding: 22px;
-    text-align: left;
-    margin-top: 20px;
-    position: relative;
-    overflow: hidden;
+    border-radius: var(--radius-2xl);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-subtle);
+    padding: 24px;
   }
-  .ios-guide-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-strong));
-  }
-  .ios-guide-card .guide-title-row {
+  .guide-title-row {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 8px;
   }
-  .ios-guide-card .guide-title-row h4 {
-    font-family: var(--font-heading);
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--color-on-surface);
-    margin: 0;
-    letter-spacing: -0.4px;
+  .guide-title-row h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
   }
-  .ios-guide-card .guide-intro {
-    font-size: 13px;
-    color: var(--color-muted);
-    margin-bottom: 18px;
-    line-height: 1.5;
+  .guide-intro {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
   }
   .ios-guide-steps {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 14px;
+    margin-bottom: 16px;
   }
   .guide-step-item {
     display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
   }
   .step-circle {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: var(--color-secondary);
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary-strong);
-    font-size: 12px;
-    font-weight: 700;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
     flex-shrink: 0;
-    margin-top: 2px;
   }
   .step-circle.done {
-    background: var(--color-primary);
-    color: var(--color-on-surface);
-  }
-  .step-text {
-    flex: 1;
+    background: rgba(52, 211, 153, 0.15);
+    border-color: var(--accent-emerald);
+    color: var(--accent-emerald);
   }
   .step-text strong {
-    color: var(--color-on-surface);
-    font-size: 14px;
     display: block;
+    font-size: 12px;
+    color: #ffffff;
     margin-bottom: 2px;
   }
   .step-text p {
-    color: var(--color-muted);
-    font-size: 13px;
-    line-height: 1.45;
-    margin: 0;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
   }
   .guide-path-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #1c1c24;
-    border: 1px solid var(--color-border);
-    color: var(--color-on-surface);
-    padding: 4px 10px;
-    border-radius: var(--rounded-sm);
-    font-size: 12px;
-    font-weight: 600;
-    margin: 6px 0;
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.08);
     font-family: var(--font-mono);
+    font-size: 10px;
+    color: #ffffff;
+    margin: 4px 0;
   }
   .guide-tip {
-    margin-top: 16px;
-    padding: 10px 14px;
-    background: rgba(142, 108, 228, 0.08);
-    border: 1px solid rgba(142, 108, 228, 0.25);
-    border-radius: var(--rounded-sm);
-    color: var(--color-on-surface);
-    font-size: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-
-  /* Mobile Responsiveness Improvements */
-  @media (max-width: 640px) {
-    .result-area {
-      padding: 18px 14px;
-    }
-    .result-area h3 {
-      font-size: 20px;
-    }
-    .download-actions {
-      flex-direction: column;
-      width: 100%;
-      gap: 10px;
-    }
-    .download-btn, .download-wp-btn {
-      width: 100%;
-      justify-content: center;
-      padding: 12px 18px;
-      font-size: 14px;
-    }
-    .result-wp-card {
-      padding: 14px;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 12px;
-    }
-    .result-wp-card .wp-card-details {
-      min-width: 0;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .result-wp-card .download-wp-btn-secondary {
-      width: 100%;
-      justify-content: center;
-    }
-    .ios-guide-card {
-      padding: 16px 14px;
-    }
-    .guide-path-badge {
-      display: block;
-      width: 100%;
-      text-align: center;
-      font-size: 11px;
-      padding: 6px 8px;
-      word-break: break-word;
-      white-space: normal;
-    }
-    .convert-section {
-      margin: 22px 0;
-      padding: 0 4px;
-    }
-    .convert-btn {
-      width: 100%;
-      max-width: 100%;
-      padding: 12px 20px;
-    }
-    .color-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
-    .chat-mockup, .chat-list-mockup {
-      max-width: 100%;
-      height: 420px;
-    }
-  }
-
-  @media (max-width: 380px) {
-    .color-grid {
-      grid-template-columns: 1fr;
-    }
+    padding: 10px 14px;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    font-size: 11px;
+    color: var(--text-muted);
   }
 
   /* Footer */
   footer {
     text-align: center;
     padding: 36px 16px 20px;
-    color: var(--color-muted);
-    font-size: 13px;
-    line-height: 1.5;
+    color: var(--text-muted);
+    font-size: 12px;
   }
-  footer a { color: var(--color-primary-strong); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
 
   .hidden { display: none !important; }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 1023px) {
+    .container {
+      padding: 16px 16px 40px;
+    }
+    .main-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .hero-upload-card,
+    .preview-panel {
+      min-height: auto;
+      padding: 24px 18px;
+      border-radius: var(--radius-2xl);
+    }
+    .mockups-grid {
+      grid-template-columns: 1fr;
+    }
+    .chat-mockup,
+    .chat-list-mockup {
+      height: 420px;
+    }
+  }
+
+  /* Rotating Space Background Globe Canvas - Full Viewport */
+  .space-globe-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Mockup dual containers and missing sub-classes */
+  .mockups-dual-container,
+  .mockups-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  @media (max-width: 768px) {
+    .mockups-dual-container,
+    .mockups-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .opacity-slider-row {
+    margin: 10px 0;
+  }
+  .opacity-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .mock-read-check {
+    font-weight: 700;
+    margin-right: 2px;
+  }
+  .mock-chat-badge {
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 6px;
+    flex-shrink: 0;
+  }
+  .mock-chat-draft {
+    color: #ef4444;
+    font-weight: 600;
+  }
+  .mock-pinned-icon {
+    font-size: 10px;
+    opacity: 0.6;
+    margin-left: 4px;
+  }
+
 </style>
 </head>
 <body>
 
+<!-- Fixed Planet Horizon Curve -->
+<canvas id="spaceGlobeCanvas" class="space-globe-canvas"></canvas>
+
 <div class="container">
-  <header>
-    <div class="brand-badge"><span class="dot"></span>Telemorph Studio</div>
-    <h1>Telemorph</h1>
-    <p>Bi-directional theme metamorphosis between Android (.attheme / links) and iOS (.tgios-theme).</p>
-  </header>
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="top-brand">
+      <div class="brand-emblem">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.28 1.28L3 12l5.8 1.9a2 2 0 0 1 1.28 1.28L12 21l1.9-5.8a2 2 0 0 1 1.28-1.28L21 12l-5.8-1.9a2 2 0 0 1-1.28-1.28L12 3Z"/></svg>
+      </div>
+      <span class="brand-title">Telemorph</span>
+      <span class="brand-badge">STUDIO</span>
+    </div>
+    </header>
 
-  <!-- Direction Toggle -->
-  <div class="direction-toggle">
-    <div class="format-label active-source" id="sourceLabel">.attheme<br><small style="color:var(--text-muted)">Android</small></div>
-    <button class="swap-btn" id="swapBtn" title="Swap direction">⇄</button>
-    <div class="format-label active-target" id="targetLabel">.tgios-theme<br><small style="color:var(--text-muted)">iOS</small></div>
-  </div>
-
-  <!-- Main Grid -->
+  <!-- Main Dual-Column Grid (Equal Height on Desktop) -->
   <div class="main-grid">
-    <!-- Input Section -->
-    <div>
-      <!-- Tabs -->
-      <div class="input-tabs">
-        <button class="tab-btn active" id="tabUpload"><span style="font-size:1.1rem">📁</span> Upload File</button>
-        <button class="tab-btn" id="tabUrl"><span style="font-size:1.1rem">🔗</span> From Link / URL</button>
+    <!-- Left Hero & Upload Card -->
+    <div class="hero-upload-card" id="heroUploadCard">
+      <div class="hero-card-header">
+        <div class="card-brand-row">
+          <span class="hero-chip">CONVERSION ENGINE</span>
+          <span class="hero-telemetry" id="engineStatusText">385 KEYS · BI-DIRECTIONAL</span>
+        </div>
+      </div>
+
+      <!-- 3D Rotating Wireframe Globe -->
+      <div class="globe-container">
+        <div class="globe-orbit-ring"></div>
+        <svg class="globe-svg" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+          <circle cx="50" cy="50" r="46" stroke="rgba(255,255,255,0.22)"/>
+          <ellipse cx="50" cy="50" rx="46" ry="18" stroke-dasharray="3 2" class="globe-ellipse-horizontal"/>
+          <ellipse cx="50" cy="50" rx="20" ry="46" class="globe-ellipse-vertical"/>
+          <ellipse cx="50" cy="50" rx="35" ry="46" stroke="rgba(255,255,255,0.12)"/>
+          <line x1="50" y1="4" x2="50" y2="96" stroke="rgba(255,255,255,0.15)"/>
+          <line x1="4" y1="50" x2="96" y2="50" stroke="rgba(255,255,255,0.15)"/>
+        </svg>
+        <div class="globe-counter">
+        </div>
+      </div>
+
+      <!-- Hero Titles with Newsreader Italic -->
+      <div class="hero-text-block">
+        <h1 class="hero-headline">Every Telegram theme, <span class="editorial-italic">flawlessly morphed.</span></h1>
+        <p class="hero-subtitle">Bi-directional theme metamorphosis between Android (.attheme / links) and iOS (.tgios-theme) with authentic wallpaper extraction.</p>
+      </div>
+
+      <!-- Direction Switcher Capsule (No Glow) -->
+      <div class="direction-toggle-wrap">
+        <div class="direction-toggle">
+          <div class="format-label active-source" id="sourceLabel">.attheme (Android)</div>
+          <button class="swap-btn" id="swapBtn" title="Swap direction">⇄</button>
+          <div class="format-label active-target" id="targetLabel">.tgios-theme (iOS)</div>
+        </div>
+      </div>
+
+      <!-- Input Tabs (No Glow) -->
+      <div class="input-tabs-wrap">
+        <div class="input-tabs">
+          <button class="tab-btn active" id="tabUpload">📁 Upload File</button>
+          <button class="tab-btn" id="tabUrl">🔗 From Link / URL</button>
+        </div>
       </div>
 
       <!-- File Upload Area -->
       <div class="upload-area" id="uploadArea">
         <input type="file" id="fileInput" accept=".attheme,.tgios-theme">
         <div id="uploadPlaceholder">
-          <div class="icon">📁</div>
-          <h3>Drop your theme file here</h3>
-          <p id="acceptHint">Accepts .attheme files</p>
+          <div class="drop-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <h3>Drop theme file here</h3>
+          <p id="acceptHint">Accepts .attheme or .tgios-theme · Click to browse</p>
         </div>
         <div class="file-info hidden" id="fileInfo">
-          <div class="icon" style="font-size:2.5rem">✅</div>
+          <div class="file-info-icon">✓</div>
           <div class="theme-badge hidden" id="themeBadge"></div>
           <div class="filename" id="fileName"></div>
           <div class="filesize" id="fileSize"></div>
@@ -1524,9 +1606,9 @@
 
       <!-- URL Input Area -->
       <div class="url-card hidden" id="urlCard">
-        <div>
-          <h3 style="font-size:1rem; margin-bottom:4px;">Enter Telegram Theme Link or URL</h3>
-          <p style="color:var(--text-muted); font-size:0.82rem;">Paste a <code>t.me/addtheme/...</code> link or a direct link to any .attheme file.</p>
+        <div class="url-card-header">
+          <h3>Enter Telegram Theme Link or URL</h3>
+          <p>Paste a <code>t.me/addtheme/...</code> or <code>t.me/bg/...</code> link or direct theme file URL.</p>
         </div>
         <div class="url-input-group">
           <input type="text" class="url-input" id="urlInput" placeholder="https://t.me/addtheme/rAMg7bX2JlPQadda">
@@ -1535,70 +1617,90 @@
           </button>
         </div>
         <div class="url-examples">
-          Try an example link:
+          <span class="url-examples-title">Try an example link:</span>
           <div class="example-pills">
-            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/rAMg7bX2JlPQadda')">🌿 Сон-трава (@themes_hobby)</span>
-            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/KrcU0SSuGkLNUnAD')">🎨 KrcU0SSuGkLNUnAD</span>
-            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/L7miqKys0D2TZQ0C')">🌌 L7miqKys0D2TZQ0C</span>
+            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/rAMg7bX2JlPQadda')">🌿 Сон-трава</span>
+            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/KrcU0SSuGkLNUnAD')">🎨 KrcU0SSuGk</span>
+            <span class="example-pill" onclick="setExampleUrl('https://t.me/addtheme/L7miqKys0D2TZQ0C')">🌌 L7miqKys0D</span>
           </div>
         </div>
       </div>
 
+      <!-- Embedded Wallpaper Preview -->
       <div class="wallpaper-preview hidden" id="wallpaperPreview">
         <img id="wallpaperImg" src="" alt="Wallpaper Preview">
-        <div class="wp-label">Embedded wallpaper image extracted</div>
+        <div class="wp-label">Embedded wallpaper extracted</div>
       </div>
 
+      <!-- Status Message -->
       <div class="status-msg" id="statusMsg"></div>
+
+      <!-- Primary Action Button (White Pill CTA) -->
+      <div class="hero-cta-box">
+        <button class="convert-btn" id="convertBtn">
+          <span class="convert-btn-text">Convert Theme</span>
+          <span class="convert-btn-icon">→</span>
+        </button>
+      </div>
     </div>
 
-    <!-- Preview Panel -->
+    <!-- Right Theme Preview Card (Matching Height on Desktop) -->
     <div class="preview-panel" id="previewPanel">
-      <h3>
-        <span>🎨 Theme Preview</span>
+      <div class="preview-panel-header">
+        <div class="preview-header-left">
+          <span class="preview-badge-dot"></span>
+          <span class="preview-header-title">Theme Preview</span>
+        </div>
         <span class="preview-theme-title" id="previewThemeTitle"></span>
-      </h3>
-      <div id="previewContent">
-        <p style="color:var(--text-muted); font-size:0.9rem;">Upload a theme file or enter a theme URL to see a preview of its colors and chat appearance.</p>
+      </div>
+
+      <div class="preview-panel-body" id="previewContent">
+        <div class="preview-empty-state">
+          <div class="empty-icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m9 9 6 6m0-6-6 6"/></svg>
+          </div>
+          <h4>No Theme Loaded Yet</h4>
+          <p>Drop an .attheme or .tgios-theme file or paste a Telegram link on the left to extract colors, customize bubble translucency, and preview dual mockups in real-time.</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Convert Button -->
-  <div class="convert-section">
-    <button class="convert-btn" id="convertBtn">Convert Theme</button>
-  </div>
-
-  <!-- Result -->
+  <!-- Result Area -->
   <div class="result-area" id="resultArea">
     <div class="result-header">
-      <h3><span>✅</span> Conversion Complete!</h3>
-      <div class="result-stats" id="resultStats"></div>
+      <div class="result-badge-row">
+        <span class="result-success-badge">✓ SUCCESS</span>
+        <span class="result-stats" id="resultStats"></span>
+      </div>
+      <h2 class="result-title">Conversion Complete</h2>
     </div>
 
-    <!-- Download Buttons -->
+    <!-- Download Actions (Pill Buttons) -->
     <div class="download-actions">
       <button class="download-btn" id="downloadBtn">
         <span>⬇</span>
         <span id="downloadBtnText">Download Converted Theme</span>
+        <span>→</span>
       </button>
       <button class="download-wp-btn hidden" id="downloadWpBtn">
         <span>🖼</span>
         <span>Download Wallpaper Image</span>
+        <span>→</span>
       </button>
     </div>
 
     <!-- Extracted Wallpaper Box (for iOS) -->
     <div class="result-wp-card hidden" id="resultWpCard">
-      <div class="wp-thumb-box" id="resultWpThumbBox" title="Click to open full resolution image in new tab">
+      <div class="wp-thumb-box" id="resultWpThumbBox" title="Click to view full resolution image">
         <img id="resultWpThumb" src="" alt="Extracted Theme Wallpaper">
       </div>
       <div class="wp-card-details">
         <span class="wp-badge-tag" id="resultWpBadge">Extracted Wallpaper</span>
         <h4 id="resultWpFilename">wallpaper.jpg</h4>
-        <p>iOS Telegram themes do not bundle custom background images. Download this image and set it manually in Telegram settings to complete the look!</p>
+        <p>iOS Telegram themes do not bundle custom background images automatically. Download this high-resolution image and apply it in Telegram Settings to complete the look!</p>
         <button class="download-wp-btn-secondary" id="downloadWpBtnSecondary">
-          <span>🖼 Download Image</span>
+          <span>🖼 Download Wallpaper</span>
         </button>
       </div>
     </div>
@@ -1606,8 +1708,8 @@
     <!-- iOS Setup Guide -->
     <div class="ios-guide-card hidden" id="iosGuideCard">
       <div class="guide-title-row">
-        <span style="font-size:1.35rem">📱</span>
-        <h4>How to Apply This Theme & Wallpaper on Telegram iOS</h4>
+        <span>📱</span>
+        <h4>How to Apply This Theme &amp; Wallpaper on Telegram iOS</h4>
       </div>
       <p class="guide-intro">
         Unlike Android, Telegram on iOS does not embed custom background photos into <code>.tgios-theme</code> files. Follow these simple steps on your iPhone or iPad:
@@ -1617,37 +1719,35 @@
           <div class="step-circle">1</div>
           <div class="step-text">
             <strong>Download Both Files</strong>
-            <p>Tap <strong>⬇ Download Converted Theme</strong> to get the <code>.tgios-theme</code> file, and tap <strong>🖼 Download Wallpaper Image</strong> to save the background image.</p>
+            <p>Download the <code>.tgios-theme</code> file and the wallpaper image.</p>
           </div>
         </div>
         <div class="guide-step-item">
           <div class="step-circle">2</div>
           <div class="step-text">
-            <strong>Save the Wallpaper to Photos</strong>
-            <p>Save the downloaded image to your iPhone's <strong>Photos</strong> app (in Safari, tap the downloaded image, tap the Share icon ⎋, and select <em>Save Image</em>).</p>
+            <strong>Save Wallpaper to Photos</strong>
+            <p>Save the downloaded image to your iPhone's <strong>Photos</strong> app.</p>
           </div>
         </div>
         <div class="guide-step-item">
           <div class="step-circle">3</div>
           <div class="step-text">
-            <strong>Apply the .tgios-theme File in Telegram</strong>
-            <p>Send the <code>.tgios-theme</code> file to your Telegram (for example, to your <strong>Saved Messages</strong> chat or via AirDrop). Tap the file in chat, then tap <strong>Apply Theme</strong>.</p>
+            <strong>Apply Theme in Telegram</strong>
+            <p>Send the <code>.tgios-theme</code> file to your Saved Messages or AirDrop. Tap the file in chat, then tap <strong>Apply Theme</strong>.</p>
           </div>
         </div>
         <div class="guide-step-item">
           <div class="step-circle">4</div>
           <div class="step-text">
-            <strong>Set Chat Wallpaper in Telegram Settings</strong>
-            <p>In Telegram on your iPhone, navigate to:</p>
-            <div class="guide-path-badge">Settings ⚙️ ➔ Appearance ➔ Chat Wallpaper</div>
-            <p>At the top, tap <strong>Choose from Photos</strong>, select your saved wallpaper image, adjust zoom or blur if desired, and tap <strong>Set</strong>.</p>
+            <strong>Set Chat Wallpaper in Settings</strong>
+            <p>In Telegram, go to <span class="guide-path-badge">Settings ⚙️ ➔ Appearance ➔ Chat Wallpaper</span>, tap <strong>Choose from Photos</strong>, and tap <strong>Set</strong>.</p>
           </div>
         </div>
         <div class="guide-step-item">
           <div class="step-circle done">✓</div>
           <div class="step-text">
             <strong>All Done! 🎉</strong>
-            <p>Your chat list, header bar, text box, bubbles, and custom chat background now match the original theme 100%!</p>
+            <p>Your Telegram UI matches the original theme with authentic colors, glassmorphism, and custom background!</p>
           </div>
         </div>
       </div>
@@ -1664,6 +1764,271 @@
 </div>
 
 <script>
+
+// ============================================================
+//  3D ROTATING SPACE BACKGROUND GLOBE ANIMATION
+// ============================================================
+(function initSpaceGlobe() {
+  const canvas = document.getElementById('spaceGlobeCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width = 0, height = 0;
+  let dpr = 1;
+  let rotation = 0;
+  let animId = null;
+
+  // Generate fixed background stars
+  const stars = [];
+  function initStars() {
+    stars.length = 0;
+    const starCount = 110;
+    for (let i = 0; i < starCount; i++) {
+      stars.push({
+        x: Math.random(),
+        y: Math.random(),
+        r: Math.random() < 0.7 ? 0.9 : (Math.random() < 0.85 ? 1.4 : 2.0),
+        alpha: 0.35 + Math.random() * 0.65,
+        twinkleSpeed: 0.01 + Math.random() * 0.02,
+        twinklePhase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  initStars();
+
+  // Generate telemetry nodes on sphere
+  const telemetryNodes = [];
+  function initNodes() {
+    telemetryNodes.length = 0;
+    for (let i = 0; i < 90; i++) {
+      telemetryNodes.push({
+        lat: -65 + Math.random() * 130,
+        lon: Math.random() * 360,
+        size: Math.random() < 0.8 ? 1.8 : 2.6
+      });
+    }
+  }
+  initNodes();
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform before scaling
+    ctx.scale(dpr, dpr);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  const TILT = 23.5 * (Math.PI / 180);
+  const cosT = Math.cos(TILT);
+  const sinT = Math.sin(TILT);
+
+  function project(lat, lon, r, rot) {
+    const phi = lat * (Math.PI / 180);
+    const theta = lon * (Math.PI / 180) + rot;
+
+    const x0 = r * Math.cos(phi) * Math.sin(theta);
+    const y0 = r * Math.sin(phi);
+    const z0 = r * Math.cos(phi) * Math.cos(theta);
+
+    const y1 = y0 * cosT - z0 * sinT;
+    const z1 = y0 * sinT + z0 * cosT;
+    const x1 = x0;
+
+    return { x: x1, y: y1, z: z1 };
+  }
+
+  let frameCount = 0;
+  function render() {
+    frameCount++;
+    rotation += 0.0028;
+    ctx.clearRect(0, 0, width, height);
+
+    // 1. Cosmic Background Gradient & Nebula
+    const bgGrad = ctx.createRadialGradient(width * 0.75, height * 0.35, 80, width * 0.75, height * 0.35, Math.max(width, height) * 0.9);
+    bgGrad.addColorStop(0, '#121822');
+    bgGrad.addColorStop(0.45, '#0c1017');
+    bgGrad.addColorStop(1, '#07090d');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, width, height);
+
+    // Soft celestial blue haze in upper-right
+    const hazeGrad = ctx.createRadialGradient(width * 0.82, height * 0.28, 40, width * 0.82, height * 0.28, width * 0.5);
+    hazeGrad.addColorStop(0, 'rgba(60, 100, 155, 0.16)');
+    hazeGrad.addColorStop(0.7, 'rgba(30, 55, 90, 0.05)');
+    hazeGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = hazeGrad;
+    ctx.fillRect(0, 0, width, height);
+
+    // 2. Render Twinkling Stars
+    for (let i = 0; i < stars.length; i++) {
+      const s = stars[i];
+      const twinkle = Math.sin(frameCount * s.twinkleSpeed + s.twinklePhase);
+      const currentAlpha = Math.max(0.15, Math.min(1.0, s.alpha + twinkle * 0.25));
+      ctx.fillStyle = `rgba(225, 238, 255, ${currentAlpha.toFixed(2)})`;
+      ctx.beginPath();
+      ctx.arc(s.x * width, s.y * height, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // 3. Globe Geometry & Center
+    const isDesktop = width >= 1024;
+    const cx = isDesktop ? width * 0.80 : width * 0.65;
+    const cy = isDesktop ? height * 0.56 : height * 0.48;
+    const radius = isDesktop 
+      ? Math.max(Math.min(width, height) * 0.54, 380)
+      : Math.min(width, height) * 0.46;
+
+    // Atmospheric Outer Glow Bloom
+    const bloomGrad = ctx.createRadialGradient(cx - radius * 0.35, cy - radius * 0.35, radius * 0.75, cx, cy, radius * 1.35);
+    bloomGrad.addColorStop(0, 'rgba(130, 185, 255, 0.22)');
+    bloomGrad.addColorStop(0.55, 'rgba(65, 115, 185, 0.09)');
+    bloomGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = bloomGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 1.35, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Dark Sphere Base with subtle lighting
+    const sphereGrad = ctx.createRadialGradient(cx - radius * 0.42, cy - radius * 0.42, radius * 0.1, cx, cy, radius);
+    sphereGrad.addColorStop(0, 'rgba(22, 30, 42, 0.90)');
+    sphereGrad.addColorStop(0.65, 'rgba(13, 17, 24, 0.96)');
+    sphereGrad.addColorStop(1, 'rgba(8, 10, 14, 0.99)');
+    ctx.fillStyle = sphereGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Clip to sphere for 3D grid lines and nodes
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius - 0.5, 0, Math.PI * 2);
+    ctx.clip();
+
+    // 4. Parallels (Latitudes)
+    const latStep = 16;
+    for (let lat = -68; lat <= 68; lat += latStep) {
+      ctx.beginPath();
+      let first = true;
+      for (let lon = 0; lon <= 360; lon += 5) {
+        const p = project(lat, lon, radius, rotation);
+        const px = cx + p.x;
+        const py = cy + p.y;
+        if (first) {
+          ctx.moveTo(px, py);
+          first = false;
+        } else {
+          ctx.lineTo(px, py);
+        }
+      }
+      if (lat === 0) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
+        ctx.lineWidth = 1.6;
+      } else {
+        ctx.strokeStyle = 'rgba(200, 228, 255, 0.28)';
+        ctx.lineWidth = 0.85;
+      }
+      ctx.stroke();
+    }
+
+    // 5. Meridians (Longitudes)
+    const lonStep = 20;
+    for (let lon = 0; lon < 360; lon += lonStep) {
+      ctx.beginPath();
+      let first = true;
+      for (let lat = -90; lat <= 90; lat += 4) {
+        const p = project(lat, lon, radius, rotation);
+        const px = cx + p.x;
+        const py = cy + p.y;
+        if (first) {
+          ctx.moveTo(px, py);
+          first = false;
+        } else {
+          ctx.lineTo(px, py);
+        }
+      }
+      ctx.strokeStyle = 'rgba(190, 222, 255, 0.24)';
+      ctx.lineWidth = 0.85;
+      ctx.stroke();
+    }
+
+    // 6. Rotating Telemetry Nodes / Dots
+    for (let i = 0; i < telemetryNodes.length; i++) {
+      const node = telemetryNodes[i];
+      const p = project(node.lat, node.lon, radius, rotation);
+      if (p.z > 0) {
+        const alpha = 0.45 + 0.55 * (p.z / radius);
+        ctx.fillStyle = `rgba(220, 245, 255, ${alpha.toFixed(2)})`;
+        ctx.beginPath();
+        ctx.arc(cx + p.x, cy + p.y, node.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // 7. Spherical 3D Volume Depth Shading
+    const depthGrad = ctx.createRadialGradient(cx - radius * 0.5, cy - radius * 0.5, radius * 0.2, cx, cy, radius);
+    depthGrad.addColorStop(0, 'rgba(255, 255, 255, 0.12)');
+    depthGrad.addColorStop(0.55, 'transparent');
+    depthGrad.addColorStop(0.9, 'rgba(5, 7, 10, 0.65)');
+    depthGrad.addColorStop(1, 'rgba(4, 5, 8, 0.88)');
+    ctx.fillStyle = depthGrad;
+    ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
+
+    ctx.restore();
+
+    // 8. Planet Perimeter Outline
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // 9. Luminous Horizon Crescent Edge (Atmospheric Limb Arc)
+    // Arc spanning from ~145 deg to ~295 deg (facing upper-left)
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, Math.PI * 0.80, Math.PI * 1.62);
+    
+    // Outer atmospheric halo
+    ctx.strokeStyle = 'rgba(140, 200, 255, 0.45)';
+    ctx.lineWidth = 6;
+    ctx.shadowColor = 'rgba(160, 215, 255, 0.85)';
+    ctx.shadowBlur = 24;
+    ctx.stroke();
+
+    // Core white atmospheric rim stroke
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, Math.PI * 0.80, Math.PI * 1.62);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = 'rgba(255, 255, 255, 0.9)';
+    ctx.shadowBlur = 12;
+    ctx.stroke();
+
+    ctx.restore();
+
+    animId = requestAnimationFrame(render);
+  }
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      if (animId) cancelAnimationFrame(animId);
+      animId = null;
+    } else {
+      if (!animId) animId = requestAnimationFrame(render);
+    }
+  });
+
+  animId = requestAnimationFrame(render);
+})();
+
 // ============================================================
 //  TELEMORPH - TELEGRAM THEME CONVERTER
 //  Bidirectional: .attheme (Android) ↔ .tgios-theme (iOS)
